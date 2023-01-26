@@ -1,3 +1,70 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+      "browser": true,
+      "es2021": true
+  },
+  "extends": [
+      "plugin:react/recommended",
+      "airbnb",
+      "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+      "ecmaFeatures": {
+          "jsx": true
+      },
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+  },
+  "plugins": [
+      "react",
+      "@typescript-eslint",
+      "prettier"
+  ],
+  "rules": {
+      "prettier/prettier": "error",
+      "@typescript-eslint/camelcase": "off",
+      "camelcase": "off",
+      "react/function-component-definition": [
+          2,
+          {
+              "namedComponents": "arrow-function",
+              "unnamedComponents": "arrow-function"
+          }
+      ],
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx", "ts"] }],
+      "react/jsx-props-no-spreading": "off",
+      "jsx-a11y/click-events-have-key-events": "off",
+      "jsx-a11y/no-noninteractive-element-interactions": "off",
+      "jsx-a11y/label-has-associated-control": ["error", {
+          "required": {
+              "some": ["nesting", "id"]
+          }
+      }],
+      "import/extensions": [
+          "error",
+          "ignorePackages",
+          {
+              "js": "never",
+              "jsx": "never",
+              "ts": "never",
+              "tsx": "never"
+          }
+      ]
+  },
+  "settings": {
+      "import/resolver": {
+          "node": {
+              "extensions": [".js", ".jsx", ".ts", ".tsx"]
+          }
+      }
+  },
+  "overrides": [
+      {
+          "files": ["*.ts", "*.tsx"],
+          "rules": {
+              "no-undef": "off"
+          }
+      }
+  ]
 }
