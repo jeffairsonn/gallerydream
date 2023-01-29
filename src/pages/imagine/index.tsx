@@ -3,14 +3,14 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Transition } from '@headlessui/react';
 import axios from 'axios';
-import Step1 from '../components/imagine_process/Step1';
-import Navbar from '../components/Navbar';
-import Step2 from '../components/imagine_process/Step2';
-import Step3 from '../components/imagine_process/Step3';
+import Step1 from '../../components/imagine_process/Step1';
+import Navbar from '../../components/Navbar';
+import Step2 from '../../components/imagine_process/Step2';
+import Step3 from '../../components/imagine_process/Step3';
 
 const create = () => {
   const { status, data }: any = useSession();
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<any>();
 
   useEffect(() => {
     if (data) {
@@ -21,7 +21,6 @@ const create = () => {
           },
         })
         .then((res) => {
-          console.log(res.data);
           setUser(res.data);
         })
         .catch((err) => {
@@ -67,6 +66,31 @@ const create = () => {
         setStep(3);
       }, 150);
     }
+  };
+
+  const generateImages = () => {
+    axios
+      .post(
+        `/api/generate`,
+        {
+          prompt,
+          styles,
+          numberOfImages,
+          user: user?.id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${data.jwt}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        router.push(`/imagine/${res.data}`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {}, [step]);
@@ -134,6 +158,8 @@ const create = () => {
                 step={step}
                 numberOfImages={numberOfImages}
                 setNumberOfImages={setNumberOfImages}
+                generateImages={generateImages}
+                user={user}
               />
             </Transition>
           )}

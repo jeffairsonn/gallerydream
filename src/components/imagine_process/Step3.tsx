@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useEffect } from 'react';
 
 const Step3 = ({
@@ -5,11 +6,15 @@ const Step3 = ({
   step,
   numberOfImages,
   setNumberOfImages,
+  generateImages,
+  user,
 }: {
   chaneStep: any;
   step: number;
   numberOfImages: number;
   setNumberOfImages: any;
+  generateImages: any;
+  user: any;
 }) => {
   useEffect(() => {}, [numberOfImages]);
 
@@ -46,24 +51,33 @@ const Step3 = ({
           <span>10</span>
         </div>
       </div>
-      <div className="alert alert-error shadow-lg mt-8">
-        <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="stroke-current flex-shrink-0 h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <span>Error! Task failed successfully.</span>
+      {user.credits < numberOfImages && (
+        <div className="alert alert-warning shadow-lg mt-8">
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current flex-shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>
+              Vous n&apos;avez pas assez de crédit pour générer vos images.
+              Obtenez-en{' '}
+              <Link className="underline" href="/credits">
+                ici
+              </Link>
+              .
+            </span>
+          </div>
         </div>
-      </div>
+      )}
       <div className="flex flex-col-reverse md:space-y-0 md:flex-row justify-between w-full max-w-4xl mt-8">
         <button
           onClick={() => chaneStep(step - 1)}
@@ -73,7 +87,8 @@ const Step3 = ({
           Retour
         </button>
         <button
-          disabled={numberOfImages === 0}
+          disabled={numberOfImages === 0 || user.credits < numberOfImages}
+          onClick={() => user.credits >= numberOfImages && generateImages()}
           type="submit"
           className="btn btn-primary btn-lg mb-2 md:mb-0"
         >
