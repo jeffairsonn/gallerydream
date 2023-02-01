@@ -85,7 +85,6 @@ const create = () => {
         }
       )
       .then((res) => {
-        console.log(res.data);
         router.push(`/imagine/${res.data}`);
       })
       .catch((err) => {

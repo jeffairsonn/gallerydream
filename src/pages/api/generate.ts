@@ -5,10 +5,31 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { prompt, styles, numberOfImages, user } = req.body;
+  const { prompt, styles, numberOfImages } = req.body;
   const { authorization } = req.headers;
 
-  axios
+  let user: any;
+  let generation: any;
+  let user_updated: boolean = false;
+
+  await axios
+    .get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me`, {
+      headers: {
+        Authorization: authorization,
+      },
+    })
+    .then((userResponse: any) => {
+      user = userResponse.data;
+    })
+    .catch((err) => {
+      console.log('user', err.response.data);
+    });
+
+  if (!user) {
+    return res.status(401).json('Error generating images');
+  }
+
+  await axios
     .post(
       `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/generations`,
       {
@@ -16,7 +37,7 @@ export default async function handler(
           prompt,
           styles,
           count: numberOfImages,
-          user,
+          users: user.id,
         },
       },
       {
@@ -25,12 +46,43 @@ export default async function handler(
         },
       }
     )
-    .then((response) => {
-      console.log(response.data.data);
-      res.status(200).json(response.data.data.id);
+    .then((generationResponse: any) => {
+      generation = generationResponse.data.data;
+    })
+    .catch((err) => {
+      console.log('generation', err.response.data);
+    });
+
+  if (!generation) {
+    return res.status(400).json('Error generating images');
+  }
+
+  await axios
+    .put(
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/${user.id}`,
+      {
+        // eslint-disable-next-line no-unsafe-optional-chaining
+        credits: user?.credits ? +user.credits - +numberOfImages : undefined,
+        generations: {
+          connect: [generation.id],
+        },
+      },
+      {
+        headers: {
+          Authorization: authorization,
+        },
+      }
+    )
+    .then(() => {
+      user_updated = true;
     })
     .catch((err) => {
       console.log(err.response.data);
-      return res.status(400).json('Error generating images');
     });
+
+  if (!user_updated) {
+    return res.status(400).json('Error generating images');
+  }
+
+  return res.status(200).json(generation.id);
 }
