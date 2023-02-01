@@ -31,7 +31,7 @@ const Creations = () => {
   useEffect(() => {
     if (user) {
       axios
-        .get(`/api/generations`, {
+        .get(`/api/artwork_group`, {
           headers: {
             Authorization: `Bearer ${data.jwt}`,
           },

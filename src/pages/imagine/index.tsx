@@ -71,7 +71,7 @@ const create = () => {
   const generateImages = () => {
     axios
       .post(
-        `/api/generate`,
+        `/api/imagine`,
         {
           prompt,
           styles,
