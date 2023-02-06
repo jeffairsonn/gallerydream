@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import {
+  FaBars,
   FaCoins,
   FaImages,
   FaSignInAlt,
@@ -9,8 +10,10 @@ import {
   FaStar,
   FaUser,
 } from 'react-icons/fa';
+import useWindowSize from '../hooks/useWindowSize';
 
 const Navbar = ({ user, status }: any) => {
+  const window = useWindowSize();
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   return (
     <div className="px-4 md:px-8 lg:px-40 py-4 md:py-20 gap-4 space-y-20">
@@ -40,22 +43,38 @@ const Navbar = ({ user, status }: any) => {
             </Link>
           </div>
         )}
-
-        <div className="flex space-x-4 items-center">
-          <div className="flex items-center space-x-2">
-            <FaCoins />{' '}
-            <p className="font-bold">{user?.credits ? user?.credits : 0}</p>
-          </div>
+        <div
+          style={{
+            display:
+              window.width > 768 && status === 'unauthenticated'
+                ? 'none'
+                : 'flex',
+          }}
+          className=" flex space-x-4 items-center"
+        >
+          {status === 'authenticated' && (
+            <div className="flex items-center space-x-2">
+              <FaCoins />{' '}
+              <p className="font-bold">{user?.credits ? user?.credits : 0}</p>
+            </div>
+          )}
           <div className="relative">
-            <button
-              type="button"
-              onClick={() => setIsOpenMenu(!isOpenMenu)}
-              className="btn btn-ghost btn-circle avatar"
-            >
-              <div className="w-12 rounded-full">
-                <img alt="profile" src="https://placeimg.com/80/80/people" />
-              </div>
-            </button>
+            {status === 'authenticated' && (
+              <button
+                type="button"
+                onClick={() => setIsOpenMenu(!isOpenMenu)}
+                className="btn btn-ghost btn-circle avatar"
+              >
+                <div className="w-12 rounded-full">
+                  <img alt="profile" src="https://placeimg.com/80/80/people" />
+                </div>
+              </button>
+            )}
+            {status === 'unauthenticated' && (
+              <button type="button" onClick={() => setIsOpenMenu(!isOpenMenu)}>
+                <FaBars className="text-2xl" />
+              </button>
+            )}
             {isOpenMenu && (
               <ul
                 role="menu"

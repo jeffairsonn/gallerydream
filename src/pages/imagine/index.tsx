@@ -14,6 +14,7 @@ const create = () => {
 
   useEffect(() => {
     if (data) {
+      console.log(data.jwt);
       axios
         .get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me`, {
           headers: {
@@ -38,7 +39,7 @@ const create = () => {
   }, [status]);
 
   const [prompt, setPrompt] = useState('');
-  const [styles, setStyles] = useState([]);
+  const [styles, setStyles] = useState('');
   const [numberOfImages, setNumberOfImages] = useState(1);
 
   const [step, setStep] = useState(1);

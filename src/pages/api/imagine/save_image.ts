@@ -5,7 +5,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { prompt, styles, numberOfImages } = req.body;
+  const { prompt, styles, numberOfImages, image_url } = req.body;
   const { authorization } = req.headers;
 
   let user: any;
@@ -29,6 +29,37 @@ export default async function handler(
     return res.status(401).json('Error generating images');
   }
 
+  let idOfImage: any = [];
+  await Promise.all(
+    image_url.map(async ({ url }: any) => {
+      await axios
+        .post(
+          `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/artworks`,
+          {
+            data: {
+              prompt,
+              url,
+            },
+          },
+          {
+            headers: {
+              Authorization: authorization,
+            },
+          }
+        )
+        .then((generationResponse: any) => {
+          idOfImage = [...idOfImage, generationResponse.data.data.id];
+        })
+        .catch((err) => {
+          console.log('generation', err.response.data);
+        });
+    })
+  );
+
+  if (idOfImage.length <= 0) {
+    return res.status(400).json('Error generating images');
+  }
+
   await axios
     .post(
       `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/generations`,
@@ -38,6 +69,9 @@ export default async function handler(
           styles,
           count: numberOfImages,
           users: user.id,
+          artworks: {
+            connect: idOfImage,
+          },
         },
       },
       {

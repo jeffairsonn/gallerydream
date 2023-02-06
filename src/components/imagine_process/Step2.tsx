@@ -10,7 +10,7 @@ const Step2 = ({
 }: {
   chaneStep: any;
   step: number;
-  styles: string[];
+  styles: string;
   setStyles: any;
 }) => {
   useEffect(() => {}, [styles]);
@@ -26,12 +26,7 @@ const Step2 = ({
             type="button"
             key={name}
             onClick={() => {
-              if (!styles.includes(name)) {
-                // if (styles.length === 1) return;
-                setStyles(() => [name]);
-              } else {
-                setStyles(() => styles.filter((style) => style !== name));
-              }
+              setStyles(name);
             }}
           >
             <div className="relative">
@@ -54,13 +49,13 @@ const Step2 = ({
         <button
           type="button"
           onClick={() => {
-            setStyles([]);
+            setStyles('no');
           }}
         >
           <div className="relative">
             <div
               className={`${
-                styles.length === 0 ? 'block' : 'hidden'
+                styles === 'no' ? 'block' : 'hidden'
               } absolute w-full h-full bg-black bg-opacity-50 rounded-3xl flex items-center justify-center`}
             >
               <div className="btn btn-circle btn-primary">
@@ -86,7 +81,8 @@ const Step2 = ({
         </button>
         <button
           type="button"
-          onClick={() => chaneStep(step + 1)}
+          disabled={styles === ''}
+          onClick={() => styles !== '' && chaneStep(step + 1)}
           className="btn btn-primary btn-lg mb-2 md:mb-0"
         >
           Je passe à la suite

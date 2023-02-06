@@ -31,7 +31,7 @@ const Step3 = ({
         <input
           type="range"
           min="0"
-          max="100"
+          max="40"
           value={numberOfImages * 10}
           className="range"
           step="10"
@@ -43,12 +43,6 @@ const Step3 = ({
           <span>2</span>
           <span>3</span>
           <span>4</span>
-          <span>5</span>
-          <span>6</span>
-          <span>7</span>
-          <span>8</span>
-          <span>9</span>
-          <span>10</span>
         </div>
       </div>
       {user.credits < numberOfImages && (

@@ -9,7 +9,7 @@ const Creations = () => {
   const router = useRouter();
   const { status, data }: any = useSession();
   const [user, setUser] = useState<{ credits: number; jwt: string }>();
-  const [creations, setCreations] = useState([]);
+  const [creations, setCreations] = useState<any>([]);
 
   useEffect(() => {
     if (data) {
@@ -52,8 +52,6 @@ const Creations = () => {
     }
   }, [status]);
 
-  const images = ['d', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'd'];
-
   return (
     <div>
       <Navbar user={user} status={status} />
@@ -64,25 +62,74 @@ const Creations = () => {
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-3 w-full gap-4 max-w-7xl">
             {creations &&
-              creations?.map(({ attributes: { prompt } }) => (
-                <div className="p-8 rounded-3xl shadow-xl">
-                  <h3 className="font-bold text-xl">&quot;{prompt}&quot;</h3>
-                  <div className="grid grid-cols-5 gap-2 mt-4">
-                    {images.map(() => (
-                      <div className="aspect-square w-full rounded-md">
-                        <img
-                          className="w-full aspect-square rounded-md"
-                          src="https://picsum.photos/200/300"
-                          alt=""
-                        />
+              creations?.map(
+                ({
+                  id: creation_id,
+                  attributes: {
+                    prompt,
+                    artworks: { data: artwork },
+                  },
+                }: any) => (
+                  <div className="p-8 rounded-3xl shadow-xl flex flex-col justify-between">
+                    {artwork.length > 1 && (
+                      <div className="grid grid-cols-2 gap-2 mt-4">
+                        {artwork.map(
+                          ({
+                            attributes: {
+                              image: {
+                                data: {
+                                  attributes: { url },
+                                },
+                              },
+                            },
+                          }: any) => (
+                            <div className="aspect-square w-full rounded-md">
+                              <img
+                                className="w-full aspect-square rounded-3xl"
+                                src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`}
+                                alt=""
+                              />
+                            </div>
+                          )
+                        )}
                       </div>
-                    ))}
+                    )}
+                    {artwork.length === 1 && (
+                      <div className="grid grid-cols-1 gap-2 mt-4">
+                        {artwork.map(
+                          ({
+                            attributes: {
+                              image: {
+                                data: {
+                                  attributes: { url },
+                                },
+                              },
+                            },
+                          }: any) => (
+                            <div className="aspect-square w-full rounded-md">
+                              <img
+                                className="w-full aspect-square rounded-3xl"
+                                src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`}
+                                alt=""
+                              />
+                            </div>
+                          )
+                        )}
+                      </div>
+                    )}
+                    <div className="mt-8">
+                      <h3 className="font-bold text-xl line-clamp-2 ">
+                        &quot;{prompt}&quot;
+                      </h3>
+                      <Link href={`/imagine/${creation_id}`}>
+                        <button type="button" className="btn btn-primary mt-8">
+                          Parcourir
+                        </button>
+                      </Link>
+                    </div>
                   </div>
-                  <button type="button" className="btn btn-primary mt-8">
-                    Parcourir
-                  </button>
-                </div>
-              ))}
+                )
+              )}
             {(!creations || creations.length === 0) && (
               <div className="p-8 rounded-3xl shadow-xl">
                 <h3 className="font-bold text-xl">Aucune création</h3>

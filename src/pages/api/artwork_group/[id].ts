@@ -29,11 +29,18 @@ export default async function handler(
     return res.status(401).json('Error generating images');
   }
 
-  console.log(id);
+  const query = qs.stringify(
+    {
+      populate: ['artworks', 'artworks.image'],
+    },
+    {
+      encodeValuesOnly: true,
+    }
+  );
 
   await axios
     .get(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/generations/${id}?populate=*`,
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/generations/${id}?${query}`,
       {
         headers: {
           Authorization: authorization,
@@ -51,6 +58,5 @@ export default async function handler(
     return res.status(400).json('Error generating images');
   }
 
-  console.log(generations.data);
   return res.status(200).json(generations.data);
 }
