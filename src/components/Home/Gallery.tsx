@@ -33,7 +33,7 @@ const images = [
 ];
 
 const Gallery = () => (
-  <div className="px-4 md:px-8 lg:px-40 py-20 grid grid-cols-1 gap-4">
+  <div className="px-4 md:px-8 lg:px-40 py-20 grid grid-cols-1 gap-2">
     <ImagesGrid orientation="left" images={images} />
     <ImagesGrid orientation="right" images={images} />
   </div>

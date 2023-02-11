@@ -1,12 +1,24 @@
 /* eslint-disable no-param-reassign */
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 import signIn from '../../../services/auth';
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+      // authorization: {
+      //   params: {
+      //     prompt: 'consent',
+      //     access_type: 'offline',
+      //     response_type: 'code',
+      //   },
+      // },
+    }),
     CredentialsProvider({
       name: 'Sign in with Email',
       credentials: {
@@ -50,13 +62,23 @@ export const authOptions: NextAuthOptions = {
 
       return Promise.resolve(newSession);
     },
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user, account }) => {
       const isSignIn = !!user;
       const newUser: any = user;
 
       if (isSignIn) {
-        token.id = user.id;
-        token.jwt = newUser.jwt;
+        if (account?.provider === 'google') {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/auth/${account.provider}/callback?access_token=${account?.access_token}`
+          );
+          const data = await response.json();
+
+          token.jwt = data.jwt;
+          token.id = data.user.id;
+        } else {
+          token.jwt = newUser.jwt;
+          token.id = user.id;
+        }
       }
       return Promise.resolve(token);
     },

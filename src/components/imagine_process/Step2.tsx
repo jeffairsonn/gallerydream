@@ -33,14 +33,14 @@ const Step2 = ({
               <div
                 className={`${
                   styles.includes(name) ? 'block' : 'hidden'
-                } absolute w-full h-full bg-black bg-opacity-50 rounded-3xl flex items-center justify-center`}
+                } absolute w-full h-full bg-black bg-opacity-50   flex items-center justify-center`}
               >
                 <div className="btn btn-circle btn-primary">
                   <FaCheck color="white" />
                 </div>
               </div>
               <div className="w-full aspect-square">
-                <img src={image} className="rounded-3xl" alt="" />
+                <img src={image} className=" " alt="" />
               </div>
             </div>
             <p className="font-bold mt-2 text-start truncate">{name}</p>
@@ -56,7 +56,7 @@ const Step2 = ({
             <div
               className={`${
                 styles === 'no' ? 'block' : 'hidden'
-              } absolute w-full h-full bg-black bg-opacity-50 rounded-3xl flex items-center justify-center`}
+              } absolute w-full h-full bg-black bg-opacity-50   flex items-center justify-center`}
             >
               <div className="btn btn-circle btn-primary">
                 <FaCheck color="white" />
@@ -64,7 +64,7 @@ const Step2 = ({
             </div>
             <img
               src="/assets/cancel_icon.png"
-              className="rounded-3xl p-4"
+              className="  p-4"
               alt=""
             />
           </div>

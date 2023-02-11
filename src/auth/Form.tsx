@@ -8,6 +8,7 @@ import LoadingDots from './loading-dots';
 
 const Form = ({ type }: { type: 'login' | 'register' }) => {
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const router = useRouter();
 
   return (
@@ -21,12 +22,17 @@ const Form = ({ type }: { type: 'login' | 'register' }) => {
             email: e.currentTarget.email.value,
             password: e.currentTarget.password.value,
             // @ts-ignore
-          }).then(({ ok, error }) => {
+          }).then(({ ok }) => {
             setLoading(false);
             if (ok) {
               router.push('/');
             } else {
-              toast.error(error);
+              setErrorMessage(
+                "L'adresse email ou le mot de passe est incorrect"
+              );
+              setTimeout(async () => {
+                setErrorMessage('');
+              }, 4000);
             }
           });
         } else {
@@ -47,7 +53,10 @@ const Form = ({ type }: { type: 'login' | 'register' }) => {
                 router.push('/');
               }, 2000);
             } else {
-              toast.error(await res.text());
+              setErrorMessage(await res.text());
+              setTimeout(async () => {
+                setErrorMessage('');
+              }, 4000);
             }
           });
         }
@@ -80,6 +89,26 @@ const Form = ({ type }: { type: 'login' | 'register' }) => {
           className="input input-lg input-bordered w-full"
         />
       </div>
+      {errorMessage !== '' && (
+        <div className="alert alert-warning shadow-lg">
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current flex-shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <span>{errorMessage}.</span>
+          </div>
+        </div>
+      )}
       <button
         type="submit"
         disabled={loading}
@@ -90,24 +119,25 @@ const Form = ({ type }: { type: 'login' | 'register' }) => {
         {loading ? (
           <LoadingDots color="#808080" />
         ) : (
-          <p>{type === 'login' ? 'Sign In' : 'Sign Up'}</p>
+          <p>{type === 'login' ? 'Se connecter' : "S'inscrire"}</p>
         )}
       </button>
       {type === 'login' ? (
         <p className="text-center text-sm text-gray-600">
-          Don&apos;t have an account?{' '}
-          <Link href="/register" className="font-semibold text-gray-800">
-            Sign up
+          Pas encore de compte ?{' '}
+          <Link
+            href="/register"
+            className="font-semibold text-gray-800 underline"
+          >
+            S&lsquo;inscrire gratuitement.
           </Link>{' '}
-          for free.
         </p>
       ) : (
         <p className="text-center text-sm text-gray-600">
-          Already have an account?{' '}
-          <Link href="/login" className="font-semibold text-gray-800">
-            Sign in
-          </Link>{' '}
-          instead.
+          Vous possédez déja un compte ?{' '}
+          <Link href="/login" className="font-semibold text-gray-800 underline">
+            Connectez vous
+          </Link>
         </p>
       )}
     </form>

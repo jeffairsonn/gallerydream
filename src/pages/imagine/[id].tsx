@@ -2,7 +2,10 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FaChevronLeft } from 'react-icons/fa';
 import Navbar from '../../components/Navbar';
+import Container from '../../components/Container';
+import Artwork from '../../components/Artwork';
 
 const create = () => {
   const router = useRouter();
@@ -20,6 +23,7 @@ const create = () => {
           },
         })
         .then((res) => {
+          console.log(res.data);
           setUser(res.data);
         })
         .catch((err) => {
@@ -38,7 +42,6 @@ const create = () => {
         })
         .then((res) => {
           setArtworks(res.data.attributes.artworks.data);
-          console.log(res.data.attributes.artworks.data);
           setGeneration(res.data);
         })
         .catch((err) => {
@@ -56,49 +59,62 @@ const create = () => {
   return (
     <div>
       <Navbar user={user} status={status} />
-      <div className="px-4 md:px-8 lg:px-40 gap-4 mt-4 md:mt-0 pb-16">
+      <Container className="px-4 md:px-8 lg:px-40 gap-4 mt-4 md:mt-0 pb-16">
+        <button
+          type="button"
+          className="btn btn-primary btn-outline mb-4"
+          onClick={() => router.push('/creations')}
+        >
+          <FaChevronLeft className="mr-2" /> Retour
+        </button>
         <div className=" grid grid-cols-1 md:grid-cols-6 gap-4 h-full">
-          <aside className="col-span-2 rounded-3xl">
+          <aside className="col-span-2 w-full">
             <h1 className="text-2xl font-extrabold">
               {generation?.attributes?.prompt}
             </h1>
             <p className="mt-2">
-              Image générée par <span className="underline">LLoris77</span>.
+              Image générée par{' '}
+              <span className="underline">{user?.username}</span>.
             </p>
             <p className="">
               <span className="font-bold">{generation?.attributes?.count}</span>{' '}
               images générées.
             </p>
+            <button
+              onClick={() => {
+                router.push(
+                  `/imagine?prompt=${generation?.attributes?.prompt}`
+                );
+              }}
+              type="button"
+              className="btn btn-primary w-full mt-4"
+            >
+              Généré à partir de cette idée
+            </button>
           </aside>
           <div className="col-span-4">
             {artworks && artworks.length > 1 && (
-              <div className="grid grid-cols-2 gap-2 md:gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 cursor-pointer">
                 {artworks &&
                   artworks.map(
                     ({
                       id,
                       attributes: {
+                        prompt,
                         image: {
                           data: {
                             attributes: { url },
                           },
                         },
                       },
-                    }: any) => {
-                      console.log(url);
-                      return (
-                        <div
-                          key={id}
-                          className="aspect-square w-full bg-primary rounded-3xl"
-                        >
-                          <img
-                            src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`}
-                            className="w-full aspect-square rounded-3xl"
-                            alt=""
-                          />
-                        </div>
-                      );
-                    }
+                    }: any) => (
+                      <Artwork
+                        key={id}
+                        url={`${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`}
+                        prompt={prompt}
+                        id={id}
+                      />
+                    )
                   )}
               </div>
             )}
@@ -109,34 +125,32 @@ const create = () => {
                     ({
                       id,
                       attributes: {
+                        prompt,
                         image: {
                           data: {
                             attributes: { url },
                           },
                         },
                       },
-                    }: any) => {
-                      console.log(url);
-
-                      return (
-                        <div
+                    }: any) => (
+                      <div
+                        key={id}
+                        className="aspect-square w-full bg-primary  "
+                      >
+                        <Artwork
                           key={id}
-                          className="aspect-square w-full bg-primary rounded-3xl"
-                        >
-                          <img
-                            src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`}
-                            className="w-full aspect-square rounded-3xl"
-                            alt=""
-                          />
-                        </div>
-                      );
-                    }
+                          url={`${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`}
+                          prompt={prompt}
+                          id={id}
+                        />
+                      </div>
+                    )
                   )}
               </div>
             )}
           </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 };

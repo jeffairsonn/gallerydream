@@ -5,6 +5,9 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
+    fontFamily: {
+      sans: ['Montserrat', 'system-ui'],
+    },
     extend: {},
   },
   plugins: [require('daisyui'), require('@tailwindcss/line-clamp')],

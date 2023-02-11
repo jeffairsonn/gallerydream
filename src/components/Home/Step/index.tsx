@@ -10,7 +10,7 @@ const Step = () => (
           vous souhaitez voir sur votre tabelaux.
         </p>
       </div>
-      <div className="bg-green-300 flex justify-center items-center sticky rounded-3xl h-[400px]">
+      <div className="bg-green-300 flex justify-center items-center sticky   h-[400px]">
         hh
       </div>
     </div>
@@ -22,7 +22,7 @@ const Step = () => (
           s&apos;harmonisera parfaitement avec votre idée.
         </p>
       </div>
-      <div className="bg-green-300 flex justify-center items-center sticky rounded-3xl h-[400px]">
+      <div className="bg-green-300 flex justify-center items-center sticky   h-[400px]">
         hh
       </div>
       <div className="hidden lg:flex flex-col justify-center h-full">
@@ -42,7 +42,7 @@ const Step = () => (
           votre mur.
         </p>
       </div>
-      <div className="bg-green-300 flex justify-center items-center sticky rounded-3xl h-[400px]">
+      <div className="bg-green-300 flex justify-center items-center sticky   h-[400px]">
         pp
       </div>
     </div>

@@ -35,10 +35,9 @@ const Step1 = ({ chaneStep, step, setPrompt, prompt }: any) => {
       </h2>
       <div className="w-full flex justify-center flex-col items-center">
         <div className="w-full max-w-4xl">
-          <input
+          <textarea
             {...register('prompt', { required: true })}
-            type="text"
-            className={`input input-lg input-bordered w-full max-w-4xl ${
+            className={`input input-lg input-bordered w-full max-w-4xl resize-none h-24	pt-3 ${
               errors.prompt && 'input-error'
             }`}
             placeholder="Ex: Un chat dans la bouche d'une souris"

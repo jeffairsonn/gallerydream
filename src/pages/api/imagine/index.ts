@@ -39,7 +39,6 @@ export default async function handler(
   }
 
   const styleText = preGeneratedStyles.filter((style) => style.name === styles);
-  console.log(`${prompt}, ${styleText[0].prompt}`);
 
   const response = await openai.createImage({
     prompt: `${prompt}, ${styleText[0].prompt}`,
@@ -49,9 +48,6 @@ export default async function handler(
   const dalleImage_url = response.data.data;
 
   // const dalleImage_url = [
-  //   {
-  //     url: 'https://picsum.photos/200/300',
-  //   },
   //   {
   //     url: 'https://picsum.photos/200/300',
   //   },
@@ -67,7 +63,7 @@ export default async function handler(
         const buffer = Buffer.from(imageFromUrl.data, 'binary');
         const file = new Blob([buffer], { type: 'image/jpeg' });
 
-        const form = new FormData();
+        const form: any = new FormData();
         form.append('files.image', file);
         form.append(
           'data',
@@ -137,6 +133,9 @@ export default async function handler(
         credits: user?.credits ? +user.credits - +numberOfImages : undefined,
         generations: {
           connect: [generation.id],
+        },
+        artworks: {
+          connect: idOfArtwork,
         },
       },
       {

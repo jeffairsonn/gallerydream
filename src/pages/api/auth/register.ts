@@ -8,12 +8,13 @@ export default async function handler(
   const { email, password } = req.body;
   axios
     .post(
-      'http://localhost:1337/api/auth/local/register',
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/auth/local/register`,
       {
         username: 'lololo',
         email,
         password,
         role: 'Authenticated',
+        credits: 4,
       },
       {
         headers: {
@@ -22,10 +23,22 @@ export default async function handler(
       }
     )
     .then((response: any) => {
-      res.status(402000).json(response.data);
+      res.status(200).json(response.data);
     })
     .catch((error) => {
-      console.log(error.response);
-      res.status(400).send('User already exists');
+      if (error?.response?.data?.error?.message) {
+        const errorMessage = error?.response?.data?.error?.message;
+        if (errorMessage === 'password must be at least 6 characters') {
+          return res
+            .status(400)
+            .send('Votre mot de passe doit contenir au moins 6 caractères');
+        }
+        if (errorMessage === 'Email or Username are already taken') {
+          return res
+            .status(400)
+            .send('Cet email est déjà utilisé par un autre utilisateur');
+        }
+      }
+      return res.status(400).send('Une erreur est survenue');
     });
 }

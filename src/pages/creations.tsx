@@ -4,11 +4,17 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import Navbar from '../components/Navbar';
+import Container from '../components/Container';
 
 const Creations = () => {
   const router = useRouter();
   const { status, data }: any = useSession();
-  const [user, setUser] = useState<{ credits: number; jwt: string }>();
+  const [user, setUser] = useState<{
+    credits: number;
+    jwt: string;
+    username: string;
+    email: string;
+  }>();
   const [creations, setCreations] = useState<any>([]);
 
   useEffect(() => {
@@ -20,6 +26,8 @@ const Creations = () => {
           },
         })
         .then((res) => {
+          console.log(res.data);
+
           setUser(res.data);
         })
         .catch((err) => {
@@ -37,7 +45,6 @@ const Creations = () => {
           },
         })
         .then((res) => {
-          console.log(res.data);
           setCreations(res.data);
         })
         .catch((err) => {
@@ -55,11 +62,25 @@ const Creations = () => {
   return (
     <div>
       <Navbar user={user} status={status} />
-      <div className="px-4 md:px-8 lg:px-40  gap-4 pb-16 pt-8 space-y-20">
+      <Container>
         <div className="w-full flex flex-col justify-center items-center">
-          <h1 className="text-3xl md:text-4xl font-black max-w-5xl mb-12 w-full text-center">
-            Mes créations
-          </h1>
+          <div className="w-full flex flex-col md:flex-row items-center">
+            <div className="avatar">
+              <div className="w-32 mask mask-squircle">
+                <img src="https://picsum.photos/200/300" alt="profile" />
+              </div>
+            </div>
+            <div className="mt-2 md:mt-0 md:ml-4 flex-col md:flex-row items-center justify-center">
+              <h1 className="text-xl md:text-2xl font-black text-center md:text-left">
+                {user?.username}
+              </h1>
+              <p className="text-sm md:text-base break-all">{user?.email}</p>
+              <button type="button" className="btn btn-primary btn-xs mt-2">
+                Editer le profile
+              </button>
+            </div>
+          </div>
+          <hr className="border my-8 w-full" />
           <div className="grid grid-cols-1 md:grid-cols-3 w-full gap-4 max-w-7xl">
             {creations &&
               creations?.map(
@@ -70,7 +91,7 @@ const Creations = () => {
                     artworks: { data: artwork },
                   },
                 }: any) => (
-                  <div className="p-8 rounded-3xl shadow-xl flex flex-col justify-between">
+                  <div className="p-8   shadow-xl flex flex-col justify-between">
                     {artwork.length > 1 && (
                       <div className="grid grid-cols-2 gap-2 mt-4">
                         {artwork.map(
@@ -85,7 +106,7 @@ const Creations = () => {
                           }: any) => (
                             <div className="aspect-square w-full rounded-md">
                               <img
-                                className="w-full aspect-square rounded-3xl"
+                                className="w-full aspect-square  "
                                 src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`}
                                 alt=""
                               />
@@ -108,7 +129,7 @@ const Creations = () => {
                           }: any) => (
                             <div className="aspect-square w-full rounded-md">
                               <img
-                                className="w-full aspect-square rounded-3xl"
+                                className="w-full aspect-square  "
                                 src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`}
                                 alt=""
                               />
@@ -131,7 +152,7 @@ const Creations = () => {
                 )
               )}
             {(!creations || creations.length === 0) && (
-              <div className="p-8 rounded-3xl shadow-xl">
+              <div className="p-8   shadow-xl">
                 <h3 className="font-bold text-xl">Aucune création</h3>
                 <p className="mt-4">
                   Vous n&apos;avez pas encore généré de création. Pour cela,
@@ -146,7 +167,7 @@ const Creations = () => {
             )}
           </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 };

@@ -3,13 +3,17 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { ThemeProvider } from 'next-themes';
 import { SessionProvider } from 'next-auth/react';
+import { Provider } from 'react-redux';
+import store from '../../redux/app/store';
 
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => (
-  <ThemeProvider>
-    <SessionProvider session={session}>
-      <Component {...pageProps} />
-    </SessionProvider>
-  </ThemeProvider>
+  <Provider store={store}>
+    <ThemeProvider>
+      <SessionProvider session={session}>
+        <Component className="font-sans" {...pageProps} />
+      </SessionProvider>
+    </ThemeProvider>
+  </Provider>
 );
 
 export default App;

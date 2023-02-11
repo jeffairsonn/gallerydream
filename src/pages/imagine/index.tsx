@@ -7,6 +7,7 @@ import Step1 from '../../components/imagine_process/Step1';
 import Navbar from '../../components/Navbar';
 import Step2 from '../../components/imagine_process/Step2';
 import Step3 from '../../components/imagine_process/Step3';
+import Container from '../../components/Container';
 
 const create = () => {
   const { status, data }: any = useSession();
@@ -41,6 +42,12 @@ const create = () => {
   const [prompt, setPrompt] = useState('');
   const [styles, setStyles] = useState('');
   const [numberOfImages, setNumberOfImages] = useState(1);
+
+  useEffect(() => {
+    if (router.query.prompt) {
+      setPrompt(router.query.prompt as string);
+    }
+  }, [router]);
 
   const [step, setStep] = useState(1);
   const [step1, setStep1] = useState(true);
@@ -97,7 +104,7 @@ const create = () => {
   return (
     <div>
       <Navbar user={user} status={status} />
-      <div className="px-4 md:px-8 lg:px-40  gap-4 pb-16 pt-8 space-y-20">
+      <Container>
         <div className="items-center flex flex-col justify-center gap-8">
           <ul className="steps">
             <li className={`step ${step >= 1 && 'step-primary'}`}>Décrivez</li>
@@ -164,7 +171,7 @@ const create = () => {
             </Transition>
           )}
         </div>
-      </div>
+      </Container>
     </div>
   );
 };
