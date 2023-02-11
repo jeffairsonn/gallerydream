@@ -1,6 +1,7 @@
 if (typeof window !== 'undefined') {
   document.addEventListener('contextmenu', (event) => {
-    if (event?.target?.nodeName === 'IMG') {
+    const evt: any = event;
+    if (evt?.target?.nodeName === 'IMG') {
       event.preventDefault();
     }
   });
