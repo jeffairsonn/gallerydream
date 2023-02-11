@@ -62,11 +62,7 @@ const Step2 = ({
                 <FaCheck color="white" />
               </div>
             </div>
-            <img
-              src="/assets/cancel_icon.png"
-              className="  p-4"
-              alt=""
-            />
+            <img src="/assets/cancel_icon.png" className="  p-4" alt="" />
           </div>
           <p className="font-bold mt-2 text-start">Aucun style</p>
         </button>
