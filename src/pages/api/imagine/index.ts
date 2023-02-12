@@ -1,14 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
-import { Configuration, OpenAIApi } from 'openai';
+// import { Configuration, OpenAIApi } from 'openai';
 import { Blob, FormData } from 'formdata-node';
 import fetch from 'node-fetch';
-import preGeneratedStyles from '../../../lib/style_list';
+// import preGeneratedStyles from '../../../lib/style_list';
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+// const configuration = new Configuration({
+//   apiKey: process.env.OPENAI_API_KEY,
+// });
+// const openai = new OpenAIApi(configuration);
 
 export default async function handler(
   req: NextApiRequest,
@@ -38,20 +38,20 @@ export default async function handler(
     return res.status(401).json('Error generating images');
   }
 
-  const styleText = preGeneratedStyles.filter((style) => style.name === styles);
+  // const styleText = preGeneratedStyles.filter((style) => style.name === styles);
 
-  const response = await openai.createImage({
-    prompt: `${prompt}, ${styleText[0].prompt}`,
-    n: numberOfImages,
-    size: '1024x1024',
-  });
-  const dalleImage_url = response.data.data;
+  // const response = await openai.createImage({
+  //   prompt: `${prompt}, ${styleText[0].prompt}`,
+  //   n: numberOfImages,
+  //   size: '1024x1024',
+  // });
+  // const dalleImage_url = response.data.data;
 
-  // const dalleImage_url = [
-  //   {
-  //     url: 'https://picsum.photos/200/300',
-  //   },
-  // ];
+  const dalleImage_url = [
+    {
+      url: 'https://picsum.photos/200/300',
+    },
+  ];
 
   let idOfArtwork: any = [];
   await Promise.all(
