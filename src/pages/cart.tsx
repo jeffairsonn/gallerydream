@@ -1,67 +1,67 @@
-import axios from 'axios';
-import { useSession } from 'next-auth/react';
+// import axios from 'axios';
+// import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import useCart from '../hooks/useCart';
-import Container from '../components/Container';
-import Navbar from '../components/Navbar';
+import React, { useEffect } from 'react';
+// import useCart from '../hooks/useCart';
+// import Container from '../components/Container';
+// import Navbar from '../components/Navbar';
 
 const cartPage = () => {
-  const { cart } = useCart();
+  // const { cart } = useCart();
   const router = useRouter();
-  const { status, data }: any = useSession();
-  const [user, setUser] = useState<{
-    credits: number;
-    jwt: string;
-    username: string;
-    email: string;
-  }>();
+  // const { status, data }: any = useSession();
+  // const [user, setUser] = useState<{
+  // credits: number;
+  // jwt: string;
+  // username: string;
+  // email: string;
+  // }>();
+
+  // useEffect(() => {
+  //   if (data) {
+  //     axios
+  //       .get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me`, {
+  //         headers: {
+  //           Authorization: `Bearer ${data.jwt}`,
+  //         },
+  //       })
+  //       .then((res) => {
+  //         console.log(res.data);
+
+  //         setUser(res.data);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // }, [data]);
 
   useEffect(() => {
-    if (data) {
-      axios
-        .get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me`, {
-          headers: {
-            Authorization: `Bearer ${data.jwt}`,
-          },
-        })
-        .then((res) => {
-          console.log(res.data);
+    // if (status === 'unauthenticated') {
+    router.push('/');
+    // }
+  }, []);
 
-          setUser(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/');
-    }
-  }, [status]);
-
-  useEffect(() => {
-    if (user) {
-      axios
-        .get(`/api/cart?cart=${JSON.stringify(cart)}`, {
-          headers: {
-            Authorization: `Bearer ${data.jwt}`,
-          },
-        })
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     axios
+  //       .get(`/api/cart?cart=${JSON.stringify(cart)}`, {
+  //         headers: {
+  //           Authorization: `Bearer ${data.jwt}`,
+  //         },
+  //       })
+  //       .then((res) => {
+  //         console.log(res.data);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // }, [user]);
 
   return (
     <div>
-      <Navbar user={user} status={status} />
+      {/* <Navbar user={user} status={status} />
       <Container>
         <div className="flex flex-col items-center w-full space-y-2">
           <h1 className="text-3xl text-center">Mon panier</h1>
@@ -104,7 +104,7 @@ const cartPage = () => {
             </tbody>
           </table>
         </div>
-      </Container>
+      </Container> */}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -12,6 +13,18 @@ import Container from '../../components/Container';
 const create = () => {
   const { status, data }: any = useSession();
   const [user, setUser] = useState<any>();
+
+  const alertUser = (e) => {
+    e.preventDefault();
+    e.returnValue = 'Attention, vous allez perdre vos modifications !';
+  };
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', alertUser);
+    return () => {
+      window.removeEventListener('beforeunload', alertUser);
+    };
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -42,6 +55,7 @@ const create = () => {
   const [prompt, setPrompt] = useState('');
   const [styles, setStyles] = useState('');
   const [numberOfImages, setNumberOfImages] = useState(1);
+  const [createGeneratedImage, setCreateGeneratedImage] = useState(false);
 
   useEffect(() => {
     if (router.query.prompt) {
@@ -77,6 +91,7 @@ const create = () => {
   };
 
   const generateImages = () => {
+    setCreateGeneratedImage(true);
     axios
       .post(
         `/api/imagine`,
@@ -96,6 +111,7 @@ const create = () => {
         router.push(`/imagine/${res.data}`);
       })
       .catch((err) => {
+        setCreateGeneratedImage(false);
         console.log(err);
       });
   };
@@ -172,6 +188,26 @@ const create = () => {
           )}
         </div>
       </Container>
+      {createGeneratedImage && (
+        <div className="bg-black bg-opacity-50 h-full w-full absolute top-0 z-50 flex items-center justify-center">
+          <div className="card w-96 bg-base-100 shadow-xl">
+            <figure className="px-10 pt-10">
+              <img
+                src="https://picsum.photos/300/200"
+                alt="Shoes"
+                className="rounded-xl"
+              />
+            </figure>
+            <div className="card-body items-center text-center">
+              <h2 className="card-title">Patientez quelques instants...</h2>
+              <p>Vos oeuvres sont pretes dans moins de 30 secondes</p>
+              <div className="card-actions">
+                <button type="button" className="btn btn-primary loading" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

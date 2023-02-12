@@ -8,7 +8,6 @@ import Navbar from '../../components/Navbar';
 import Container from '../../components/Container';
 import posters from '../../lib/poster_price';
 import '../../hooks/useImageRightClick';
-import useCart from '../../hooks/useCart';
 
 const Artwork = () => {
   const router = useRouter();
@@ -22,17 +21,6 @@ const Artwork = () => {
   );
   const [quantity, setQuantity] = useState<number>(1);
   const [displayImage, setDisplayImage] = useState<number>(1);
-
-  const { addToCart } = useCart();
-  const addArtworkToCart = () => {
-    addToCart(
-      {
-        id: artwork.id,
-        price: selectedProduct,
-      },
-      quantity
-    );
-  };
 
   useEffect(() => {
     if (data) {
@@ -63,6 +51,32 @@ const Artwork = () => {
         });
     }
   }, [router]);
+
+  const BuyArtwork = () => {
+    axios
+      .post(
+        `/api/payment/create-checkout-session`,
+        {
+          // eslint-disable-next-line no-unsafe-optional-chaining
+          price_id: selectedProduct,
+          type: 'artwork',
+          quantity,
+          cancel_url: `/artwork/${router.query.id}`,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${data.jwt}`,
+          },
+        }
+      )
+      .then((res: any) => {
+        window.location.replace(res.data.url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       <Navbar user={user} status={status} />
@@ -156,6 +170,7 @@ const Artwork = () => {
               <button type="button" onClick={() => setDisplayImage(3)}>
                 <img
                   draggable="false"
+                  className="w-full aspect-square"
                   src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${artwork?.attributes?.image?.data?.attributes?.url}`}
                   alt=""
                 />
@@ -227,9 +242,9 @@ const Artwork = () => {
               <p className="mb-4 font-bold" />
               <div className="space-y-2">
                 <button
+                  onClick={() => BuyArtwork()}
                   type="button"
                   className="btn w-full btn-accent"
-                  onClick={() => addArtworkToCart()}
                 >
                   {(
                     posters.filter(({ price_id, live_price_id }) =>
@@ -238,7 +253,7 @@ const Artwork = () => {
                         : live_price_id === selectedProduct
                     )[0].price * quantity
                   ).toFixed(2)}{' '}
-                  € - Ajouter au panier
+                  € - Commander maintenant
                 </button>
               </div>
             </div>

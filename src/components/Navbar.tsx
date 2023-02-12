@@ -6,14 +6,14 @@ import {
   FaCoins,
   FaImages,
   FaRocket,
-  FaShoppingBag,
+  // FaShoppingBag,
   FaSignInAlt,
   FaSignOutAlt,
   FaStar,
   FaUser,
 } from 'react-icons/fa';
 import useWindowSize from '../hooks/useWindowSize';
-import useCart from '../hooks/useCart';
+// import useCart from '../hooks/useCart';
 
 function useOutsideAlerter(ref: any, setIsOpenMenu: any) {
   useEffect(() => {
@@ -30,7 +30,6 @@ function useOutsideAlerter(ref: any, setIsOpenMenu: any) {
 }
 
 const Navbar = ({ user, status }: any) => {
-  const { total } = useCart();
   const window = useWindowSize();
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
@@ -108,7 +107,7 @@ const Navbar = ({ user, status }: any) => {
               </div>
             </Link>
           )}
-          {status === 'authenticated' && (
+          {/* {status === 'authenticated' && (
             <Link href="/cart">
               <div className="flex items-center relative">
                 <div className="rounded-full bg-primary text-white absolute text-xs w-4 aspect-video flex items-center justify-center bottom-2 left-2">
@@ -117,7 +116,7 @@ const Navbar = ({ user, status }: any) => {
                 <FaShoppingBag className="" />
               </div>
             </Link>
-          )}
+          )} */}
           <div className="relative">
             {status === 'authenticated' && (
               <button
