@@ -14,7 +14,7 @@ const create = () => {
   const { status, data }: any = useSession();
   const [user, setUser] = useState<any>();
 
-  const alertUser = (e) => {
+  const alertUser = (e: any) => {
     e.preventDefault();
     e.returnValue = 'Attention, vous allez perdre vos modifications !';
   };

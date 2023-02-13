@@ -23,7 +23,6 @@ const create = () => {
           },
         })
         .then((res) => {
-          console.log(res.data);
           setUser(res.data);
         })
         .catch((err) => {
@@ -63,11 +62,11 @@ const create = () => {
         <button
           type="button"
           className="btn btn-primary btn-outline mb-4"
-          onClick={() => router.push('/creations')}
+          onClick={() => router.back()}
         >
           <FaChevronLeft className="mr-2" /> Retour
         </button>
-        <div className=" grid grid-cols-1 md:grid-cols-6 gap-4 h-full">
+        <div className="grid grid-cols-1 md:grid-cols-6 space-y-4 md:space-y-0 md:gap-4 h-full w-full">
           <aside className="col-span-2 w-full">
             <h1 className="text-2xl font-extrabold">
               {generation?.attributes?.prompt}
@@ -133,10 +132,7 @@ const create = () => {
                         },
                       },
                     }: any) => (
-                      <div
-                        key={id}
-                        className="aspect-square w-full bg-primary  "
-                      >
+                      <div key={id} className="aspect-square w-full">
                         <Artwork
                           key={id}
                           url={`${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`}

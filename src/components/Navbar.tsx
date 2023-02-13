@@ -40,10 +40,8 @@ const Navbar = ({ user, status }: any) => {
     <div className="px-4 md:px-8 py-4 gap-4 space-y-20 border-b sticky top-0 bg-base-100 z-50">
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-4">
-          <Link href="/">
-            <button type="button" className="btn btn-primary">
-              GalleryDream
-            </button>
+          <Link href="/" className="max-w-[90px]">
+            <img src="/assets/logo_gallery_dream.png" alt="" />
           </Link>
           <nav className="hidden md:block">
             <ul className="flex space-x-4">
@@ -55,7 +53,7 @@ const Navbar = ({ user, status }: any) => {
                         Créer
                       </button>
                     </Link>
-                    <Link href="/creations">
+                    <Link href="/profile">
                       <button type="button" className="btn btn-ghost">
                         Mes créations
                       </button>
@@ -153,7 +151,7 @@ const Navbar = ({ user, status }: any) => {
                       </Link>
                     </li>
                     <li>
-                      <Link href="/creations">
+                      <Link href="/profile">
                         <FaImages className="w-4 h-4" /> Mes créations
                       </Link>
                     </li>

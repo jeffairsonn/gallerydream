@@ -26,7 +26,7 @@ const Artwork = ({
       >
         <div className="h-full w-full absolute bg-black opacity-0 hover:opacity-100 ease-in duration-200 bg-opacity-50">
           <div className="flex flex-col justify-between h-full w-full p-4">
-            <p className="font-medium text-left text-white text-lg">{prompt}</p>
+            <p className="font-medium text-left text-white text-sm">{prompt}</p>
             <button type="button" className="btn btn-outline btn-accent w-fit">
               Acheter
             </button>

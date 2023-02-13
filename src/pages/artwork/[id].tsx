@@ -61,6 +61,7 @@ const Artwork = () => {
           price_id: selectedProduct,
           type: 'artwork',
           quantity,
+          artwork_id: router.query.id,
           cancel_url: `/artwork/${router.query.id}`,
         },
         {
@@ -182,14 +183,16 @@ const Artwork = () => {
               <h1 className="font-bold text-xl md:text-2xl">
                 {artwork?.attributes?.prompt}
               </h1>
-              <Link
-                href={`/imagine/${artwork?.attributes?.generation?.data?.id}`}
-                className=""
-              >
-                <p className="underline mt-2">
-                  Découvrir la collection complète
-                </p>
-              </Link>
+              {status === 'authenticated' && (
+                <Link
+                  href={`/imagine/${artwork?.attributes?.generation?.data?.id}`}
+                  className=""
+                >
+                  <p className="underline mt-2">
+                    Découvrir la collection complète
+                  </p>
+                </Link>
+              )}
             </div>
             <div className="mb-4">
               <div className="form-control w-full md:max-w-xs mb-2">

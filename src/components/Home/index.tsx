@@ -5,6 +5,7 @@ import Gallery from './Gallery';
 import Hero from './Hero';
 import Navbar from '../Navbar';
 import Step from './Step';
+import Description from './Description';
 
 const Home = () => {
   const { status, data }: any = useSession();
@@ -31,6 +32,7 @@ const Home = () => {
     <div>
       <Navbar user={user} status={status} />
       <Hero />
+      <Description />
       <Gallery />
       <Step />
     </div>

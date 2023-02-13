@@ -1,5 +1,10 @@
 const preGeneratedStyles: { name: string; image: string; prompt: string }[] = [
   {
+    name: 'Gallery Dream',
+    image: '/assets/pop_art.jpg',
+    prompt: 'artstation, 8k, digital art',
+  },
+  {
     name: 'Pop Art',
     image: '/assets/pop_art.jpg',
     prompt:

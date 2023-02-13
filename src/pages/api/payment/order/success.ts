@@ -52,36 +52,36 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(400).json({ error: 'failed' });
   }
 
-  if (session.metadata.type === 'credits') {
-    const query = qs.stringify(
-      {
-        filters: {
-          customer_id: session.customer,
-        },
+  const query = qs.stringify(
+    {
+      filters: {
+        customer_id: session.customer,
       },
-      {
-        encodeValuesOnly: true, // prettify URL
-      }
-    );
-
-    await axios
-      .get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users?${query}`, {
-        headers: {
-          Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-        },
-      })
-      .then((userResponse: any) => {
-        // eslint-disable-next-line prefer-destructuring
-        user = userResponse.data[0];
-      })
-      .catch((err) => {
-        console.log('user', err.response.data);
-      });
-
-    if (!user) {
-      return res.status(401).json('User doesn t exist');
+    },
+    {
+      encodeValuesOnly: true, // prettify URL
     }
+  );
 
+  await axios
+    .get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users?${query}`, {
+      headers: {
+        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+      },
+    })
+    .then((userResponse: any) => {
+      // eslint-disable-next-line prefer-destructuring
+      user = userResponse.data[0];
+    })
+    .catch((err) => {
+      console.log('user', err.response.data);
+    });
+
+  if (!user) {
+    return res.status(401).json('User doesn t exist');
+  }
+
+  if (session.metadata.type === 'credits') {
     await axios
       .put(
         `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/${user.id}`,
@@ -115,6 +115,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           user: {
             connect: [user.id],
           },
+          amount_total: session.amount_total / 100,
+          customer_stripe: session.customer,
+          type: session.metadata.type,
+          metadata: JSON.stringify(session.metadata),
+          shipping_details: JSON.stringify(session.shipping_details),
+          customer_details: JSON.stringify(session.customer_details),
+          artworks:
+            session.metadata.type === 'artwork'
+              ? {
+                  connect: JSON.parse(session.metadata.line_items).map(
+                    (a: any) => a.artwork_id
+                  ),
+                }
+              : undefined,
         },
       },
       {
@@ -136,7 +150,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   if (session.metadata.type === 'credits') {
-    return res.status(200).json('credit_added');
+    return res
+      .status(200)
+      .json({ type: 'credit_added', credits: session.metadata.credits });
+  }
+  if (session.metadata.type === 'artwork') {
+    return res.status(200).json({ type: 'artwork' });
   }
 
   return res.status(500).json("We don't know what happened");

@@ -55,10 +55,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   let session: any;
-  if (
-    type === 'credits' &&
-    !credits.filter(({ price_id: price }) => price === price_id)[0]
-  ) {
+
+  if (type === 'credits') {
     session = await stripe.checkout.sessions.create({
       line_items: [{ price: price_id, quantity: 1 }],
       mode: 'payment',
@@ -78,6 +76,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             : undefined,
       },
       customer: user.customer_id,
+      allow_promotion_codes: true,
     });
   }
 
@@ -89,10 +88,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       cancel_url: `${process.env.NEXT_PUBLIC_BACK_END_URL}${cancel_url}`,
       metadata: {
         user_id: user.id,
+        type,
         line_items: JSON.stringify([
           {
             price_id,
-            type,
             quantity,
             artwork_id,
           },

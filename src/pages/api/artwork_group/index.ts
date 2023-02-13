@@ -7,6 +7,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { authorization } = req.headers;
+  const { page, pageSize } = req.query;
 
   let user: any;
   let generations: any;
@@ -35,10 +36,11 @@ export default async function handler(
       },
       populate: ['*', 'artworks', 'artworks.image'],
       pagination: {
-        pageSize: 9,
-        page: 1,
+        pageSize,
+        page,
       },
       publicationState: 'live',
+      sort: ['createdAt:desc'],
     },
     {
       encodeValuesOnly: true,
@@ -55,7 +57,7 @@ export default async function handler(
       }
     )
     .then(async (generationResponse: any) => {
-      generations = generationResponse.data.data;
+      generations = generationResponse.data;
     })
     .catch((err) => {
       console.log('generation', err?.response?.data);

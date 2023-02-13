@@ -13,10 +13,13 @@ const success = () => {
       axios
         .get(`/api/payment/order/success?session_id=${router.query.session_id}`)
         .then((res) => {
-          if (res.data === 'credit_added') {
+          if (res.data.type === 'credit_added') {
             setDisplay('credit_added');
-            setLoading(false);
           }
+          if (res.data.type === 'artwork') {
+            setDisplay('artwork');
+          }
+          setLoading(false);
         })
         .catch((err) => {
           if (err.response.data) {
@@ -31,7 +34,7 @@ const success = () => {
       return (
         <div className="hero min-h-screen bg-base-200">
           <div className="hero-content text-center">
-            <div className="max-w-md">
+            <div className="max-w-lg">
               <h1 className="text-5xl font-bold">
                 Merci pour votre commande de crédit
               </h1>
@@ -42,6 +45,29 @@ const success = () => {
               <Link href="/imagine">
                 <button type="button" className="btn btn-primary">
                   Créer.
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    if (display === 'artwork') {
+      return (
+        <div className="hero min-h-screen bg-base-200">
+          <div className="hero-content text-center">
+            <div className="max-w-lg">
+              <h1 className="text-5xl font-bold">
+                Merci ! Votre commande à bien été enregistrer !
+              </h1>
+              <p className="py-6">
+                Vous recevrez un mail dans quelques minutes contenant la
+                facture. Vous pourrez suivre l&apos;etat de votre commande
+                directement depuis votre espace &quot;Commande&quot;.
+              </p>
+              <Link href="/imagine">
+                <button type="button" className="btn btn-primary">
+                  Créer de nouveau
                 </button>
               </Link>
             </div>

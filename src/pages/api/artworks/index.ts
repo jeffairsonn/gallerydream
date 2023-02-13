@@ -1,12 +1,35 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import qs from 'qs';
+import uselessFilteredWord from '../../../lib/uselessFilteredWord';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { page } = req.query;
+  const { page, pageSize, search } = req.query;
+
+  const searchString: string = search as string;
+  const filters: any = {
+    $or: [],
+  };
+  if (search && search !== '') {
+    const searchArray = searchString
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-zA-Z0-9 ]/g, ' ')
+      ?.split(' ')
+      .filter((word) => !uselessFilteredWord.includes(word));
+
+    searchArray.map((word) =>
+      filters.$or.push({
+        prompt: {
+          $contains: word,
+        },
+      })
+    );
+  }
 
   let generations: any;
 
@@ -14,9 +37,10 @@ export default async function handler(
     {
       populate: ['*', 'image'],
       pagination: {
-        pageSize: 20,
+        pageSize,
         page,
       },
+      filters,
       sort: ['createdAt:desc'],
       publicationState: 'live',
     },
@@ -35,7 +59,7 @@ export default async function handler(
       }
     )
     .then(async (generationResponse: any) => {
-      generations = generationResponse.data.data;
+      generations = generationResponse.data;
     })
     .catch((err) => {
       console.log('generation', err?.response?.data);
