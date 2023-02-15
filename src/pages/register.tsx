@@ -14,7 +14,6 @@ const Register = () => {
   };
 
   useEffect(() => {
-    console.log(status);
     if (status === 'authenticated') {
       router.push('/');
     }

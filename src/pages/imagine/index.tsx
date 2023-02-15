@@ -28,7 +28,6 @@ const create = () => {
 
   useEffect(() => {
     if (data) {
-      console.log(data.jwt);
       axios
         .get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me`, {
           headers: {

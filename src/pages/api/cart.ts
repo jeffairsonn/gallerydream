@@ -53,7 +53,6 @@ export default async function handler(
           }
         )
         .then((artwork: any) => {
-          console.log(artwork.data.data.attributes.image.data.attributes.url);
           if (artwork.data.data.attributes.user.data.id === user.id) {
             cartItems.push({
               id: item.id,
@@ -68,8 +67,6 @@ export default async function handler(
         });
     })
   );
-
-  console.log(cartItems);
 
   return res.status(200).json({ cartItems });
 }

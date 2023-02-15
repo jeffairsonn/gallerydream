@@ -41,7 +41,6 @@ const create = () => {
           },
         })
         .then((res) => {
-          console.log(res.data);
           setArtworks(res.data.attributes.artworks.data);
           setGeneration(res.data);
         })
