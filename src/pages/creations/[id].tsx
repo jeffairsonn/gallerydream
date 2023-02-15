@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -40,6 +41,7 @@ const create = () => {
           },
         })
         .then((res) => {
+          console.log(res.data);
           setArtworks(res.data.attributes.artworks.data);
           setGeneration(res.data);
         })
@@ -59,26 +61,29 @@ const create = () => {
     <div>
       <Navbar user={user} status={status} />
       <Container className="px-4 md:px-8 lg:px-40 gap-4 mt-4 md:mt-0 pb-16">
-        <button
-          type="button"
-          className="btn btn-primary btn-outline mb-4"
-          onClick={() => router.back()}
-        >
-          <FaChevronLeft className="mr-2" /> Retour
-        </button>
-        <div className="grid grid-cols-1 md:grid-cols-6 space-y-4 md:space-y-0 md:gap-4 h-full w-full">
-          <aside className="col-span-2 w-full">
-            <h1 className="text-2xl font-extrabold">
-              {generation?.attributes?.prompt}
-            </h1>
-            <p className="mt-2">
-              Image générée par{' '}
-              <span className="underline">{user?.username}</span>.
-            </p>
-            <p className="">
-              <span className="font-bold">{generation?.attributes?.count}</span>{' '}
-              images générées.
-            </p>
+        <div className="flex justify-center flex-col items-center">
+          <button type="button" className="btn btn-xs btn-secondary mb-2">
+            {generation?.attributes?.style
+              ? generation?.attributes?.style
+              : generation?.attributes?.style === ''
+              ? 'Aucun style'
+              : 'Inconnu'}
+          </button>
+          <h1 className="text-3xl font-title font-extrabold">
+            &rdquo; {generation?.attributes?.prompt} &rdquo;
+          </h1>
+          <p className="">
+            <span className="font-bold">{generation?.attributes?.count}</span>{' '}
+            images générée(s).
+          </p>
+          <div className="flex items-center space-x-2 mt-8">
+            <button
+              type="button"
+              className="btn btn-primary btn-outline"
+              onClick={() => router.back()}
+            >
+              <FaChevronLeft className="mr-2" /> Retour
+            </button>
             <button
               onClick={() => {
                 router.push(
@@ -86,14 +91,17 @@ const create = () => {
                 );
               }}
               type="button"
-              className="btn btn-primary w-full mt-4"
+              className="btn btn-primary"
             >
               Généré à partir de cette idée
             </button>
-          </aside>
-          <div className="col-span-4">
-            {artworks && artworks.length > 1 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 cursor-pointer">
+          </div>
+        </div>
+
+        <div className="space-y-4 h-full w-full flex justify-center mt-12">
+          <div className="w-full max-w-7xl">
+            {artworks && (
+              <div className="gap-4 cursor-pointer w-full grid grid-cols-1 md:grid-cols-2">
                 {artworks &&
                   artworks.map(
                     ({
@@ -113,33 +121,6 @@ const create = () => {
                         prompt={prompt}
                         id={id}
                       />
-                    )
-                  )}
-              </div>
-            )}
-            {artworks && artworks.length === 1 && (
-              <div className="grid grid-cols-1 gap-2 md:gap-4">
-                {artworks &&
-                  artworks.map(
-                    ({
-                      id,
-                      attributes: {
-                        prompt,
-                        image: {
-                          data: {
-                            attributes: { url },
-                          },
-                        },
-                      },
-                    }: any) => (
-                      <div key={id} className="aspect-square w-full">
-                        <Artwork
-                          key={id}
-                          url={`${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`}
-                          prompt={prompt}
-                          id={id}
-                        />
-                      </div>
                     )
                   )}
               </div>

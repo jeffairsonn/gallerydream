@@ -108,7 +108,7 @@ const create = () => {
         }
       )
       .then((res) => {
-        router.push(`/imagine/${res.data}`);
+        router.push(` /creations/${res.data}`);
       })
       .catch((err) => {
         setCreateGeneratedImage(false);

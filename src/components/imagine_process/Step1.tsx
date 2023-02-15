@@ -30,7 +30,7 @@ const Step1 = ({ chaneStep, step, setPrompt, prompt }: any) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="text-5xl md:text-6xl font-black max-w-5xl mb-12 w-full text-center">
+      <h2 className="text-5xl md:text-6xl font-title font-black max-w-5xl mb-12 w-full text-center">
         Que souhaitez vous créer ?
       </h2>
       <div className="w-full flex justify-center flex-col items-center">

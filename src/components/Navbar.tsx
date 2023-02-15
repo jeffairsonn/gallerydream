@@ -12,6 +12,7 @@ import {
   FaStar,
   FaUser,
 } from 'react-icons/fa';
+import { useRouter } from 'next/router';
 import useWindowSize from '../hooks/useWindowSize';
 // import useCart from '../hooks/useCart';
 
@@ -30,48 +31,67 @@ function useOutsideAlerter(ref: any, setIsOpenMenu: any) {
 }
 
 const Navbar = ({ user, status }: any) => {
+  const router = useRouter();
   const window = useWindowSize();
   const [isOpenMenu, setIsOpenMenu] = useState(false);
-
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, setIsOpenMenu);
 
   return (
-    <div className="px-4 md:px-8 py-4 gap-4 space-y-20 border-b sticky top-0 bg-base-100 z-50">
+    <div className="px-4 md:px-8 py-4 gap-4 space-y-20 border-b border-black sticky top-0 bg-base-100 z-50">
       <div className="flex justify-between items-center">
-        <div className="flex items-center space-x-4">
-          <Link href="/" className="max-w-[90px]">
+        <div className="flex items-center space-x-8">
+          <Link href="/" className="max-w-[80px]">
             <img src="/assets/logo_gallery_dream.png" alt="" />
           </Link>
           <nav className="hidden md:block">
-            <ul className="flex space-x-4">
-              <li>
-                {status === 'authenticated' && (
-                  <>
-                    <Link href="/imagine">
-                      <button type="button" className="btn btn-ghost">
-                        Créer
-                      </button>
-                    </Link>
-                    <Link href="/profile">
-                      <button type="button" className="btn btn-ghost">
-                        Mes créations
-                      </button>
-                    </Link>
-                  </>
-                )}
-                <Link href="/explore">
-                  <button type="button" className="btn btn-ghost">
-                    Explorer
-                  </button>
-                </Link>
-                {/* <Link href="/deco-maison">
+            <div className="flex space-x-2">
+              {status === 'authenticated' && (
+                <>
+                  <Link href="/imagine">
+                    <button
+                      type="button"
+                      className={`btn ${
+                        router.pathname === '/imagine'
+                          ? 'btn-primary btn-active drop-shadow-active-button hover:drop-shadow-none'
+                          : 'btn-ghost'
+                      }`}
+                    >
+                      Créer
+                    </button>
+                  </Link>
+                  <Link href="/creations">
+                    <button
+                      type="button"
+                      className={`btn ${
+                        router.pathname.startsWith('/creations')
+                          ? 'btn-primary btn-active drop-shadow-active-button hover:drop-shadow-none'
+                          : 'btn-ghost'
+                      }`}
+                    >
+                      Mes créations
+                    </button>
+                  </Link>
+                </>
+              )}
+              <Link href="/explore">
+                <button
+                  type="button"
+                  className={`btn ${
+                    router.pathname === '/explore'
+                      ? 'btn-primary btn-active drop-shadow-active-button hover:drop-shadow-none'
+                      : 'btn-ghost'
+                  }`}
+                >
+                  Explorer
+                </button>
+              </Link>
+              {/* <Link href="/deco-maison">
                   <button type="button" className="btn btn-ghost">
                     Déco / maison
                   </button>
                 </Link> */}
-              </li>
-            </ul>
+            </div>
           </nav>
         </div>
         {status === 'unauthenticated' && (
@@ -97,11 +117,10 @@ const Navbar = ({ user, status }: any) => {
           }}
           className=" flex space-x-4 items-center"
         >
-          {status === 'authenticated' && (
+          {status === 'authenticated' && user?.credits && (
             <Link href="/credits">
               <div className="flex items-center space-x-2">
-                <FaCoins />{' '}
-                <p className="font-bold">{user?.credits ? user?.credits : 0}</p>
+                <FaCoins /> <p className="font-bold">{user?.credits}</p>
               </div>
             </Link>
           )}
@@ -122,8 +141,13 @@ const Navbar = ({ user, status }: any) => {
                 onClick={() => setIsOpenMenu(!isOpenMenu)}
                 className="avatar"
               >
-                <div className="w-12 mask mask-squircle">
-                  <img alt="profile" src="https://placeimg.com/80/80/people" />
+                <div className="border border-black rounded-full p-1">
+                  <div className="w-12 mask mask-circle">
+                    <img
+                      alt="profile"
+                      src="https://placeimg.com/80/80/people"
+                    />
+                  </div>
                 </div>
               </button>
             )}
@@ -151,7 +175,7 @@ const Navbar = ({ user, status }: any) => {
                       </Link>
                     </li>
                     <li>
-                      <Link href="/profile">
+                      <Link href="/creations">
                         <FaImages className="w-4 h-4" /> Mes créations
                       </Link>
                     </li>

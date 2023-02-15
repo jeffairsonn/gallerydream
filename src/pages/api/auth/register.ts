@@ -5,12 +5,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { email, password } = req.body;
+  const { email, password, username } = req.body;
   axios
     .post(
       `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/auth/local/register`,
       {
-        username: 'lololo',
+        username,
         email,
         password,
         role: 'Authenticated',
@@ -26,6 +26,8 @@ export default async function handler(
       res.status(200).json(response.data);
     })
     .catch((error) => {
+      console.log(error.response.data);
+
       if (error?.response?.data?.error?.message) {
         const errorMessage = error?.response?.data?.error?.message;
         if (errorMessage === 'password must be at least 6 characters') {
@@ -36,7 +38,9 @@ export default async function handler(
         if (errorMessage === 'Email or Username are already taken') {
           return res
             .status(400)
-            .send('Cet email est déjà utilisé par un autre utilisateur');
+            .send(
+              "Cet email ou nom d'utilisaeur est déjà utilisé par un autre utilisateur"
+            );
         }
       }
       return res.status(400).send('Une erreur est survenue');

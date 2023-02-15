@@ -69,6 +69,7 @@ export default async function handler(
           'data',
           JSON.stringify({
             prompt,
+            style: styles,
           })
         );
         const artworkResponse = await fetch(
@@ -100,7 +101,7 @@ export default async function handler(
       {
         data: {
           prompt,
-          styles,
+          style: styles,
           count: numberOfImages,
           users: user.id,
           artworks: {

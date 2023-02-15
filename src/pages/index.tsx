@@ -12,7 +12,7 @@ export default function index() {
       window.matchMedia('(prefers-color-scheme: dark)').matches
     ) {
       // dark mode
-      setTheme('corporate');
+      setTheme('lightGallery');
     }
   }, []);
   return (

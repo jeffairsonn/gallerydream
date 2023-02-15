@@ -44,13 +44,14 @@ const Form = ({ type }: { type: 'login' | 'register' }) => {
             body: JSON.stringify({
               email: e.currentTarget.email.value,
               password: e.currentTarget.password.value,
+              username: e.currentTarget.username.value,
             }),
           }).then(async (res) => {
             setLoading(false);
             if (res.status === 200) {
               toast.success('Account created! Redirecting to login...');
               setTimeout(() => {
-                router.push('/');
+                router.push('/login');
               }, 2000);
             } else {
               setErrorMessage(await res.text());
@@ -63,6 +64,22 @@ const Form = ({ type }: { type: 'login' | 'register' }) => {
       }}
       className="flex flex-col space-y-4 py-8 sm:px-4"
     >
+      {type === 'register' && (
+        <div className="form-control w-full">
+          <label htmlFor="username" className="label font-bold">
+            Nom d&apos;utilisateur
+          </label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            placeholder="jeanmarc/d"
+            autoComplete="username"
+            required
+            className="input lg:input-lg input-bordered w-full"
+          />
+        </div>
+      )}
       <div className="form-control w-full">
         <label htmlFor="email" className="label font-bold">
           Email Address
@@ -74,7 +91,7 @@ const Form = ({ type }: { type: 'login' | 'register' }) => {
           placeholder="panic@thedis.co"
           autoComplete="email"
           required
-          className="input input-lg input-bordered w-full"
+          className="input lg:input-lg input-bordered w-full"
         />
       </div>
       <div className="form-control w-full">
@@ -86,7 +103,7 @@ const Form = ({ type }: { type: 'login' | 'register' }) => {
           name="password"
           type="password"
           required
-          className="input input-lg input-bordered w-full"
+          className="input lg:input-lg input-bordered w-full"
         />
       </div>
       {errorMessage !== '' && (
@@ -114,7 +131,7 @@ const Form = ({ type }: { type: 'login' | 'register' }) => {
         disabled={loading}
         className={`${
           loading ? 'cursor-not-allowed border-gray-200 bg-gray-100' : ''
-        } btn btn-lg btn-primary`}
+        } btn lg:btn-lg btn-primary`}
       >
         {loading ? (
           <LoadingDots color="#808080" />

@@ -1,7 +1,9 @@
+import { Transition } from '@headlessui/react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaSearch } from 'react-icons/fa';
+import useWindowSize from '../hooks/useWindowSize';
 import Artwork from '../components/Artwork';
 import Container from '../components/Container';
 import Navbar from '../components/Navbar';
@@ -11,6 +13,7 @@ const explore = () => {
   const [user, setUser] = useState<{ credits: number }>();
   const [artworks, setArtworks] = useState([]);
   const [reload] = useState(0);
+  const { width } = useWindowSize();
 
   const [pagination, setPagination] = useState(1);
   const [paginationMeta, setPaginationMeta] = useState<any>();
@@ -58,16 +61,26 @@ const explore = () => {
     <div>
       <Navbar user={user} status={status} />
       <div
-        className="flex justify-center items-center mb-8 p-4 py-16"
-        style={{
-          background: `linear-gradient(
-            rgba(0, 0, 0, 0.7), 
-            rgba(0, 0, 0, 0.7)
-          ), url("http://localhost:1337/uploads/blob_70e27d1153.jpeg?updated_at=2023-02-06T16:03:27.773Z")`,
-        }}
+        className="flex justify-center items-center py-20 px-4"
+        // style={{
+        //   background: `linear-gradient(
+        //     rgba(0, 0, 0, 0.7),
+        //     rgba(0, 0, 0, 0.7)
+        //   ), url("http://localhost:1337/uploads/blob_70e27d1153.jpeg?updated_at=2023-02-06T16:03:27.773Z")`,
+        // }}
+        style={
+          width > 768
+            ? {
+                backgroundImage: 'url(/assets/patternTop.svg)',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+              }
+            : { backgroundImage: 'none' }
+        }
       >
         <div className="max-w-xl">
-          <h1 className="text-2xl font-bold mb-4 text-white">
+          <h1 className="text-3xl md:text-4xl md:text-center font-bold font-title mb-8 text-black">
             Trouver de l&apos;inspiration ou immprimez les oeuvres créé par la
             communauté
           </h1>
@@ -82,7 +95,7 @@ const explore = () => {
               />
               <button
                 type="button"
-                className="btn btn-square"
+                className="btn btn-square btn-primary"
                 onClick={() => handleSearch()}
               >
                 <FaSearch />
@@ -90,11 +103,11 @@ const explore = () => {
             </div>
           </div>
           <div className="mt-2 flex flex-wrap">
-            <p className="mr-2 font-medium text-white">Tendance :</p>
+            <p className="mr-2 font-medium text-black">Tendance :</p>
             <div className="flex space-x-2 flex-wrap">
               <button
                 type="button"
-                className="btn btn-xs btn-outline text-white"
+                className="btn btn-xs btn-outline btn-primary"
                 onClick={() => {
                   setSearch('homme');
                   setSearchActive('homme');
@@ -104,7 +117,7 @@ const explore = () => {
               </button>
               <button
                 type="button"
-                className="btn btn-xs btn-outline text-white"
+                className="btn btn-xs btn-outline btn-primary"
                 onClick={() => {
                   setSearch('Lapin');
                   setSearchActive('Lapin');
@@ -114,7 +127,7 @@ const explore = () => {
               </button>
               <button
                 type="button"
-                className="btn btn-xs btn-outline text-white"
+                className="btn btn-xs btn-outline btn-primary"
                 onClick={() => {
                   setSearch('love');
                   setSearchActive('love');
@@ -124,7 +137,7 @@ const explore = () => {
               </button>
               <button
                 type="button"
-                className="btn btn-xs btn-outline text-white"
+                className="btn btn-xs btn-outline btn-primary"
                 onClick={() => {
                   setSearch('panda');
                   setSearchActive('panda');
@@ -136,7 +149,7 @@ const explore = () => {
           </div>
         </div>
       </div>
-      <Container className="mt-4">
+      <Container className=" bg-white">
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-xl md:text-2xl font-bold">
@@ -162,12 +175,23 @@ const explore = () => {
                   },
                 },
               }: any) => (
-                <Artwork
-                  key={id}
-                  url={`${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`}
-                  prompt={prompt}
-                  id={id}
-                />
+                <Transition
+                  show
+                  appear
+                  enter="delay-150 transition-opacity duration-150"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition-opacity duration-150"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Artwork
+                    key={id}
+                    url={`${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`}
+                    prompt={prompt}
+                    id={id}
+                  />
+                </Transition>
               )
             )}
         </div>
@@ -204,7 +228,13 @@ const explore = () => {
               className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <button onClick={() => setPageSize(20)} type="button">
+                <button
+                  onClick={() => {
+                    setPageSize(20);
+                    setPagination(1);
+                  }}
+                  type="button"
+                >
                   20
                 </button>
               </li>
@@ -213,6 +243,7 @@ const explore = () => {
                   <button
                     onClick={() => {
                       setPageSize(50);
+                      setPagination(1);
                     }}
                     type="button"
                   >

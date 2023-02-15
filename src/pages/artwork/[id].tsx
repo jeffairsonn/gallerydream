@@ -183,9 +183,14 @@ const Artwork = () => {
               <h1 className="font-bold text-xl md:text-2xl">
                 {artwork?.attributes?.prompt}
               </h1>
+              {artwork?.attributes?.style && (
+                <button type="button" className="btn btn-xs">
+                  {artwork?.attributes?.style}
+                </button>
+              )}
               {status === 'authenticated' && (
                 <Link
-                  href={`/imagine/${artwork?.attributes?.generation?.data?.id}`}
+                  href={` /creations/${artwork?.attributes?.generation?.data?.id}`}
                   className=""
                 >
                   <p className="underline mt-2">

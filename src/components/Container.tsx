@@ -7,7 +7,7 @@ const Container = ({
   children: any;
   className?: string;
 }) => (
-  <div className={`px-4 md:px-8 lg:px-60 gap-4 py-8 md:py-16 ${className}`}>
+  <div className={`px-4 md:px-8 gap-4 py-8 md:py-16 ${className}`}>
     {children}
   </div>
 );

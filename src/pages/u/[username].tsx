@@ -23,14 +23,12 @@ const Creations = () => {
   useEffect(() => {
     if (data) {
       axios
-        .get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me`, {
+        .get(`/api/user/verify`, {
           headers: {
             Authorization: `Bearer ${data.jwt}`,
           },
         })
         .then((res) => {
-          console.log(res.data);
-
           setUser(res.data);
         })
         .catch((err) => {
@@ -74,18 +72,18 @@ const Creations = () => {
       <Navbar user={user} status={status} />
       <Container>
         <div className="w-full flex flex-col justify-center items-center">
-          <div className="w-full flex flex-col md:flex-row items-center">
+          <div className="w-full flex flex-col items-center">
             <div className="avatar">
-              <div className="w-32 mask mask-squircle">
+              <div className="w-32 mask mask-circle">
                 <img src="https://picsum.photos/200/300" alt="profile" />
               </div>
             </div>
-            <div className="mt-2 md:mt-0 md:ml-4 flex-col md:flex-row items-center justify-center">
-              <h1 className="text-xl md:text-2xl font-black text-center md:text-left">
-                {user?.username}
+            <div className="mt-2 flex-col items-center justify-center">
+              <h1 className="text-xl font-black text-center">
+                @{user?.username}
               </h1>
               <p className="text-sm md:text-base break-all">{user?.email}</p>
-              <div className="w-full md:w-fit justify-center flex">
+              <div className="w-full justify-center flex">
                 <button
                   type="button"
                   onClick={() => {
@@ -98,9 +96,16 @@ const Creations = () => {
               </div>
             </div>
           </div>
-          <hr className="border my-8 w-full" />
-          <div className="w-full flex flex-start mb-8">
-            <p>({paginationMeta?.total} résultats )</p>
+          <div className="tabs my-12">
+            <button type="button" className="tab tab-bordered">
+              ({paginationMeta?.total}) Mes créations
+            </button>
+            <button
+              type="button"
+              className="tab tab-bordered border-black tab-active"
+            >
+              Œuvres Publiées
+            </button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 w-full gap-4 max-w-7xl">
             {!creationLoading &&
@@ -162,7 +167,7 @@ const Creations = () => {
                     )}
                     <div className="mt-8">
                       <h3 className="font-bold text line-clamp-2 ">{prompt}</h3>
-                      <Link href={`/imagine/${creation_id}`}>
+                      <Link href={` /creations/${creation_id}`}>
                         <button type="button" className="btn btn-primary mt-8">
                           Parcourir
                         </button>

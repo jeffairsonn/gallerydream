@@ -24,8 +24,8 @@ const Step3 = ({
 
   return (
     <div>
-      <h2 className="text-6xl font-black max-w-4xl text-center mb-12 w-full">
-        Combien d&apos;images souhaitez vous créer ?
+      <h2 className="text-6xl font-black font-title max-w-4xl text-center mb-12 w-full">
+        Combien de design souhaitez vous créer ?
       </h2>
       <div className="w-full ">
         <input
