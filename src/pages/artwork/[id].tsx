@@ -2,8 +2,8 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { FaChevronLeft } from 'react-icons/fa';
-import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import Container from '../../components/Container';
 import posters from '../../lib/poster_price';
@@ -21,11 +21,19 @@ const Artwork = () => {
   );
   const [quantity, setQuantity] = useState<number>(1);
   const [displayImage, setDisplayImage] = useState<number>(1);
+  const [reload, setReload] = useState<number>(0);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    // formState: { errors },
+  } = useForm();
 
   useEffect(() => {
     if (data) {
       axios
-        .get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me`, {
+        .get(`/api/user/verify`, {
           headers: {
             Authorization: `Bearer ${data.jwt}`,
           },
@@ -45,12 +53,15 @@ const Artwork = () => {
         .get(`/api/artworks/${router.query.id}`, {})
         .then((res) => {
           setArtwork(res.data);
+          setValue('title', res.data.attributes.title);
+          setValue('mask_prompt', res.data.attributes.mask_prompt);
+          setValue('is_published', res.data.attributes.is_published);
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  }, [router]);
+  }, [router, reload]);
 
   const BuyArtwork = () => {
     axios
@@ -76,6 +87,33 @@ const Artwork = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const EditArtworkProperties = (artworkData: any) => {
+    if (
+      artworkData.is_published !== artwork.attributes.is_published ||
+      artworkData.title !== artwork.attributes.title ||
+      artworkData.mask_prompt !== artwork.attributes.mask_prompt
+    ) {
+      axios
+        .put(
+          `/api/artworks/${router.query.id}`,
+          {
+            ...artworkData,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${data.jwt}`,
+            },
+          }
+        )
+        .then(() => {
+          setReload((prev) => prev + 1);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
@@ -180,23 +218,23 @@ const Artwork = () => {
           </div>
           <div className="">
             <div className="mb-4">
-              <h1 className="font-bold text-xl md:text-2xl">
-                {artwork?.attributes?.prompt}
-              </h1>
+              <div className="mb-4">
+                <h1 className="font-bold text-xl md:text-2xl font-title">
+                  {artwork?.attributes?.title || artwork?.attributes?.prompt}
+                </h1>
+                {!artwork?.attributes?.mask_prompt && (
+                  <p>
+                    &rdquo;
+                    {artwork?.attributes?.prompt}
+                    &rdquo;
+                  </p>
+                )}
+              </div>
+
               {artwork?.attributes?.style && (
                 <button type="button" className="btn btn-xs">
                   {artwork?.attributes?.style}
                 </button>
-              )}
-              {status === 'authenticated' && (
-                <Link
-                  href={` /creations/${artwork?.attributes?.generation?.data?.id}`}
-                  className=""
-                >
-                  <p className="underline mt-2">
-                    Découvrir la collection complète
-                  </p>
-                </Link>
               )}
             </div>
             <div className="mb-4">
@@ -207,10 +245,9 @@ const Artwork = () => {
                 <select
                   onChange={(e) => setSelectedProduct(e.target.value)}
                   className="select select-bordered w-full md:max-w-xs"
+                  defaultValue={selectedProduct}
                 >
-                  <option disabled selected>
-                    Choisir une taille
-                  </option>
+                  <option disabled>Choisir une taille</option>
                   {posters.map(({ name, price_id, live_price_id }) => (
                     <option
                       key={
@@ -236,8 +273,8 @@ const Artwork = () => {
                 <input
                   id="quantity"
                   type="number"
-                  value={quantity}
-                  onChange={(e) =>
+                  defaultValue={quantity}
+                  onChange={(e: any) =>
                     parseInt(e.target.value, 10) > 0 &&
                     setQuantity(parseInt(e.target.value, 10))
                   }
@@ -252,7 +289,7 @@ const Artwork = () => {
                 <button
                   onClick={() => BuyArtwork()}
                   type="button"
-                  className="btn w-full btn-accent"
+                  className="btn w-full btn-primary"
                 >
                   {(
                     posters.filter(({ price_id, live_price_id }) =>
@@ -282,6 +319,70 @@ const Artwork = () => {
             </div>
           </div>
         </div>
+        {status === 'authenticated' &&
+          artwork &&
+          user &&
+          artwork?.attributes?.user === user?.id && (
+            <>
+              <hr className="my-16 border-1 border-black" />
+              <div className="rounded-md border border-black p-4 grid grid-cols-1 md:grid-cols-2 gap-2">
+                <div>
+                  <h3 className="font-bold text-xl font-title">Paramètres</h3>
+                  <p>
+                    Changer le titre, la disponibilité et le statut de votre
+                    oeuvre
+                  </p>
+                </div>
+                <form
+                  onSubmit={handleSubmit(EditArtworkProperties)}
+                  className="space-y-4"
+                >
+                  <div className="form-control w-full">
+                    <label htmlFor="title" className="label">
+                      <span className="label-text">Titre de votre œuvre</span>
+                    </label>
+                    <input
+                      type="text"
+                      // defaultValue={artwork?.attributes?.title}
+                      {...register('title', { required: true })}
+                      placeholder="Choisissez un titre..."
+                      className="input input-bordered w-full"
+                    />
+                  </div>
+                  <div className="form-control">
+                    <span className="label-text">Masquer le prompt</span>
+                    <label className="label cursor-pointer">
+                      <input
+                        // defaultValue={artwork?.attributes?.mask_prompt}
+                        {...register('mask_prompt', {})}
+                        type="checkbox"
+                        className="toggle"
+                      />
+                    </label>
+                  </div>
+                  <div className="form-control">
+                    <span className="label-text">
+                      Publier (Votre oeuvre sera visible par tous)
+                    </span>
+                    <label
+                      // defaultValue={artwork?.attributes?.is_publish}
+
+                      className="label cursor-pointer"
+                    >
+                      <input
+                        {...register('is_published', {})}
+                        type="checkbox"
+                        className="toggle"
+                      />
+                    </label>
+                  </div>
+                  <button type="submit" className="btn btn-primary ">
+                    Modifier
+                  </button>
+                </form>
+              </div>
+            </>
+          )}
       </Container>
     </div>
   );

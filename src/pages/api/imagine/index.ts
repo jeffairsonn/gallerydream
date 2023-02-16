@@ -141,7 +141,7 @@ export default async function handler(
       },
       {
         headers: {
-          Authorization: authorization,
+          Authorization: `Bearer${process.env.STRAPI_API_TOKEN}`,
         },
       }
     )

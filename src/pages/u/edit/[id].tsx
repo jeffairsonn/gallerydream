@@ -19,7 +19,7 @@ const edit = () => {
   useEffect(() => {
     if (data) {
       axios
-        .get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me`, {
+        .get(`/api/user/verify`, {
           headers: {
             Authorization: `Bearer ${data.jwt}`,
           },

@@ -18,7 +18,7 @@ const create = () => {
   useEffect(() => {
     if (data) {
       axios
-        .get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me`, {
+        .get(`/api/user/verify`, {
           headers: {
             Authorization: `Bearer ${data.jwt}`,
           },
@@ -68,14 +68,14 @@ const create = () => {
               ? 'Aucun style'
               : 'Inconnu'}
           </button>
-          <h1 className="text-3xl font-title font-extrabold">
+          <h1 className="text-3xl font-title font-extrabold text-center">
             &rdquo; {generation?.attributes?.prompt} &rdquo;
           </h1>
           <p className="">
             <span className="font-bold">{generation?.attributes?.count}</span>{' '}
             images générée(s).
           </p>
-          <div className="flex items-center space-x-2 mt-8">
+          <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row items-center space-x-2 mt-8">
             <button
               type="button"
               className="btn btn-primary btn-outline"

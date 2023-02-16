@@ -52,8 +52,10 @@ const Creations = () => {
         .then((res) => {
           setPaginationMeta(res.data.meta.pagination);
           setCreations(res.data.data);
-          window.scrollTo(0, 0);
           setCreationLoading(false);
+          document
+            .getElementById('top')
+            ?.scrollIntoView({ behavior: 'smooth' });
         })
         .catch((err) => {
           console.log(err);
@@ -69,6 +71,7 @@ const Creations = () => {
 
   return (
     <div>
+      <div id="top" />
       <Navbar user={user} status={status} />
       <Container>
         <div className="w-full flex flex-col justify-center items-center">
