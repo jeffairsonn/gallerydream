@@ -14,6 +14,7 @@ const explore = () => {
   const [artworks, setArtworks] = useState([]);
   const [reload] = useState(0);
   const { width } = useWindowSize();
+  const [artworkLoading, setArtworkLoading] = useState<boolean>(true);
 
   const [pagination, setPagination] = useState(1);
   const [paginationMeta, setPaginationMeta] = useState<any>();
@@ -24,7 +25,7 @@ const explore = () => {
   useEffect(() => {
     if (data) {
       axios
-        .get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me`, {
+        .get(`/api/user/verify`, {
           headers: {
             Authorization: `Bearer ${data.jwt}`,
           },
@@ -46,6 +47,7 @@ const explore = () => {
       .then((res) => {
         setPaginationMeta(res.data.meta.pagination);
         setArtworks(res.data.data);
+        setArtworkLoading(false);
         window.scrollTo(0, 0);
       })
       .catch((err) => {
@@ -149,20 +151,52 @@ const explore = () => {
           </div>
         </div>
       </div>
-      <Container className=" bg-white">
-        <div className="mb-8 flex items-center justify-between">
-          <div>
-            <h1 className="text-xl md:text-2xl font-bold">
-              Les dernières oeuvres
-            </h1>
-            <p>({paginationMeta?.total} résultats )</p>
+      <Container className="min-h-full">
+        {artworkLoading && (
+          <div className="w-full justify-center flex">
+            <div className="flex space-x-2 animate-pulse">
+              <div className="rounded-full p-4 bg-primary animate-bounce ease-out" />
+              <div className="rounded-full p-4 bg-primary animate-bounce" />
+              <div className="rounded-full p-4 bg-primary animate-bounce ease-out" />
+            </div>
           </div>
-          <button type="button" className="btn ">
-            Filtrer
-          </button>
-        </div>
-        <div className=" text-xl grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2">
-          {artworks &&
+        )}
+        {!artworkLoading && artworks && (
+          <Transition
+            show
+            appear
+            enter="delay-150 transition-opacity duration-150"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-150"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+            className="mb-8 flex items-center justify-between"
+          >
+            <div>
+              <h1 className="text-xl md:text-2xl font-bold">
+                Les dernières oeuvres
+              </h1>
+              <p>({paginationMeta?.total} résultats )</p>
+            </div>
+            <button type="button" className="btn ">
+              Filtrer
+            </button>
+          </Transition>
+        )}
+        <Transition
+          show
+          appear
+          enter="delay-150 transition-opacity duration-150"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity duration-150"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          className=" text-xl grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2"
+        >
+          {!artworkLoading &&
+            artworks &&
             artworks.map(
               ({
                 id,
@@ -185,75 +219,86 @@ const explore = () => {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Artwork
-                    key={id}
-                    url={`${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`}
-                    prompt={prompt}
-                    id={id}
-                  />
+                  <Artwork key={id} url={`${url}`} prompt={prompt} id={id} />
                 </Transition>
               )
             )}
-        </div>
-        <div className="mt-16 flex items-center justify-between">
-          <div className="btn-group">
-            <button
-              type="button"
-              className="btn btn-sm md:btn-md "
-              onClick={() => pagination > 1 && setPagination(pagination - 1)}
-            >
-              <FaChevronLeft />
-            </button>
-            <button type="button" className="btn btn-sm md:btn-md">
-              {pagination}
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm md:btn-md"
-              onClick={() =>
-                pagination < paginationMeta?.pageCount &&
-                setPagination(pagination + 1)
-              }
-            >
-              <FaChevronRight />
-            </button>
-          </div>
-          <div className="dropdown dropdown-top dropdown-end">
-            <button type="button" tabIndex={0} className="btn btn-sm md:btn-md">
-              {paginationMeta?.pageSize} par page
-            </button>
-            <ul
-              tabIndex={0}
-              role="menu"
-              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li>
-                <button
-                  onClick={() => {
-                    setPageSize(20);
-                    setPagination(1);
-                  }}
-                  type="button"
-                >
-                  20
-                </button>
-              </li>
-              {paginationMeta?.total > 50 && (
+        </Transition>
+        {!artworkLoading && artworks && (
+          <Transition
+            show
+            appear
+            enter="delay-150 transition-opacity duration-150"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-150"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+            className="mt-16 flex items-center justify-between"
+          >
+            <div className="btn-group">
+              <button
+                type="button"
+                className="btn btn-sm md:btn-md "
+                onClick={() => pagination > 1 && setPagination(pagination - 1)}
+              >
+                <FaChevronLeft />
+              </button>
+              <button type="button" className="btn btn-sm md:btn-md">
+                {pagination}
+              </button>
+              <button
+                type="button"
+                className="btn btn-sm md:btn-md"
+                onClick={() =>
+                  pagination < paginationMeta?.pageCount &&
+                  setPagination(pagination + 1)
+                }
+              >
+                <FaChevronRight />
+              </button>
+            </div>
+            <div className="dropdown dropdown-top dropdown-end">
+              <button
+                type="button"
+                tabIndex={0}
+                className="btn btn-sm md:btn-md"
+              >
+                {paginationMeta?.pageSize} par page
+              </button>
+              <ul
+                tabIndex={0}
+                role="menu"
+                className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+              >
                 <li>
                   <button
                     onClick={() => {
-                      setPageSize(50);
+                      setPageSize(20);
                       setPagination(1);
                     }}
                     type="button"
                   >
-                    50
+                    20
                   </button>
                 </li>
-              )}
-            </ul>
-          </div>
-        </div>
+                {paginationMeta?.total > 50 && (
+                  <li>
+                    <button
+                      onClick={() => {
+                        setPageSize(50);
+                        setPagination(1);
+                      }}
+                      type="button"
+                    >
+                      50
+                    </button>
+                  </li>
+                )}
+              </ul>
+            </div>
+          </Transition>
+        )}
       </Container>
     </div>
   );

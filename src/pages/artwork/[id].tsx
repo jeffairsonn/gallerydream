@@ -134,7 +134,7 @@ const Artwork = () => {
                 <img
                   draggable="false"
                   className="aspect-square absolute w-[35%] top-[15%] right-[20%] shadow-lg"
-                  src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${artwork?.attributes?.image?.data?.attributes?.url}`}
+                  src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
                   alt=""
                 />
                 <img
@@ -150,7 +150,7 @@ const Artwork = () => {
                 <img
                   draggable="false"
                   className="aspect-square absolute w-[35%] top-[18%] left-[16%] shadow-lg"
-                  src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${artwork?.attributes?.image?.data?.attributes?.url}`}
+                  src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
                   alt=""
                 />
                 <img
@@ -165,7 +165,7 @@ const Artwork = () => {
               <img
                 draggable="false"
                 className="w-full aspect-square"
-                src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${artwork?.attributes?.image?.data?.attributes?.url}`}
+                src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
                 alt=""
               />
             )}
@@ -178,7 +178,7 @@ const Artwork = () => {
                 <img
                   draggable="false"
                   className="aspect-square absolute w-[35%] top-[15%] right-[20%] shadow-lg"
-                  src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${artwork?.attributes?.image?.data?.attributes?.url}`}
+                  src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
                   alt=""
                 />
                 <img
@@ -196,7 +196,7 @@ const Artwork = () => {
                 <img
                   draggable="false"
                   className="aspect-square absolute w-[35%] top-[18%] left-[16%] shadow-lg"
-                  src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${artwork?.attributes?.image?.data?.attributes?.url}`}
+                  src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
                   alt=""
                 />
                 <img
@@ -210,7 +210,7 @@ const Artwork = () => {
                 <img
                   draggable="false"
                   className="w-full aspect-square"
-                  src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${artwork?.attributes?.image?.data?.attributes?.url}`}
+                  src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
                   alt=""
                 />
               </button>

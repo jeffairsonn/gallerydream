@@ -13,6 +13,7 @@ import {
   FaUser,
 } from 'react-icons/fa';
 import { useRouter } from 'next/router';
+import { Transition } from '@headlessui/react';
 import useWindowSize from '../hooks/useWindowSize';
 // import useCart from '../hooks/useCart';
 
@@ -45,7 +46,17 @@ const Navbar = ({ user, status }: any) => {
             <img src="/assets/logo_gallery_dream.png" alt="" />
           </Link>
           <nav className="hidden md:block">
-            <div className="flex space-x-2">
+            <Transition
+              show
+              appear
+              enter="delay-150 transition-opacity duration-150"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition-opacity duration-150"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+              className="flex space-x-2"
+            >
               {status === 'authenticated' && (
                 <>
                   <Link href="/imagine">
@@ -91,7 +102,7 @@ const Navbar = ({ user, status }: any) => {
                     Déco / maison
                   </button>
                 </Link> */}
-            </div>
+            </Transition>
           </nav>
         </div>
         {status === 'unauthenticated' && (
@@ -119,9 +130,20 @@ const Navbar = ({ user, status }: any) => {
         >
           {status === 'authenticated' && user?.credits && (
             <Link href="/credits">
-              <div className="flex items-center space-x-2">
-                <FaCoins /> <p className="font-bold">{user?.credits}</p>
-              </div>
+              <Transition
+                show
+                appear
+                enter="delay-150 transition-opacity duration-150"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="transition-opacity duration-150"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <div className="flex items-center space-x-2">
+                  <FaCoins /> <p className="font-bold">{user?.credits}</p>
+                </div>
+              </Transition>
             </Link>
           )}
           {/* {status === 'authenticated' && (

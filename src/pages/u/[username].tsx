@@ -134,7 +134,7 @@ const Creations = () => {
                             <div className="aspect-square w-full rounded-md">
                               <img
                                 className="w-full aspect-square  "
-                                src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`}
+                                src={`${url}`}
                                 alt=""
                               />
                             </div>
@@ -157,7 +157,7 @@ const Creations = () => {
                             <div className="aspect-square w-full rounded-md">
                               <img
                                 className="w-full aspect-square  "
-                                src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`}
+                                src={`${url}`}
                                 alt=""
                               />
                             </div>

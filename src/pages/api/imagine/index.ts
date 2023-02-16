@@ -91,6 +91,8 @@ export default async function handler(
     })
   );
 
+  console.log('idOfArtwork', idOfArtwork);
+
   if (idOfArtwork.length <= 0) {
     return res.status(400).json('Error generating images');
   }
@@ -141,7 +143,7 @@ export default async function handler(
       },
       {
         headers: {
-          Authorization: `Bearer${process.env.STRAPI_API_TOKEN}`,
+          Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
         },
       }
     )
@@ -149,7 +151,7 @@ export default async function handler(
       user_updated = true;
     })
     .catch((err) => {
-      console.log(err.response.data);
+      console.log('user', err.response.data);
     });
 
   if (!user_updated) {
