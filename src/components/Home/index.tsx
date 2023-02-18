@@ -11,6 +11,7 @@ import useWindowSize from '../../hooks/useWindowSize';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import Footer from './Footer';
 
 const Home = () => {
   const { status, data }: any = useSession();
@@ -186,6 +187,7 @@ const Home = () => {
           </button>
         </div>
       </div>
+      <Footer />
 
       {/* <Gallery /> */}
       {/* <Step /> */}

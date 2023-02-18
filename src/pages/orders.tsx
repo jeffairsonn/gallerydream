@@ -5,9 +5,10 @@ import axios from 'axios';
 import Link from 'next/link';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Transition } from '@headlessui/react';
+import { format } from 'date-fns';
 import Navbar from '../components/Navbar';
 import Container from '../components/Container';
-import posters from '@/lib/poster_price';
+import posters from '../lib/poster_price';
 
 const Orders = () => {
   const router = useRouter();
@@ -120,11 +121,13 @@ const Orders = () => {
                       artworks: { data: artwork },
                       amount_total,
                       metadata,
+                      createdAt,
+                      status: order_status,
                     },
                   }: any) => {
                     const parsemetadata = JSON.parse(metadata);
-                    console.log(parsemetadata);
                     const parseLineItems = JSON.parse(parsemetadata.line_items);
+                    const numberOfItems = parseLineItems.length;
                     const { price_id } = parseLineItems[0];
                     const size = posters.filter((poster) =>
                       process.env.NEXT_PUBLIC_MODE === 'dev'
@@ -173,19 +176,19 @@ const Orders = () => {
                             <span className="md:hidden mr-1 font-bold">
                               Passé le :
                             </span>
-                            23/06/2022
+                            {format(new Date(createdAt), 'dd/MM/yyy')}
                           </div>
                           <div className="md:flex justify-center items-center md:border border-black p-2">
                             <span className="md:hidden mr-1 font-bold">
                               Statut :{' '}
                             </span>
-                            En cours
+                            {order_status || 'Status inconnu'}
                           </div>
                           <div className="md:flex justify-center items-center md:border border-black p-2">
                             <span className="md:hidden mr-1 font-bold">
-                              Nombre d'article :{' '}
+                              Nombre d&apos;article :{' '}
                             </span>
-                            2
+                            {numberOfItems}
                           </div>
                           <div className="md:flex justify-center items-center md:border border-black p-2">
                             <span className="md:hidden mr-1 font-bold">
