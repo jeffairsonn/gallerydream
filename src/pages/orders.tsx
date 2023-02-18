@@ -7,8 +7,9 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Transition } from '@headlessui/react';
 import Navbar from '../components/Navbar';
 import Container from '../components/Container';
+import posters from '@/lib/poster_price';
 
-const Creations = () => {
+const Orders = () => {
   const router = useRouter();
   const { status, data }: any = useSession();
   const [user, setUser] = useState<{
@@ -18,7 +19,7 @@ const Creations = () => {
     email: string;
     id: number;
   }>();
-  const [creations, setCreations] = useState<any>([]);
+  const [orders, setOrders] = useState<any>([]);
   const [creationLoading, setCreationLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -45,14 +46,15 @@ const Creations = () => {
   useEffect(() => {
     if (user) {
       axios
-        .get(`/api/artwork_group?page=${pagination}&pageSize=${pageSize}`, {
+        .get(`/api/orders?page=${pagination}&pageSize=${pageSize}`, {
           headers: {
             Authorization: `Bearer ${data.jwt}`,
           },
         })
         .then((res) => {
+          console.log(res.data);
           setPaginationMeta(res.data.meta.pagination);
-          setCreations(res.data.data);
+          setOrders(res.data.data);
           setCreationLoading(false);
           document
             .getElementById('top')
@@ -97,99 +99,112 @@ const Creations = () => {
             leave="transition-opacity duration-150"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
+            className="w-full flex justify-center flex-col items-center"
           >
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 w-full gap-4 max-w-7xl">
+            <div className="hidden md:grid grid-cols-1 md:grid-cols-7 w-full max-w-7xl mb-4 rounded-md">
+              <div className="p-2 rounded-l-md">Ouevre</div>
+              <div className="p-2">N° de commande</div>
+              <div className="p-2">Date</div>
+              <div className="p-2">Status</div>
+              <div className="p-2">Nbr.</div>
+              <div className="p-2">Taille</div>
+              <div className="p-2 rounded-r-md">Prix total</div>
+            </div>
+            <div className="grid grid-cols-1 w-full gap-4 max-w-7xl">
               {!creationLoading &&
-                creations &&
-                creations?.map(
+                orders &&
+                orders?.map(
                   ({
-                    id: creation_id,
+                    id: order_id,
                     attributes: {
-                      prompt,
                       artworks: { data: artwork },
+                      amount_total,
+                      metadata,
                     },
-                  }: any) => (
-                    <Transition
-                      show
-                      appear
-                      enter="delay-150 transition-opacity duration-150"
-                      enterFrom="opacity-0"
-                      enterTo="opacity-100"
-                      leave="transition-opacity duration-150"
-                      leaveFrom="opacity-100"
-                      leaveTo="opacity-0"
-                      className=" border border-black bg-white rounded-lg flex flex-col justify-between"
-                    >
-                      {artwork.length > 1 && (
-                        <div className="grid grid-cols-2">
+                  }: any) => {
+                    const parsemetadata = JSON.parse(metadata);
+                    console.log(parsemetadata);
+                    const parseLineItems = JSON.parse(parsemetadata.line_items);
+                    const { price_id } = parseLineItems[0];
+                    const size = posters.filter((poster) =>
+                      process.env.NEXT_PUBLIC_MODE === 'dev'
+                        ? poster.price_id === price_id
+                        : poster.live_price_id === price_id
+                    )[0].name;
+                    return (
+                      <Transition
+                        show
+                        appear
+                        enter="delay-150 transition-opacity duration-150"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="transition-opacity duration-150"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                        className="w-full border border-black bg-white rounded-md flex"
+                      >
+                        <div className="grid md:grid-cols-7 space-x-scroll">
                           {artwork.map(
-                            (
-                              {
-                                attributes: {
-                                  image: {
-                                    data: {
-                                      attributes: { url },
-                                    },
+                            ({
+                              attributes: {
+                                image: {
+                                  data: {
+                                    attributes: { url },
                                   },
                                 },
-                              }: any,
-                              index: number
-                            ) => (
-                              <div className="aspect-square w-full rounded-md first:rounded-md">
+                              },
+                            }: any) => (
+                              <div className="rounded-t-md md:rounded-l-md md:rounded-tl-none">
                                 <img
-                                  className={`w-full aspect-square ${
-                                    index === 0 && `rounded-tl-md`
-                                  } ${index === 1 && `rounded-tr-md`}`}
+                                  className="w-full aspect-square rounded-t-md md:rounded-l-md md:rounded-tr-none"
                                   src={`${url}`}
                                   alt=""
                                 />
                               </div>
                             )
                           )}
+                          <div className="md:flex justify-center items-center md:border border-black p-2">
+                            <span className="md:hidden mr-1 font-bold">
+                              Commande n° :{' '}
+                            </span>{' '}
+                            {order_id}
+                          </div>
+                          <div className="md:flex justify-center items-center md:border border-black p-2">
+                            <span className="md:hidden mr-1 font-bold">
+                              Passé le :
+                            </span>
+                            23/06/2022
+                          </div>
+                          <div className="md:flex justify-center items-center md:border border-black p-2">
+                            <span className="md:hidden mr-1 font-bold">
+                              Statut :{' '}
+                            </span>
+                            En cours
+                          </div>
+                          <div className="md:flex justify-center items-center md:border border-black p-2">
+                            <span className="md:hidden mr-1 font-bold">
+                              Nombre d'article :{' '}
+                            </span>
+                            2
+                          </div>
+                          <div className="md:flex justify-center items-center md:border border-black p-2">
+                            <span className="md:hidden mr-1 font-bold">
+                              Taille :{' '}
+                            </span>
+                            {size}
+                          </div>
+                          <div className="md:flex justify-center items-center md:border border-black p-2 md:rounded-r-md">
+                            <span className="md:hidden mr-1 font-bold">
+                              Total :{' '}
+                            </span>
+                            {amount_total} €
+                          </div>
                         </div>
-                      )}
-                      {artwork.length === 1 && (
-                        <div className="grid grid-cols-1 gap-2">
-                          {artwork.map(
-                            ({
-                              id,
-                              attributes: { image, stand_by_url },
-                            }: any) => (
-                              <div
-                                className="aspect-square w-full rounded-md"
-                                key={id}
-                              >
-                                <img
-                                  className="w-full aspect-square rounded-t-md"
-                                  src={`${
-                                    image.data
-                                      ? image?.data?.attributes?.url
-                                      : stand_by_url
-                                  }`}
-                                  alt=""
-                                />
-                              </div>
-                            )
-                          )}
-                        </div>
-                      )}
-                      <div className=" p-4">
-                        <h3 className="font-bold text line-clamp-2">
-                          {prompt}
-                        </h3>
-                        <Link href={`/creations/${creation_id}`}>
-                          <button
-                            type="button"
-                            className="btn btn-primary mt-8"
-                          >
-                            Parcourir
-                          </button>
-                        </Link>
-                      </div>
-                    </Transition>
-                  )
+                      </Transition>
+                    );
+                  }
                 )}
-              {!creationLoading && (!creations || creations.length === 0) && (
+              {!creationLoading && (!orders || orders.length === 0) && (
                 <div className="p-8 border border-black rounded-md">
                   <h3 className="font-bold text-xl">Aucune création</h3>
                   <p className="mt-4">
@@ -204,7 +219,7 @@ const Creations = () => {
                 </div>
               )}
             </div>
-            {!creationLoading && !(!creations || creations.length === 0) && (
+            {!creationLoading && !(!orders || orders.length === 0) && (
               <Transition
                 show
                 appear
@@ -277,4 +292,4 @@ const Creations = () => {
   );
 };
 
-export default Creations;
+export default Orders;
