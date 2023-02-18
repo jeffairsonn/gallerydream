@@ -20,11 +20,6 @@ const Footer = () => (
               </Link>
             </li>
             <li>
-              <Link href="/about" className="hover:font-bold">
-                À propos
-              </Link>
-            </li>
-            <li>
               <Link href="/contact" className="hover:font-bold">
                 Contact
               </Link>
