@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaChevronLeft } from 'react-icons/fa';
+import { Transition } from '@headlessui/react';
 import Navbar from '../../components/Navbar';
 import Container from '../../components/Container';
 import posters from '../../lib/poster_price';
@@ -131,12 +132,27 @@ const Artwork = () => {
           <div>
             {displayImage === 1 && (
               <div className="relative">
-                <img
-                  draggable="false"
-                  className="aspect-square absolute w-[35%] top-[15%] right-[20%] shadow-lg"
-                  src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
-                  alt=""
-                />
+                <Transition
+                  show={
+                    artwork?.attributes?.image?.data?.attributes?.url !==
+                    undefined
+                  }
+                  appear
+                  enter="delay-150 transition-opacity duration-150"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition-opacity duration-150"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                  className="aspect-square absolute w-[35%] top-[15%] right-[20%] shadow-xs"
+                >
+                  <img
+                    draggable="false"
+                    className="aspect-square w-full shadow-xs"
+                    src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
+                    alt=""
+                  />
+                </Transition>
                 <img
                   draggable="false"
                   className="w-full aspect-square"
@@ -147,12 +163,27 @@ const Artwork = () => {
             )}
             {displayImage === 2 && (
               <div className="relative">
-                <img
-                  draggable="false"
-                  className="aspect-square absolute w-[35%] top-[18%] left-[16%] shadow-lg"
-                  src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
-                  alt=""
-                />
+                <Transition
+                  show={
+                    artwork?.attributes?.image?.data?.attributes?.url !==
+                    undefined
+                  }
+                  appear
+                  enter="delay-150 transition-opacity duration-150"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition-opacity duration-150"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                  className="aspect-square absolute w-[35%] top-[15%] right-[45%] shadow-xs"
+                >
+                  <img
+                    draggable="false"
+                    className="aspect-square w-full shadow-xs"
+                    src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
+                    alt=""
+                  />
+                </Transition>
                 <img
                   draggable="false"
                   className="w-full aspect-square"
@@ -175,12 +206,27 @@ const Artwork = () => {
                 onClick={() => setDisplayImage(1)}
                 className="relative"
               >
-                <img
-                  draggable="false"
-                  className="aspect-square absolute w-[35%] top-[15%] right-[20%] shadow-lg"
-                  src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
-                  alt=""
-                />
+                <Transition
+                  show={
+                    artwork?.attributes?.image?.data?.attributes?.url !==
+                    undefined
+                  }
+                  appear
+                  enter="delay-150 transition-opacity duration-150"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition-opacity duration-150"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                  className="aspect-square absolute w-[35%] top-[15%] right-[20%] shadow-xs"
+                >
+                  <img
+                    draggable="false"
+                    className="aspect-square w-full shadow-xs"
+                    src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
+                    alt=""
+                  />
+                </Transition>
                 <img
                   draggable="false"
                   className="w-full aspect-square"
@@ -193,12 +239,27 @@ const Artwork = () => {
                 onClick={() => setDisplayImage(2)}
                 className="relative"
               >
-                <img
-                  draggable="false"
-                  className="aspect-square absolute w-[35%] top-[18%] left-[16%] shadow-lg"
-                  src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
-                  alt=""
-                />
+                <Transition
+                  show={
+                    artwork?.attributes?.image?.data?.attributes?.url !==
+                    undefined
+                  }
+                  appear
+                  enter="delay-150 transition-opacity duration-150"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition-opacity duration-150"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                  className="aspect-square absolute w-[35%] top-[15%] right-[45%] shadow-xs"
+                >
+                  <img
+                    draggable="false"
+                    className="aspect-square w-full shadow-xs"
+                    src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
+                    alt=""
+                  />
+                </Transition>
                 <img
                   draggable="false"
                   className="w-full aspect-square"
@@ -207,12 +268,27 @@ const Artwork = () => {
                 />
               </button>
               <button type="button" onClick={() => setDisplayImage(3)}>
-                <img
-                  draggable="false"
-                  className="w-full aspect-square"
-                  src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
-                  alt=""
-                />
+                <Transition
+                  show={
+                    artwork?.attributes?.image?.data?.attributes?.url !==
+                    undefined
+                  }
+                  appear
+                  enter="delay-150 transition-opacity duration-150"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition-opacity duration-150"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                  className="aspect-square"
+                >
+                  <img
+                    draggable="false"
+                    className="aspect-square w-full shadow-xs"
+                    src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
+                    alt=""
+                  />
+                </Transition>
               </button>
             </div>
           </div>

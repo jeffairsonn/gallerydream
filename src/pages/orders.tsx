@@ -5,8 +5,8 @@ import axios from 'axios';
 import Link from 'next/link';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Transition } from '@headlessui/react';
-import Navbar from '../../components/Navbar';
-import Container from '../../components/Container';
+import Navbar from '../components/Navbar';
+import Container from '../components/Container';
 
 const Creations = () => {
   const router = useRouter();
@@ -77,7 +77,7 @@ const Creations = () => {
       <Container>
         <div className="w-full flex flex-col justify-center items-center">
           <h1 className="text-4xl md:text-5xl font-bold font-title mb-16">
-            Mes créations
+            Mes commandes
           </h1>
           <div>
             {creationLoading && (

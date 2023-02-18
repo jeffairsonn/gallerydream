@@ -43,6 +43,8 @@ const create = () => {
           },
         })
         .then((res) => {
+          console.log(res.data.attributes.artworks.data);
+
           setArtworks(res.data.attributes.artworks.data);
           setGeneration(res.data);
           setLoadGeneration(false);
@@ -131,25 +133,28 @@ const create = () => {
           </div>
 
           <div className="space-y-4 h-full w-full flex justify-center mt-12">
-            <div className="w-full max-w-7xl">
+            <div className="w-full max-w-7xl flex justify-center">
               {artworks && (
-                <div className="gap-4 cursor-pointer w-full grid grid-cols-1 md:grid-cols-2">
+                <div
+                  className={`gap-4 cursor-pointer w-full grid grid-cols-1 ${
+                    artworks.length > 1
+                      ? 'md:grid-cols-2'
+                      : 'md:grid-cols-1 md:max-w-3xl'
+                  } `}
+                >
                   {artworks &&
                     artworks.map(
                       ({
                         id,
-                        attributes: {
-                          prompt,
-                          image: {
-                            data: {
-                              attributes: { url },
-                            },
-                          },
-                        },
+                        attributes: { prompt, image, stand_by_url },
                       }: any) => (
                         <Artwork
                           key={id}
-                          url={`${url}`}
+                          url={`${
+                            image.data
+                              ? image?.data?.attributes?.url
+                              : stand_by_url
+                          }`}
                           prompt={prompt}
                           id={id}
                         />

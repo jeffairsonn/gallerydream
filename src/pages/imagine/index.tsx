@@ -9,6 +9,7 @@ import Navbar from '../../components/Navbar';
 import Step2 from '../../components/imagine_process/Step2';
 import Step3 from '../../components/imagine_process/Step3';
 import Container from '../../components/Container';
+import Step4 from '../../components/imagine_process/Step4';
 
 const create = () => {
   const { status, data }: any = useSession();
@@ -53,8 +54,7 @@ const create = () => {
 
   const [prompt, setPrompt] = useState('');
   const [styles, setStyles] = useState('');
-  const [numberOfImages, setNumberOfImages] = useState(1);
-  const [createGeneratedImage, setCreateGeneratedImage] = useState(false);
+  const [numberOfImages /* setNumberOfImages */] = useState(1);
 
   useEffect(() => {
     if (router.query.prompt) {
@@ -66,8 +66,9 @@ const create = () => {
   const [step1, setStep1] = useState(true);
   const [step2, setStep2] = useState(false);
   const [step3, setStep3] = useState(false);
+  const [step4, setStep4] = useState(false);
 
-  const chaneStep = (stepToChange: any) => {
+  const changeStep = (stepToChange: any) => {
     if (stepToChange === 1) {
       setStep2(false);
       setStep1(true);
@@ -87,10 +88,17 @@ const create = () => {
         setStep(3);
       }, 150);
     }
+    if (stepToChange === 4) {
+      setStep1(false);
+      setTimeout(() => {
+        setStep4(true);
+        setStep(4);
+      }, 150);
+    }
   };
 
   const generateImages = () => {
-    setCreateGeneratedImage(true);
+    changeStep(4);
     axios
       .post(
         `/api/imagine`,
@@ -110,7 +118,6 @@ const create = () => {
         router.push(` /creations/${res.data}`);
       })
       .catch((err) => {
-        setCreateGeneratedImage(false);
         console.log(err);
       });
   };
@@ -121,13 +128,19 @@ const create = () => {
       <Navbar user={user} status={status} />
       <Container>
         <div className="items-center flex flex-col justify-center gap-8">
-          <ul className="steps">
-            <li className={`step ${step >= 1 && 'step-primary'}`}>Décrivez</li>
-            <li className={`step ${step >= 2 && 'step-primary'}`}>
-              Donnez un style
-            </li>
-            <li className={`step ${step >= 3 && 'step-primary'}`}>Générez !</li>
-          </ul>
+          {step < 4 && (
+            <ul className="steps">
+              <li className={`step ${step >= 1 && 'step-primary'}`}>
+                Décrivez
+              </li>
+              <li className={`step ${step >= 2 && 'step-primary'}`}>
+                Donnez un style
+              </li>
+              <li className={`step ${step >= 3 && 'step-primary'}`}>
+                Générez !
+              </li>
+            </ul>
+          )}
           {step === 1 && (
             <Transition
               appear
@@ -140,7 +153,7 @@ const create = () => {
               leaveTo="opacity-0"
             >
               <Step1
-                chaneStep={chaneStep}
+                chaneStep={changeStep}
                 step={step}
                 setPrompt={setPrompt}
                 prompt={prompt}
@@ -158,7 +171,7 @@ const create = () => {
               leaveTo="opacity-0"
             >
               <Step2
-                chaneStep={chaneStep}
+                chaneStep={changeStep}
                 step={step}
                 styles={styles}
                 setStyles={setStyles}
@@ -176,18 +189,31 @@ const create = () => {
               leaveTo="opacity-0"
             >
               <Step3
-                chaneStep={chaneStep}
+                chaneStep={changeStep}
                 step={step}
                 numberOfImages={numberOfImages}
-                setNumberOfImages={setNumberOfImages}
+                // setNumberOfImages={setNumberOfImages}
                 generateImages={generateImages}
                 user={user}
               />
             </Transition>
           )}
+          {step === 4 && (
+            <Transition
+              show={step === 4 && step4}
+              enter="delay-150 transition-opacity duration-150"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition-opacity duration-150"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Step4 />
+            </Transition>
+          )}
         </div>
       </Container>
-      {createGeneratedImage && (
+      {/* {createGeneratedImage && (
         <div className="bg-black bg-opacity-50 h-full w-full absolute top-0 z-50 flex items-center justify-center">
           <div className="card w-96 bg-base-100 shadow-xl">
             <figure className="px-10 pt-10">
@@ -206,7 +232,7 @@ const create = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

@@ -1,67 +1,97 @@
 import React, { useState } from 'react';
-
-import { signIn } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import LoadingDots from './loading-dots';
 
-const Form = ({ type }: { type: 'login' | 'register' }) => {
+const Form = ({
+  type,
+  setEmailSend,
+}: {
+  type: 'login' | 'register';
+  setEmailSend: any;
+}) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const router = useRouter();
+
+  // const handleSubmit = async (e: any) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   if (type === 'login') {
+  //     signIn('credentials', {
+  //       redirect: false,
+  //       email: e.currentTarget.email.value,
+  //       password: e.currentTarget.password.value,
+  //       // @ts-ignore
+  //     }).then(({ ok }) => {
+  //       setLoading(false);
+  //       if (ok) {
+  //         router.push('/');
+  //       } else {
+  //         setErrorMessage("L'adresse email ou le mot de passe est incorrect");
+  //         setTimeout(async () => {
+  //           setErrorMessage('');
+  //         }, 4000);
+  //       }
+  //     });
+  //   } else {
+  //     fetch('/api/auth/register', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         email: e.currentTarget.email.value,
+  //         username: e.currentTarget.username.value,
+  //       }),
+  //     }).then(async (res) => {
+  //       setLoading(false);
+  //       if (res.status === 200) {
+  //         toast.success('Account created! Redirecting to login...');
+  //         setTimeout(() => {
+  //           router.push('/login');
+  //         }, 2000);
+  //       } else {
+  //         setErrorMessage(await res.text());
+  //         setTimeout(async () => {
+  //           setErrorMessage('');
+  //         }, 4000);
+  //       }
+  //     });
+  //   }
+  // };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+    fetch('/api/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: e.currentTarget.email.value,
+        username: e.currentTarget.username && e.currentTarget.username.value,
+      }),
+    }).then(async (res) => {
+      setLoading(false);
+      if (res.status === 200) {
+        toast.success('Account created! Redirecting to login...');
+        setTimeout(() => {
+          setEmailSend(true);
+        }, 2000);
+      } else {
+        setErrorMessage(await res.text());
+        setTimeout(async () => {
+          setErrorMessage('');
+        }, 4000);
+      }
+    });
+    setLoading(false);
+  };
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        setLoading(true);
-        if (type === 'login') {
-          signIn('credentials', {
-            redirect: false,
-            email: e.currentTarget.email.value,
-            password: e.currentTarget.password.value,
-            // @ts-ignore
-          }).then(({ ok }) => {
-            setLoading(false);
-            if (ok) {
-              router.push('/');
-            } else {
-              setErrorMessage(
-                "L'adresse email ou le mot de passe est incorrect"
-              );
-              setTimeout(async () => {
-                setErrorMessage('');
-              }, 4000);
-            }
-          });
-        } else {
-          fetch('/api/auth/register', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              email: e.currentTarget.email.value,
-              password: e.currentTarget.password.value,
-              username: e.currentTarget.username.value,
-            }),
-          }).then(async (res) => {
-            setLoading(false);
-            if (res.status === 200) {
-              toast.success('Account created! Redirecting to login...');
-              setTimeout(() => {
-                router.push('/login');
-              }, 2000);
-            } else {
-              setErrorMessage(await res.text());
-              setTimeout(async () => {
-                setErrorMessage('');
-              }, 4000);
-            }
-          });
-        }
-      }}
+      onSubmit={handleSubmit}
       className="flex flex-col space-y-4 py-8 sm:px-4"
     >
       {type === 'register' && (
@@ -73,10 +103,10 @@ const Form = ({ type }: { type: 'login' | 'register' }) => {
             id="username"
             name="username"
             type="text"
-            placeholder="jeanmarc/d"
+            placeholder="jeanmarc"
             autoComplete="username"
             required
-            className="input lg:input-lg input-bordered w-full"
+            className="input md:input-lg input-bordered w-full"
           />
         </div>
       )}
@@ -91,10 +121,10 @@ const Form = ({ type }: { type: 'login' | 'register' }) => {
           placeholder="panic@thedis.co"
           autoComplete="email"
           required
-          className="input lg:input-lg input-bordered w-full"
+          className="input md:input-lg input-bordered w-full"
         />
       </div>
-      <div className="form-control w-full">
+      {/* <div className="form-control w-full">
         <label htmlFor="password" className="label font-bold">
           Password
         </label>
@@ -105,6 +135,17 @@ const Form = ({ type }: { type: 'login' | 'register' }) => {
           required
           className="input lg:input-lg input-bordered w-full"
         />
+      </div> */}
+      <div className="flex space-x-2">
+        <input id="cgu" type="checkbox" className="checkbox" />
+        <label htmlFor="cgu" className="cursor-pointer p-0 w-fit">
+          <span>
+            J&apos;accepte les{' '}
+            <span className="underline">
+              conditions générales d&apos;utilisation
+            </span>
+          </span>
+        </label>
       </div>
       {errorMessage !== '' && (
         <div className="alert alert-warning shadow-lg">

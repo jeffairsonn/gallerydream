@@ -38,7 +38,9 @@ export default async function handler(
             ...response.data.data,
             attributes: {
               ...response.data.data.attributes,
-              user: response.data.data.attributes.user.data.id,
+              user:
+                response.data.data.attributes.user.data &&
+                response.data.data.attributes.user.data.id,
             },
           },
         };

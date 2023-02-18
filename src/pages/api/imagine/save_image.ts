@@ -1,122 +1,44 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
+import { Blob, FormData } from 'formdata-node';
+import fetch from 'node-fetch';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { prompt, styles, numberOfImages, image_url } = req.body;
-  const { authorization } = req.headers;
+  const { idOfArtwork, dalleImage_url } = req.body;
 
-  let user: any;
-  let generation: any;
-  let user_updated: boolean = false;
+  idOfArtwork.map(async (id: any, index: number) => {
+    try {
+      const imageFromUrl = await axios.get(dalleImage_url[index].url!, {
+        responseType: 'arraybuffer',
+      });
+      const buffer = Buffer.from(imageFromUrl.data, 'binary');
+      const file = new Blob([buffer], { type: 'image/jpeg' });
 
-  await axios
-    .get(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me`, {
-      headers: {
-        Authorization: authorization,
-      },
-    })
-    .then((userResponse: any) => {
-      user = userResponse.data;
-    })
-    .catch((err) => {
-      console.log('user', err.response.data);
-    });
-
-  if (!user) {
-    return res.status(401).json('Error generating images');
-  }
-
-  let idOfImage: any = [];
-  await Promise.all(
-    image_url.map(async ({ url }: any) => {
-      await axios
-        .post(
-          `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/artworks`,
-          {
-            data: {
-              prompt,
-              url,
-            },
-          },
-          {
-            headers: {
-              Authorization: authorization,
-            },
-          }
-        )
-        .then((generationResponse: any) => {
-          idOfImage = [...idOfImage, generationResponse.data.data.id];
+      const form: any = new FormData();
+      form.append('files.image', file);
+      form.append(
+        'data',
+        JSON.stringify({
+          stand_by_url: '',
         })
-        .catch((err) => {
-          console.log('generation', err.response.data);
-        });
-    })
-  );
-
-  if (idOfImage.length <= 0) {
-    return res.status(400).json('Error generating images');
-  }
-
-  await axios
-    .post(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/generations`,
-      {
-        data: {
-          prompt,
-          styles,
-          count: numberOfImages,
-          users: user.id,
-          artworks: {
-            connect: idOfImage,
-          },
-        },
-      },
-      {
+      );
+      await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/artworks/${id}`, {
+        method: 'put',
+        body: form,
         headers: {
-          Authorization: authorization,
+          Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
         },
-      }
-    )
-    .then((generationResponse: any) => {
-      generation = generationResponse.data.data;
-    })
-    .catch((err) => {
-      console.log('generation', err.response.data);
-    });
+      });
 
-  if (!generation) {
-    return res.status(400).json('Error generating images');
-  }
+      // const data: any = await artworkResponse.json();
+      // console.log('data', data);
+    } catch (errArtwork: any) {
+      console.error('artworks', errArtwork);
+    }
+  });
 
-  await axios
-    .put(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/${user.id}`,
-      {
-        // eslint-disable-next-line no-unsafe-optional-chaining
-        credits: user?.credits ? +user.credits - +numberOfImages : undefined,
-        generations: {
-          connect: [generation.id],
-        },
-      },
-      {
-        headers: {
-          Authorization: authorization,
-        },
-      }
-    )
-    .then(() => {
-      user_updated = true;
-    })
-    .catch((err) => {
-      console.log(err.response.data);
-    });
-
-  if (!user_updated) {
-    return res.status(400).json('Error generating images');
-  }
-
-  return res.status(200).json(generation.id);
+  return res.status(200).json('images generated');
 }

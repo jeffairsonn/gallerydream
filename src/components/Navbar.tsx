@@ -3,6 +3,7 @@ import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import {
   FaBars,
+  FaBox,
   FaCoins,
   FaImages,
   FaRocket,
@@ -201,8 +202,12 @@ const Navbar = ({ user, status }: any) => {
                         <FaImages className="w-4 h-4" /> Mes créations
                       </Link>
                     </li>
+                    <li>
+                      <Link href="/orders">
+                        <FaBox className="w-4 h-4" /> mes commandes
+                      </Link>
+                    </li>
                     <hr className="border my-4" />
-
                     <li>
                       <Link href="/explore">
                         <FaRocket className="w-4 h-4" /> Explorer

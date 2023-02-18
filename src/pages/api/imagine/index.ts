@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import { Configuration, OpenAIApi } from 'openai';
-import { Blob, FormData } from 'formdata-node';
+import { FormData } from 'formdata-node';
 import fetch from 'node-fetch';
 import preGeneratedStyles from '../../../lib/style_list';
 
@@ -40,6 +40,8 @@ export default async function handler(
 
   const styleText = preGeneratedStyles.filter((style) => style.name === styles);
 
+  console.log(`${prompt}${styleText.length > 0 && `, ${styleText[0].prompt}`}`);
+
   const response = await openai.createImage({
     prompt: `${prompt}${styleText.length > 0 && `, ${styleText[0].prompt}`}`,
     n: numberOfImages,
@@ -57,19 +59,13 @@ export default async function handler(
   await Promise.all(
     dalleImage_url.map(async ({ url }: any) => {
       try {
-        const imageFromUrl = await axios.get(url, {
-          responseType: 'arraybuffer',
-        });
-        const buffer = Buffer.from(imageFromUrl.data, 'binary');
-        const file = new Blob([buffer], { type: 'image/jpeg' });
-
         const form: any = new FormData();
-        form.append('files.image', file);
         form.append(
           'data',
           JSON.stringify({
             prompt,
             style: styles,
+            stand_by_url: url,
           })
         );
         const artworkResponse = await fetch(
@@ -90,8 +86,6 @@ export default async function handler(
       }
     })
   );
-
-  console.log('idOfArtwork', idOfArtwork);
 
   if (idOfArtwork.length <= 0) {
     return res.status(400).json('Error generating images');
@@ -157,6 +151,12 @@ export default async function handler(
   if (!user_updated) {
     return res.status(400).json('Error generating images');
   }
+
+  axios.post(`${process.env.NEXT_PUBLIC_BACK_END_URL}/api/imagine/save_image`, {
+    idOfArtwork,
+    dalleImage_url,
+    authorization,
+  });
 
   return res.status(200).json(generation.id);
 }

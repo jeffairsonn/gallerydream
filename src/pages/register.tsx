@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
-import { FaChevronLeft, FaGoogle } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { FaGoogle } from 'react-icons/fa';
+import Link from 'next/link';
 import Form from '../auth/Form';
-import Container from '../components/Container';
 
-const Register = () => {
+const Login = () => {
   const { status } = useSession();
   const router = useRouter();
+  const [emailSend, setEmailSend] = useState<boolean>(false);
 
   const connectWithGoolge = () => {
     signIn('google');
@@ -20,46 +21,63 @@ const Register = () => {
   }, [status]);
 
   return (
-    <>
-      <header className="flex justify-between w-full p-4">
-        <a href="/" className="flex items-center space-x-2">
-          <button
-            onClick={() => router.push('/')}
-            type="button"
-            className="btn btn-primary btn-outline"
-          >
-            <FaChevronLeft className="mr-2" /> Retour
-          </button>
-        </a>
-      </header>
-      <Container>
-        <div className="flex flex-col items-center justify-center">
+    <div className="flex justify-center items-center h-screen">
+      <div className="flex flex-col items-center justify-center">
+        {!emailSend && (
           <div className="z-10 w-full max-w-2xl overflow-hidden p-4">
-            <div className="flex flex-col items-center justify-center space-y-4  px-4 py-6 pt-8 text-center">
-              <button type="button" className="btn btn-primary">
-                GD
-              </button>
-              <h3 className="text-5xl font-black">Inscription</h3>
-              <p className="text-gray-500">
-                Utilisez votre mail et votre mot de passe pour vous inscrire
+            <div className="flex flex-col items-center px-4 py-6">
+              <Link href="/" className="max-w-[100px]">
+                <img src="/assets/logo_gallery_dream.png" alt="" />
+              </Link>
+
+              <h3 className="text-5xl font-extrabold font-title mt-4">
+                Inscription
+              </h3>
+              <p className="text-gray-500 max-w-lg text-lg text-center">
+                Inscription sans mot de passe, renseignez seulement un nom
+                d&apos;utilisateur et e-mail
               </p>
             </div>
-            <Form type="register" />
-            <hr className="w-full my-8" />
+            <Form type="register" setEmailSend={setEmailSend} />
+            <hr className="w-full mb-8 border-black" />
             <button
-              className="btn btn-primary w-full btn-lg"
+              className="btn btn-secondary w-full lg:btn-lg"
               type="button"
               onClick={() => {
                 connectWithGoolge();
               }}
             >
-              <FaGoogle className="mr-4" /> S&apos;enregistrer avec Google
+              <FaGoogle className="mr-4" /> S&apos;inscrire avec Google
             </button>
           </div>
-        </div>
-      </Container>
-    </>
+        )}
+        {emailSend && (
+          <div className="z-10 w-full max-w-2xl overflow-hidden p-4">
+            <div className="flex flex-col items-center px-4 py-6">
+              <Link href="/" className="max-w-[100px]">
+                <img src="/assets/logo_gallery_dream.png" alt="" />
+              </Link>
+
+              <h3 className="text-5xl font-extrabold font-title mt-4">
+                Email bien envoyé
+              </h3>
+              <p className="text-gray-500 max-w-lg text-lg text-center mt-2">
+                Vous allez recevoir un lien de connexion qui vous permettra
+                d&apos;accéder à votre compte
+              </p>
+              <button
+                onClick={() => router.push('/')}
+                type="button"
+                className="btn btn-primary mt-4"
+              >
+                Retour à l&apos;accueil
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
-export default Register;
+export default Login;

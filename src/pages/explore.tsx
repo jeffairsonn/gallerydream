@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaSearch } from 'react-icons/fa';
+import { useForm } from 'react-hook-form';
 import useWindowSize from '../hooks/useWindowSize';
 import Artwork from '../components/Artwork';
 import Container from '../components/Container';
@@ -20,7 +21,8 @@ const explore = () => {
   const [paginationMeta, setPaginationMeta] = useState<any>();
   const [pageSize, setPageSize] = useState(20);
   const [search, setSearch] = useState('');
-  const [searchActive, setSearchActive] = useState('');
+
+  const { register, handleSubmit, setValue } = useForm();
 
   useEffect(() => {
     if (data) {
@@ -48,28 +50,25 @@ const explore = () => {
         setPaginationMeta(res.data.meta.pagination);
         setArtworks(res.data.data);
         setArtworkLoading(false);
-        window.scrollTo(0, 0);
+        document.getElementById('top')?.scrollIntoView({ behavior: 'smooth' });
       })
       .catch((err) => {
         console.log(err);
       });
   }, [pagination, pageSize, search]);
 
-  const handleSearch = () => {
-    setSearch(searchActive);
+  const handleSearch = (value: any) => {
+    console.log(value);
+
+    setSearch(value.search);
   };
 
   return (
     <div>
+      <div id="top" />
       <Navbar user={user} status={status} />
       <div
         className="flex justify-center items-center py-20 px-4"
-        // style={{
-        //   background: `linear-gradient(
-        //     rgba(0, 0, 0, 0.7),
-        //     rgba(0, 0, 0, 0.7)
-        //   ), url("http://localhost:1337/uploads/blob_70e27d1153.jpeg?updated_at=2023-02-06T16:03:27.773Z")`,
-        // }}
         style={
           width > 768
             ? {
@@ -83,27 +82,25 @@ const explore = () => {
       >
         <div className="max-w-xl">
           <h1 className="text-3xl md:text-4xl md:text-center font-bold font-title mb-8 text-black">
-            Trouver de l&apos;inspiration ou immprimez les oeuvres créé par la
+            Trouvez de l&apos;inspiration ou imprimez les oeuvres créées par la
             communauté
           </h1>
-          <div className="form-control w-full max-w-xl">
+          <form
+            onSubmit={handleSubmit(handleSearch)}
+            className="form-control w-full max-w-xl"
+          >
             <div className="input-group">
               <input
                 type="text"
+                {...register('search')}
                 placeholder="Search…"
-                value={searchActive}
                 className="input input-bordered w-full"
-                onChange={(evt) => setSearchActive(evt.target.value)}
               />
-              <button
-                type="button"
-                className="btn btn-square btn-primary"
-                onClick={() => handleSearch()}
-              >
+              <button type="submit" className="btn btn-square btn-primary">
                 <FaSearch />
               </button>
             </div>
-          </div>
+          </form>
           <div className="mt-2 flex flex-wrap">
             <p className="mr-2 font-medium text-black">Tendance :</p>
             <div className="flex space-x-2 flex-wrap">
@@ -112,7 +109,7 @@ const explore = () => {
                 className="btn btn-xs btn-outline btn-primary"
                 onClick={() => {
                   setSearch('homme');
-                  setSearchActive('homme');
+                  setValue('search', 'homme');
                 }}
               >
                 homme
@@ -121,8 +118,8 @@ const explore = () => {
                 type="button"
                 className="btn btn-xs btn-outline btn-primary"
                 onClick={() => {
-                  setSearch('Lapin');
-                  setSearchActive('Lapin');
+                  setSearch('lapin');
+                  setValue('search', 'lapin');
                 }}
               >
                 Lapin
@@ -132,7 +129,7 @@ const explore = () => {
                 className="btn btn-xs btn-outline btn-primary"
                 onClick={() => {
                   setSearch('love');
-                  setSearchActive('love');
+                  setValue('search', 'love');
                 }}
               >
                 love
@@ -142,7 +139,7 @@ const explore = () => {
                 className="btn btn-xs btn-outline btn-primary"
                 onClick={() => {
                   setSearch('panda');
-                  setSearchActive('panda');
+                  setValue('search', 'panda');
                 }}
               >
                 panda
@@ -198,17 +195,7 @@ const explore = () => {
           {!artworkLoading &&
             artworks &&
             artworks.map(
-              ({
-                id,
-                attributes: {
-                  prompt,
-                  image: {
-                    data: {
-                      attributes: { url },
-                    },
-                  },
-                },
-              }: any) => (
+              ({ id, attributes: { prompt, image, stand_by_url } }: any) => (
                 <Transition
                   show
                   appear
@@ -219,7 +206,14 @@ const explore = () => {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Artwork key={id} url={`${url}`} prompt={prompt} id={id} />
+                  <Artwork
+                    key={id}
+                    url={`${
+                      image.data ? image?.data?.attributes?.url : stand_by_url
+                    }`}
+                    prompt={prompt}
+                    id={id}
+                  />
                 </Transition>
               )
             )}
