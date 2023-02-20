@@ -31,7 +31,7 @@ const cgv = () => {
     <div>
       <Head>
         <title>Conditions générales de ventes</title>
-        <meta name="description" content="Conditions générales de vente " />
+        <meta name="description" content="Conditions générales de vente" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

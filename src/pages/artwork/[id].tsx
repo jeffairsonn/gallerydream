@@ -379,19 +379,57 @@ const Artwork = () => {
               </div>
             </div>
             <div className="mt-8">
-              <ul className=" space-y-2">
-                <li>
-                  <span className="font-bold">Qualité haute définition :</span>
-                  Imprimé en haute définition pour garantir une qualité
-                  d&apos;image optimale.
-                </li>
-                <li>
-                  <span className="font-bold">Idéal pour décorer :</span> Ce
-                  poster généré par l&apos;IA est parfait pour décorer
-                  n&apos;importe quelle pièce de votre maison ou de votre bureau
-                  et ajouter une touche unique à votre décor.
-                </li>
-              </ul>
+              <div className="space-y-4 mb-4">
+                <h3 className="font-bold text-2xl ">Description :</h3>
+                <p>
+                  Ajoutez une touche d&apos;originalité à votre décoration
+                  intérieure avec notre affiche d&apos;art personnalisée générée
+                  par intelligence artificielle. Choisissez parmi une large
+                  sélection de prompts créatifs et laissez l&apos;IA générer une
+                  image unique qui correspond à votre idée. Avec un choix de
+                  styles différents, notre affiche d&apos;art sera la pièce
+                  maîtresse de votre décoration intérieure. Une fois que vous
+                  avez choisi votre design préféré, imprimez-le sur un poster de
+                  haute qualité pour une finition professionnelle.
+                </p>
+              </div>
+              <div className="space-y-4 mb-4">
+                <h3 className="font-bold text-2xl ">Caractéristiques :</h3>
+                <ul className="list-disc ml-8">
+                  <li>Affiche d&apos;art personnalisée générée par IA</li>
+                  <li>Choisissez parmi une variété de prompts créatifs</li>
+                  <li>Large sélection de styles différents</li>
+                  <li>
+                    Impression sur poster de haute qualité pour une finition
+                    professionnelle
+                  </li>
+                  <li>
+                    Parfait pour ajouter une touche d&apos;originalité à votre
+                    décoration intérieure
+                  </li>
+                </ul>
+              </div>
+              <div className="space-y-4 mb-4">
+                <h3 className="font-bold text-2xl ">Dimensions :</h3>
+                <p>
+                  Nos posters sont disponibles en différentes tailles pour
+                  s&apos;adapter à votre espace. Les tailles disponibles sont :
+                  30x30cm, 50x50cm, 70x70cm
+                </p>
+              </div>
+              <div className="space-y-4 mb-4">
+                <h3 className="font-bold text-2xl ">Matériaux :</h3>
+                <p>
+                  Nous utilisons des matériaux de haute qualité pour assurer une
+                  impression de qualité supérieure. Nos posters sont imprimés
+                  sur du papier photo 200g/m² pour une finition professionnelle
+                  et une durabilité maximale.
+                </p>
+              </div>
+              <div className="space-y-4 mb-4">
+                <h3 className="font-bold text-2xl ">Livraison :</h3>
+                <p>Tout simplement gratuit 😋.</p>
+              </div>
             </div>
           </div>
         </div>
