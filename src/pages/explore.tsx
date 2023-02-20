@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaSearch } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
+import Head from 'next/head';
 import useWindowSize from '../hooks/useWindowSize';
 import Artwork from '../components/Artwork';
 import Container from '../components/Container';
@@ -65,6 +66,15 @@ const explore = () => {
 
   return (
     <div>
+      <Head>
+        <title>Explorer | GalleryDream</title>
+        <meta
+          name="description"
+          content="Parcourez les milliers de posters générés par la communauté, inspirez-vous et décoré votre maison avec les meilleurs designs"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div id="top" />
       <Navbar user={user} status={status} />
       <div

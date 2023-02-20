@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Transition } from '@headlessui/react';
 import { format } from 'date-fns';
+import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import Container from '../components/Container';
 import posters from '../lib/poster_price';
@@ -75,6 +76,15 @@ const Orders = () => {
 
   return (
     <div>
+      <Head>
+        <title>Mes commandes</title>
+        <meta
+          name="description"
+          content="Retrouvez l'ensemble des commandes que vous avez passer sur la plateforme"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div id="top" />
       <Navbar user={user} status={status} />
       <Container>

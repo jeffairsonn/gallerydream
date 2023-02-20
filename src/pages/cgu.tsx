@@ -1,6 +1,7 @@
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Head from 'next/head';
 import Container from '../components/Container';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Home/Footer';
@@ -28,6 +29,12 @@ const cgu = () => {
 
   return (
     <div>
+      <Head>
+        <title>Conditions générales d&apos;utilisation</title>
+        <meta name="description" content="Conditions générales de vente" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Navbar user={user} status={status} />
       <Container>
         <div className="w-full flex justify-center flex-col items-center">

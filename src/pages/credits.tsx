@@ -2,6 +2,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import credits from '../lib/credits_price';
 import Container from '../components/Container';
@@ -60,6 +61,15 @@ const Credits = () => {
 
   return (
     <div>
+      <Head>
+        <title>Crédits | GalleryDream</title>
+        <meta
+          name="description"
+          content="Achetez des crédit pour pouvoir générer des posters et ainsi décorer votre maison"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Navbar user={user} status={status} />
       <Container>
         <div className="w-full flex flex-col justify-center items-center">

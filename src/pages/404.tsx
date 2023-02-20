@@ -1,8 +1,15 @@
+import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
 
 const Page404 = () => (
   <div>
+    <Head>
+      <title>Page non trouvée...</title>
+      <meta name="description" content="Conditions générales de vente" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
     <div
       className="hero min-h-screen"
       style={{
