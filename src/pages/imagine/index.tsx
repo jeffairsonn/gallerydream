@@ -54,7 +54,7 @@ const create = () => {
 
   const [prompt, setPrompt] = useState('');
   const [styles, setStyles] = useState('');
-  const [numberOfImages /* setNumberOfImages */] = useState(1);
+  const [numberOfImages, setNumberOfImages] = useState(1);
 
   useEffect(() => {
     if (router.query.prompt) {
@@ -192,7 +192,7 @@ const create = () => {
                 chaneStep={changeStep}
                 step={step}
                 numberOfImages={numberOfImages}
-                // setNumberOfImages={setNumberOfImages}
+                setNumberOfImages={setNumberOfImages}
                 generateImages={generateImages}
                 user={user}
               />

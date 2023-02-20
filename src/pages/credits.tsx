@@ -63,7 +63,7 @@ const Credits = () => {
       <Navbar user={user} status={status} />
       <Container>
         <div className="w-full flex flex-col justify-center items-center">
-          <h1 className="text-3xl md:text-4xl font-black max-w-5xl mb-12 w-full text-center">
+          <h1 className="text-3xl md:text-4xl font-black max-w-5xl mb-12 w-full text-center font-title">
             Donnez vie à vos idées les plus folles en achetant des crédits pour
             générer des oeuvres artistiques.
           </h1>

@@ -40,10 +40,14 @@ export default async function handler(
 
   const styleText = preGeneratedStyles.filter((style) => style.name === styles);
 
-  console.log(`${prompt}${styleText.length > 0 && `, ${styleText[0].prompt}`}`);
+  console.log(
+    `${prompt}${styleText.length > 0 ? `, ${styleText[0].prompt}` : ''}`
+  );
 
   const response = await openai.createImage({
-    prompt: `${prompt}${styleText.length > 0 && `, ${styleText[0].prompt}`}`,
+    prompt: `${prompt}${
+      styleText.length > 0 ? `, ${styleText[0].prompt}` : ''
+    }`,
     n: numberOfImages,
     size: '1024x1024',
   });
@@ -51,7 +55,7 @@ export default async function handler(
 
   // const dalleImage_url = [
   //   {
-  //     url: 'https://picsum.photos/200/300',
+  //     url: 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-4DUxq5Uf9KJAOPk0jnzl6kfV/user-p9kab1RIC8TokkV9qCoVkLxE/img-nlLytWUdG2Eu1A1Uqt0ea4TM.png?st=2023-02-20T11%3A31%3A23Z&se=2023-02-20T13%3A31%3A23Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-02-19T19%3A33%3A02Z&ske=2023-02-20T19%3A33%3A02Z&sks=b&skv=2021-08-06&sig=0i/77D8d9k4ZVlKAUomx8qYDbFDshkaS0Y7RxyEt2BM%3D',
   //   },
   // ];
 
@@ -68,6 +72,7 @@ export default async function handler(
             stand_by_url: url,
           })
         );
+
         const artworkResponse = await fetch(
           `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/artworks`,
           {

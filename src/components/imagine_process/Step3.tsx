@@ -5,35 +5,34 @@ const Step3 = ({
   chaneStep,
   step,
   numberOfImages,
-  // setNumberOfImages,
+  setNumberOfImages,
   generateImages,
   user,
 }: {
   chaneStep: any;
   step: number;
   numberOfImages: number;
-  // setNumberOfImages: any;
+  setNumberOfImages: any;
   generateImages: any;
   user: any;
 }) => {
   useEffect(() => {}, [numberOfImages]);
 
-  // const handleRangeChange = (evt: any) => {
-  //   setNumberOfImages(evt.target.value / 10);
-  // };
+  const handleRangeChange = (evt: any) => {
+    setNumberOfImages(evt.target.value / 10);
+  };
 
   return (
     <div>
       <h2 className="text-6xl font-black font-title max-w-4xl text-center mb-4 w-full">
         Combien de design souhaitez vous créer ?
       </h2>
-      {/* <div className="w-full ">
+      <div className="w-full ">
         <input
           type="range"
           min="0"
           max="40"
           value={numberOfImages * 10}
-          disabled
           className="range"
           step="10"
           onChange={(evt) => handleRangeChange(evt)}
@@ -45,13 +44,13 @@ const Step3 = ({
           <span>3</span>
           <span>4</span>
         </div>
-      </div> */}
-      <div className="flex justify-center">
+      </div>
+      {/* <div className="flex justify-center">
         <p className="text-center max-w-xl text-lg">
           Vous ne pouvez générer qu&apos;une seule image à la fois pour le
           moment. Vous pourrez en générez plus très bientôt 😋.
         </p>
-      </div>
+      </div> */}
       {user.credits < numberOfImages && (
         <div className="alert alert-warning shadow-lg mt-8">
           <div>

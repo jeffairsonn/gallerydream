@@ -37,40 +37,10 @@ const Home = () => {
 
   const img = [
     {
-      url: 'https://picsum.photos/300/300',
+      url: 'https://gallerydream.ams3.digitaloceanspaces.com/96816b71fe016e6e87111d4fe708f8ec.jpeg',
     },
     {
-      url: 'https://picsum.photos/300/300',
-    },
-    {
-      url: 'https://picsum.photos/300/300',
-    },
-    {
-      url: 'https://picsum.photos/300/300',
-    },
-    {
-      url: 'https://picsum.photos/300/300',
-    },
-    {
-      url: 'https://picsum.photos/300/300',
-    },
-    {
-      url: 'https://picsum.photos/300/300',
-    },
-    {
-      url: 'https://picsum.photos/300/300',
-    },
-    {
-      url: 'https://picsum.photos/300/300',
-    },
-    {
-      url: 'https://picsum.photos/300/300',
-    },
-    {
-      url: 'https://picsum.photos/300/300',
-    },
-    {
-      url: 'https://picsum.photos/300/300',
+      url: 'https://gallerydream.ams3.digitaloceanspaces.com/924e1780d92f150b759a35f14fb9d9b4.jpeg',
     },
   ];
 
@@ -83,7 +53,13 @@ const Home = () => {
         <SwiperSlide className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 w-full">
           {img.map((currentImage, index) => {
             if (index >= i * gridCols && index < (i + 1) * gridCols) {
-              return <img src={currentImage.url} className="w-full" alt="" />;
+              return (
+                <img
+                  src={currentImage.url}
+                  className="w-full border-2 border-black "
+                  alt=""
+                />
+              );
             }
             return null;
           })}
@@ -106,13 +82,17 @@ const Home = () => {
         }}
       >
         <div className="mt-20 md:mt-28 lg:flex lg:flex-col lg:justify-center lg:items-center">
-          <h1 className="font-title font-extrabold text-4xl md:text-7xl lg:text-6xl text-black lg:text-center lg:max-w-2xl">
-            Créez une affiche unique pour votre maison avec{' '}
-            <span className="text-primary">GalleryDream.</span>
+          <h1 className="font-title font-extrabold text-4xl md:text-7xl lg:text-5xl text-black lg:text-center lg:max-w-5xl">
+            Vos posters personnalisés avec l&apos;aide de{' '}
+            <span className="text-primary">
+              l&apos;intelligence artificielle{' '}
+            </span>
+            pour une décoration unique et originale.
           </h1>
           <p className="text-lg md:text-xl mt-4 text-slate-600 leading-6 lg:text-center lg:max-w-2xl">
-            Faites de votre maison un endroit qui vous ressemble en créant vos
-            propres affiches avec l&apos;intelligence artificielle
+            Donnez vie à votre imagination et personnalisez votre intérieur avec
+            des affiches uniques créées par{' '}
+            <span className="text-primary">GalleryDream</span>
           </p>
           <button type="button" className="btn btn-lg btn-primary mt-12">
             Tester gratuitement !
@@ -134,7 +114,8 @@ const Home = () => {
       </div>
       <div className="px-4 mt-16 lg:mt-28 md:px-16 lg:flex lg:flex-col lg:justify-center lg:items-center mb-8">
         <h2 className="font-title font-extrabold text-4xl md:text-7xl lg:text-6xl text-black lg:text-center lg:max-w-4xl">
-          Et si vous décoriez votre maison avec votre imagination ?
+          Donnez vie à votre imagination en créant des affiches uniques avec
+          GalleryDream
         </h2>
         <div className="mt-16 space-y-16 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8 max-w-7xl">
           <div className="flex">
@@ -143,12 +124,12 @@ const Home = () => {
             </div>
             <div>
               <p className="text-3xl lg:text-2xl font-bold font-title">
-                Décrivez votre idée.
+                Exprimez votre idée créative
               </p>
               <p className="mt-4 text-lg">
-                Décrivez votre idée de la manière que vous le souhaitez : ex:
-                &ldquo;un panda dans l&apos;espace&ldquo;, &ldquo;un chat qui
-                fait du sport&ldquo; etc...
+                Décrivez votre idée en utilisant nos prompts et laissez
+                l&apos;intelligence artificielle créer une affiche unique pour
+                vous.
               </p>
             </div>
           </div>
@@ -158,11 +139,12 @@ const Home = () => {
             </div>
             <div>
               <p className="text-3xl lg:text-2xl font-bold font-title">
-                Donnez un style à votre idée.
+                Choisissez un style
               </p>
               <p className="mt-4 text-lg">
-                Choisissez parmis un pannel de style afin de donner la touche
-                artistique de votre choix à votre idée.
+                Donnez une touche artistique à votre idée en choisissant parmi
+                notre large sélection de styles et de thèmes. Créez ainsi une
+                affiche qui vous ressemble vraiment.
               </p>
             </div>
           </div>
@@ -172,11 +154,12 @@ const Home = () => {
             </div>
             <div>
               <p className="text-3xl lg:text-2xl font-bold font-title">
-                Imprimez c&apos;est gagné !
+                Imprimez votre poster
               </p>
               <p className="mt-4 text-lg">
-                Choisissez parmis les variantes généres par l&apos;intelligence
-                artificielle puis imprimez votre affiche !
+                Imprimez-le sur un poster de haute qualité. Obtenez ainsi une
+                œuvre d&apos;art unique, pièce maîtresse de votre décoration
+                intérieure.
               </p>
             </div>
           </div>

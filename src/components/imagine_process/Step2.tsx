@@ -21,6 +21,26 @@ const Step2 = ({
         Choisissez un style
       </h2>
       <div className="w-full grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 max-w-4xl gap-4">
+        <button
+          type="button"
+          onClick={() => {
+            setStyles('no');
+          }}
+        >
+          <div className="relative">
+            <div
+              className={`${
+                styles === 'no' ? 'block' : 'hidden'
+              } absolute w-full h-full bg-black bg-opacity-50   flex items-center justify-center`}
+            >
+              <div className="btn btn-circle btn-primary">
+                <FaCheck color="white" />
+              </div>
+            </div>
+            <img src="/assets/cancel_icon.png" className="  p-4" alt="" />
+          </div>
+          <p className="font-bold mt-2 text-start">Aucun style</p>
+        </button>
         {preGeneratedStyles.map(({ name, image }) => (
           <button
             type="button"
@@ -46,26 +66,6 @@ const Step2 = ({
             <p className="font-bold mt-2 text-start truncate">{name}</p>
           </button>
         ))}
-        <button
-          type="button"
-          onClick={() => {
-            setStyles('no');
-          }}
-        >
-          <div className="relative">
-            <div
-              className={`${
-                styles === 'no' ? 'block' : 'hidden'
-              } absolute w-full h-full bg-black bg-opacity-50   flex items-center justify-center`}
-            >
-              <div className="btn btn-circle btn-primary">
-                <FaCheck color="white" />
-              </div>
-            </div>
-            <img src="/assets/cancel_icon.png" className="  p-4" alt="" />
-          </div>
-          <p className="font-bold mt-2 text-start">Aucun style</p>
-        </button>
       </div>
       <div className="flex flex-col-reverse md:space-y-0 md:flex-row justify-between w-full max-w-4xl mt-8">
         <button

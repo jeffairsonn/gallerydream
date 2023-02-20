@@ -114,99 +114,103 @@ const Orders = () => {
             <div className="grid grid-cols-1 w-full gap-4 max-w-7xl">
               {!creationLoading &&
                 orders &&
-                orders?.map(
-                  ({
-                    id: order_id,
-                    attributes: {
-                      artworks: { data: artwork },
-                      amount_total,
-                      metadata,
-                      createdAt,
-                      status: order_status,
-                    },
-                  }: any) => {
-                    const parsemetadata = JSON.parse(metadata);
-                    const parseLineItems = JSON.parse(parsemetadata.line_items);
-                    const numberOfItems = parseLineItems.length;
-                    const { price_id } = parseLineItems[0];
-                    const size = posters.filter((poster) =>
-                      process.env.NEXT_PUBLIC_MODE === 'dev'
-                        ? poster.price_id === price_id
-                        : poster.live_price_id === price_id
-                    )[0].name;
-                    return (
-                      <Transition
-                        show
-                        appear
-                        enter="delay-150 transition-opacity duration-150"
-                        enterFrom="opacity-0"
-                        enterTo="opacity-100"
-                        leave="transition-opacity duration-150"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                        className="w-full border border-black bg-white rounded-md flex"
-                      >
-                        <div className="grid md:grid-cols-7 space-x-scroll">
-                          {artwork.map(
-                            ({
-                              attributes: {
-                                image: {
-                                  data: {
-                                    attributes: { url },
+                orders.data
+                  ?.filters((item: any) => item.attributes.type !== 'credits')
+                  .map(
+                    ({
+                      id: order_id,
+                      attributes: {
+                        artworks: { data: artwork },
+                        amount_total,
+                        metadata,
+                        createdAt,
+                        status: order_status,
+                      },
+                    }: any) => {
+                      console.log(metadata);
+
+                      const parsemetadata = metadata;
+                      const parseLineItems = parsemetadata.line_items;
+                      const numberOfItems = parseLineItems.length;
+                      const { price_id } = parseLineItems[0];
+                      const size = posters.filter((poster) =>
+                        process.env.NEXT_PUBLIC_MODE === 'dev'
+                          ? poster.price_id === price_id
+                          : poster.live_price_id === price_id
+                      )[0].name;
+                      return (
+                        <Transition
+                          show
+                          appear
+                          enter="delay-150 transition-opacity duration-150"
+                          enterFrom="opacity-0"
+                          enterTo="opacity-100"
+                          leave="transition-opacity duration-150"
+                          leaveFrom="opacity-100"
+                          leaveTo="opacity-0"
+                          className="w-full border border-black bg-white rounded-md flex"
+                        >
+                          <div className="grid md:grid-cols-7 space-x-scroll">
+                            {artwork.map(
+                              ({
+                                attributes: {
+                                  image: {
+                                    data: {
+                                      attributes: { url },
+                                    },
                                   },
                                 },
-                              },
-                            }: any) => (
-                              <div className="rounded-t-md md:rounded-l-md md:rounded-tl-none">
-                                <img
-                                  className="w-full aspect-square rounded-t-md md:rounded-l-md md:rounded-tr-none"
-                                  src={`${url}`}
-                                  alt=""
-                                />
-                              </div>
-                            )
-                          )}
-                          <div className="md:flex justify-center items-center md:border border-black p-2">
-                            <span className="md:hidden mr-1 font-bold">
-                              Commande n° :{' '}
-                            </span>{' '}
-                            {order_id}
+                              }: any) => (
+                                <div className="rounded-t-md md:rounded-l-md md:rounded-tl-none">
+                                  <img
+                                    className="w-full aspect-square rounded-t-md md:rounded-l-md md:rounded-tr-none"
+                                    src={`${url}`}
+                                    alt=""
+                                  />
+                                </div>
+                              )
+                            )}
+                            <div className="md:flex justify-center items-center md:border border-black p-2">
+                              <span className="md:hidden mr-1 font-bold">
+                                Commande n° :{' '}
+                              </span>{' '}
+                              {order_id}
+                            </div>
+                            <div className="md:flex justify-center items-center md:border border-black p-2">
+                              <span className="md:hidden mr-1 font-bold">
+                                Passé le :
+                              </span>
+                              {format(new Date(createdAt), 'dd/MM/yyy')}
+                            </div>
+                            <div className="md:flex justify-center items-center md:border border-black p-2">
+                              <span className="md:hidden mr-1 font-bold">
+                                Statut :{' '}
+                              </span>
+                              {order_status || 'Status inconnu'}
+                            </div>
+                            <div className="md:flex justify-center items-center md:border border-black p-2">
+                              <span className="md:hidden mr-1 font-bold">
+                                Nombre d&apos;article :{' '}
+                              </span>
+                              {numberOfItems}
+                            </div>
+                            <div className="md:flex justify-center items-center md:border border-black p-2">
+                              <span className="md:hidden mr-1 font-bold">
+                                Taille :{' '}
+                              </span>
+                              {size}
+                            </div>
+                            <div className="md:flex justify-center items-center md:border border-black p-2 md:rounded-r-md">
+                              <span className="md:hidden mr-1 font-bold">
+                                Total :{' '}
+                              </span>
+                              {amount_total} €
+                            </div>
                           </div>
-                          <div className="md:flex justify-center items-center md:border border-black p-2">
-                            <span className="md:hidden mr-1 font-bold">
-                              Passé le :
-                            </span>
-                            {format(new Date(createdAt), 'dd/MM/yyy')}
-                          </div>
-                          <div className="md:flex justify-center items-center md:border border-black p-2">
-                            <span className="md:hidden mr-1 font-bold">
-                              Statut :{' '}
-                            </span>
-                            {order_status || 'Status inconnu'}
-                          </div>
-                          <div className="md:flex justify-center items-center md:border border-black p-2">
-                            <span className="md:hidden mr-1 font-bold">
-                              Nombre d&apos;article :{' '}
-                            </span>
-                            {numberOfItems}
-                          </div>
-                          <div className="md:flex justify-center items-center md:border border-black p-2">
-                            <span className="md:hidden mr-1 font-bold">
-                              Taille :{' '}
-                            </span>
-                            {size}
-                          </div>
-                          <div className="md:flex justify-center items-center md:border border-black p-2 md:rounded-r-md">
-                            <span className="md:hidden mr-1 font-bold">
-                              Total :{' '}
-                            </span>
-                            {amount_total} €
-                          </div>
-                        </div>
-                      </Transition>
-                    );
-                  }
-                )}
+                        </Transition>
+                      );
+                    }
+                  )}
               {!creationLoading && (!orders || orders.length === 0) && (
                 <div className="p-8 border border-black rounded-md">
                   <h3 className="font-bold text-xl">Aucune création</h3>
