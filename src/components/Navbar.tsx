@@ -237,7 +237,7 @@ const Navbar = ({ user, status }: any) => {
                 ) : (
                   <>
                     <li>
-                      <Link href="/login">
+                      <Link href="/register">
                         <FaUser className="w-4 h-4" /> S&apos;inscrire
                       </Link>
                     </li>

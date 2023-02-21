@@ -73,19 +73,11 @@ const Login = () => {
                 </Link>
 
                 <h3 className="text-5xl font-extrabold font-title mt-4 text-center">
-                  Vous êtes inscrit !
+                  Merci ! Vérifiez votre boite mail.
                 </h3>
                 <p className="text-gray-500 max-w-lg text-lg text-center mt-2">
-                  Vous allez recevoir un lien de connexion qui vous permettra de
-                  créer vos premiers posters
+                  Vous avez recu votre lien de connexion par mail
                 </p>
-                <button
-                  onClick={() => router.push('/')}
-                  type="button"
-                  className="btn btn-primary mt-4"
-                >
-                  Retour à l&apos;accueil
-                </button>
               </div>
             </div>
           )}
