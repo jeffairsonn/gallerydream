@@ -75,7 +75,7 @@ const Credits = () => {
         <div className="w-full flex flex-col justify-center items-center">
           <h1 className="text-3xl md:text-4xl font-black max-w-5xl mb-12 w-full text-center font-title">
             Donnez vie à vos idées les plus folles en achetant des crédits pour
-            générer des oeuvres artistiques.
+            générer des posters artistiques.
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-4 max-w-4xl">
             {credits.map(({ name, price, price_id, live_price_id }) => (

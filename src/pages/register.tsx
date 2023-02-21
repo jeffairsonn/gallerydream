@@ -72,7 +72,7 @@ const Login = () => {
                   <img src="/assets/logo_gallery_dream.png" alt="" />
                 </Link>
 
-                <h3 className="text-5xl font-extrabold font-title mt-4">
+                <h3 className="text-5xl font-extrabold font-title mt-4 text-center">
                   Vous êtes inscrit !
                 </h3>
                 <p className="text-gray-500 max-w-lg text-lg text-center mt-2">
