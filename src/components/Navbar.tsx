@@ -7,7 +7,6 @@ import {
   FaCoins,
   FaImages,
   FaRocket,
-  // FaShoppingBag,
   FaSignInAlt,
   FaSignOutAlt,
   FaStar,
