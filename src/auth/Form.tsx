@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import Link from 'next/link';
 import LoadingDots from './loading-dots';
 
 const Form = ({
@@ -183,24 +182,6 @@ const Form = ({
           <p>{type === 'login' ? 'Se connecter' : "S'inscrire"}</p>
         )}
       </button>
-      {type === 'login' ? (
-        <p className="text-center text-sm text-gray-600">
-          Pas encore de compte ?{' '}
-          <Link
-            href="/register"
-            className="font-semibold text-gray-800 underline"
-          >
-            S&lsquo;inscrire gratuitement.
-          </Link>{' '}
-        </p>
-      ) : (
-        <p className="text-center text-sm text-gray-600">
-          Vous possédez déja un compte ?{' '}
-          <Link href="/login" className="font-semibold text-gray-800 underline">
-            Connectez vous
-          </Link>
-        </p>
-      )}
     </form>
   );
 };

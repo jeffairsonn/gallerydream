@@ -99,27 +99,27 @@ const create = () => {
 
   const generateImages = () => {
     changeStep(4);
-    axios
-      .post(
-        `/api/imagine`,
-        {
-          prompt,
-          styles,
-          numberOfImages,
-          user: user?.id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${data.jwt}`,
-          },
-        }
-      )
-      .then((res) => {
-        router.push(` /creations/${res.data}`);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // axios
+    //   .post(
+    //     `/api/imagine`,
+    //     {
+    //       prompt,
+    //       styles,
+    //       numberOfImages,
+    //       user: user?.id,
+    //     },
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${data.jwt}`,
+    //       },
+    //     }
+    //   )
+    //   .then((res) => {
+    //     router.push(` /creations/${res.data}`);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
   useEffect(() => {}, [step]);

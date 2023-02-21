@@ -32,6 +32,12 @@ const Login = () => {
       <div className="flex justify-center items-center h-screen">
         <div className="flex flex-col items-center justify-center">
           {!emailSend && (
+            <Link href="/login">
+              Pas encore de compte ?{' '}
+              <span className=" btn btn-primary btn-xs"> Se connecter</span>
+            </Link>
+          )}
+          {!emailSend && (
             <div className="z-10 w-full max-w-2xl overflow-hidden p-4">
               <div className="flex flex-col items-center px-4 py-6">
                 <Link href="/" className="max-w-[100px]">
@@ -43,7 +49,7 @@ const Login = () => {
                 </h3>
                 <p className="text-gray-500 max-w-lg text-lg text-center">
                   Inscription sans mot de passe, renseignez seulement un nom
-                  d&apos;utilisateur et e-mail
+                  d&apos;utilisateur et un e-mail
                 </p>
               </div>
               <Form type="register" setEmailSend={setEmailSend} />
@@ -67,11 +73,11 @@ const Login = () => {
                 </Link>
 
                 <h3 className="text-5xl font-extrabold font-title mt-4">
-                  Email bien envoyé
+                  Vous êtes inscrit !
                 </h3>
                 <p className="text-gray-500 max-w-lg text-lg text-center mt-2">
-                  Vous allez recevoir un lien de connexion qui vous permettra
-                  d&apos;accéder à votre compte
+                  Vous allez recevoir un lien de connexion qui vous permettra de
+                  créer vos premiers posters
                 </p>
                 <button
                   onClick={() => router.push('/')}
