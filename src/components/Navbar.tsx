@@ -11,7 +11,6 @@ import {
   FaSignInAlt,
   FaSignOutAlt,
   FaStar,
-  FaStarHalf,
   FaUser,
 } from 'react-icons/fa';
 import { useRouter } from 'next/router';
