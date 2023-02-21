@@ -182,13 +182,13 @@ const explore = () => {
           >
             <div>
               <h1 className="text-xl md:text-2xl font-bold">
-                Les dernières oeuvres
+                Les derniers posters
               </h1>
               <p>({paginationMeta?.total} résultats )</p>
             </div>
-            <button type="button" className="btn ">
+            {/* <button type="button" className="btn ">
               Filtrer
-            </button>
+            </button> */}
           </Transition>
         )}
         <Transition
@@ -228,7 +228,12 @@ const explore = () => {
               )
             )}
         </Transition>
-        {!artworkLoading && artworks && (
+        {!artworkLoading && artworks && artworks.length === 0 && (
+          <div className="w-full flex justify-center">
+            <p className="text-center">Aucun résultat trouvé</p>
+          </div>
+        )}
+        {!artworkLoading && artworks && artworks.length > 0 && (
           <Transition
             show
             appear
@@ -243,17 +248,20 @@ const explore = () => {
             <div className="btn-group">
               <button
                 type="button"
-                className="btn btn-sm md:btn-md "
+                className="btn btn-sm md:btn-md btn-secondary"
                 onClick={() => pagination > 1 && setPagination(pagination - 1)}
               >
                 <FaChevronLeft />
               </button>
-              <button type="button" className="btn btn-sm md:btn-md">
+              <button
+                type="button"
+                className="btn btn-sm md:btn-md btn-secondary"
+              >
                 {pagination}
               </button>
               <button
                 type="button"
-                className="btn btn-sm md:btn-md"
+                className="btn btn-sm md:btn-md btn-secondary"
                 onClick={() =>
                   pagination < paginationMeta?.pageCount &&
                   setPagination(pagination + 1)
@@ -266,7 +274,7 @@ const explore = () => {
               <button
                 type="button"
                 tabIndex={0}
-                className="btn btn-sm md:btn-md"
+                className="btn btn-sm md:btn-md btn-secondary"
               >
                 {paginationMeta?.pageSize} par page
               </button>

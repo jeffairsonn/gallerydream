@@ -11,6 +11,7 @@ import {
   FaSignInAlt,
   FaSignOutAlt,
   FaStar,
+  FaStarHalf,
   FaUser,
 } from 'react-icons/fa';
 import { useRouter } from 'next/router';
@@ -130,7 +131,7 @@ const Navbar = ({ user, status }: any) => {
           className=" flex space-x-4 items-center"
         >
           {status === 'authenticated' && user?.credits && (
-            <Link href="/credits">
+            <Link href="/credits" className="hidden md:block">
               <Transition
                 show
                 appear
@@ -147,6 +148,11 @@ const Navbar = ({ user, status }: any) => {
               </Transition>
             </Link>
           )}
+          <Link href="/imagine">
+            <button type="button" className="md:hidden btn btn-primary btn-sm">
+              <FaStar className="mr-2" /> Créer
+            </button>
+          </Link>
           {/* {status === 'authenticated' && (
             <Link href="/cart">
               <div className="flex items-center relative">

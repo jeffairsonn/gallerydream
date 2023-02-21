@@ -101,32 +101,43 @@ const Orders = () => {
               </div>
             )}
           </div>
-          <Transition
-            show
-            appear
-            enter="delay-150 transition-opacity duration-150"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity duration-150"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-            className="w-full flex justify-center flex-col items-center"
-          >
-            <div className="hidden md:grid grid-cols-1 md:grid-cols-7 w-full max-w-7xl mb-4 rounded-md">
-              <div className="p-2 rounded-l-md">Ouevre</div>
-              <div className="p-2">N° de commande</div>
-              <div className="p-2">Date</div>
-              <div className="p-2">Status</div>
-              <div className="p-2">Nbr.</div>
-              <div className="p-2">Taille</div>
-              <div className="p-2 rounded-r-md">Prix total</div>
+          {!creationLoading && orders.length === 0 && (
+            <div className="flex justify-center flex-col space-y-2">
+              <p className="text-center">Pas encore de commandes</p>
+              <button
+                onClick={() => router.push('/imagine')}
+                type="button"
+                className="btn btn-primary "
+              >
+                Créer un poster
+              </button>
             </div>
-            <div className="grid grid-cols-1 w-full gap-4 max-w-7xl">
-              {!creationLoading &&
-                orders &&
-                orders.data
-                  ?.filters((item: any) => item.attributes.type !== 'credits')
-                  .map(
+          )}
+          {orders.length > 0 && (
+            <Transition
+              show
+              appear
+              enter="delay-150 transition-opacity duration-150"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition-opacity duration-150"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+              className="w-full flex justify-center flex-col items-center"
+            >
+              <div className="hidden md:grid grid-cols-1 md:grid-cols-7 w-full max-w-7xl mb-4 rounded-md">
+                <div className="p-2 rounded-l-md">Ouevre</div>
+                <div className="p-2">N° de commande</div>
+                <div className="p-2">Date</div>
+                <div className="p-2">Status</div>
+                <div className="p-2">Nbr.</div>
+                <div className="p-2">Taille</div>
+                <div className="p-2 rounded-r-md">Prix total</div>
+              </div>
+              <div className="grid grid-cols-1 w-full gap-4 max-w-7xl">
+                {!creationLoading &&
+                  orders &&
+                  orders.map(
                     ({
                       id: order_id,
                       attributes: {
@@ -137,17 +148,16 @@ const Orders = () => {
                         status: order_status,
                       },
                     }: any) => {
-                      console.log(metadata);
-
                       const parsemetadata = metadata;
                       const parseLineItems = parsemetadata.line_items;
                       const numberOfItems = parseLineItems.length;
                       const { price_id } = parseLineItems[0];
+
                       const size = posters.filter((poster) =>
                         process.env.NEXT_PUBLIC_MODE === 'dev'
                           ? poster.price_id === price_id
                           : poster.live_price_id === price_id
-                      )[0].name;
+                      )[0]?.name;
                       return (
                         <Transition
                           show
@@ -221,88 +231,89 @@ const Orders = () => {
                       );
                     }
                   )}
-              {!creationLoading && (!orders || orders.length === 0) && (
-                <div className="p-8 border border-black rounded-md">
-                  <h3 className="font-bold text-xl">Aucune création</h3>
-                  <p className="mt-4">
-                    Vous n&apos;avez pas encore généré de création. Pour cela,
-                    cliquez sur le bouton ci-dessous
-                  </p>
-                  <Link href="/imagine">
-                    <button type="button" className="mt-4 btn btn-primary">
-                      Générer
+                {!creationLoading && (!orders || orders.length === 0) && (
+                  <div className="p-8 border border-black rounded-md">
+                    <h3 className="font-bold text-xl">Aucune création</h3>
+                    <p className="mt-4">
+                      Vous n&apos;avez pas encore généré de création. Pour cela,
+                      cliquez sur le bouton ci-dessous
+                    </p>
+                    <Link href="/imagine">
+                      <button type="button" className="mt-4 btn btn-primary">
+                        Générer
+                      </button>
+                    </Link>
+                  </div>
+                )}
+              </div>
+              {!creationLoading && !(!orders || orders.length === 0) && (
+                <Transition
+                  show
+                  appear
+                  enter="delay-150 transition-opacity duration-150"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="transition-opacity duration-150"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                  className="mt-16 flex items-center w-full justify-between max-w-7xl"
+                >
+                  <div className="btn-group">
+                    <button
+                      type="button"
+                      className="btn btn-sm md:btn-md btn-secondary"
+                      onClick={() =>
+                        pagination > 1 && setPagination(pagination - 1)
+                      }
+                    >
+                      <FaChevronLeft />
                     </button>
-                  </Link>
-                </div>
+                    <button
+                      type="button"
+                      className="btn btn-sm md:btn-md btn-secondary"
+                    >
+                      {pagination}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-sm md:btn-md btn-secondary"
+                      onClick={() =>
+                        pagination < paginationMeta?.pageCount &&
+                        setPagination(pagination + 1)
+                      }
+                    >
+                      <FaChevronRight />
+                    </button>
+                  </div>
+                  <div className="dropdown dropdown-top dropdown-end">
+                    <button
+                      type="button"
+                      tabIndex={0}
+                      className="btn btn-sm md:btn-md btn-secondary"
+                    >
+                      {paginationMeta?.pageSize} par page
+                    </button>
+                    <ul
+                      tabIndex={0}
+                      role="menu"
+                      className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+                    >
+                      <li>
+                        <button onClick={() => setPageSize(8)} type="button">
+                          8
+                        </button>
+                      </li>
+                      <li>
+                        <button onClick={() => setPageSize(16)} type="button">
+                          16
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </Transition>
               )}
-            </div>
-            {!creationLoading && !(!orders || orders.length === 0) && (
-              <Transition
-                show
-                appear
-                enter="delay-150 transition-opacity duration-150"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="transition-opacity duration-150"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-                className="mt-16 flex items-center w-full justify-between max-w-7xl"
-              >
-                <div className="btn-group">
-                  <button
-                    type="button"
-                    className="btn btn-sm md:btn-md btn-secondary"
-                    onClick={() =>
-                      pagination > 1 && setPagination(pagination - 1)
-                    }
-                  >
-                    <FaChevronLeft />
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-sm md:btn-md btn-secondary"
-                  >
-                    {pagination}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-sm md:btn-md btn-secondary"
-                    onClick={() =>
-                      pagination < paginationMeta?.pageCount &&
-                      setPagination(pagination + 1)
-                    }
-                  >
-                    <FaChevronRight />
-                  </button>
-                </div>
-                <div className="dropdown dropdown-top dropdown-end">
-                  <button
-                    type="button"
-                    tabIndex={0}
-                    className="btn btn-sm md:btn-md btn-secondary"
-                  >
-                    {paginationMeta?.pageSize} par page
-                  </button>
-                  <ul
-                    tabIndex={0}
-                    role="menu"
-                    className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-                  >
-                    <li>
-                      <button onClick={() => setPageSize(8)} type="button">
-                        8
-                      </button>
-                    </li>
-                    <li>
-                      <button onClick={() => setPageSize(16)} type="button">
-                        16
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </Transition>
-            )}
-          </Transition>
+            </Transition>
+          )}
         </div>
       </Container>
     </div>

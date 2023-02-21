@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, Autoplay } from 'swiper';
+import { useRouter } from 'next/router';
 import Navbar from '../Navbar';
 import useWindowSize from '../../hooks/useWindowSize';
 
@@ -14,6 +15,7 @@ import 'swiper/css/navigation';
 import Footer from './Footer';
 
 const Home = () => {
+  const router = useRouter();
   const { status, data }: any = useSession();
   const [user, setUser] = useState();
   const { width } = useWindowSize();
@@ -94,7 +96,15 @@ const Home = () => {
             des affiches uniques créées par{' '}
             <span className="text-primary">GalleryDream</span>
           </p>
-          <button type="button" className="btn btn-lg btn-primary mt-12">
+          <button
+            onClick={() =>
+              status === 'authenticated'
+                ? router.push('/imagine')
+                : router.push('/register')
+            }
+            type="button"
+            className="btn btn-lg btn-primary mt-12"
+          >
             Tester gratuitement !
           </button>
           <Swiper
@@ -165,7 +175,15 @@ const Home = () => {
           </div>
         </div>
         <div className="flex justify-center">
-          <button type="button" className="btn btn-lg btn-primary mt-12">
+          <button
+            onClick={() =>
+              status === 'authenticated'
+                ? router.push('/imagine')
+                : router.push('/register')
+            }
+            type="button"
+            className="btn btn-lg btn-primary mt-12"
+          >
             Tester maintenant !
           </button>
         </div>

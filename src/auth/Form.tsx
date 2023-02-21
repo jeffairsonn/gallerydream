@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 import LoadingDots from './loading-dots';
@@ -63,6 +63,7 @@ const Form = ({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
+
     fetch('/api/auth/register', {
       method: 'POST',
       headers: {
@@ -73,21 +74,23 @@ const Form = ({
         username: e.currentTarget.username && e.currentTarget.username.value,
       }),
     }).then(async (res) => {
-      setLoading(false);
       if (res.status === 200) {
         toast.success('Account created! Redirecting to login...');
         setTimeout(() => {
           setEmailSend(true);
+          setLoading(false);
         }, 2000);
       } else {
         setErrorMessage(await res.text());
+        setLoading(false);
         setTimeout(async () => {
           setErrorMessage('');
         }, 4000);
       }
     });
-    setLoading(false);
   };
+
+  useEffect(() => {}, [loading]);
 
   return (
     <form

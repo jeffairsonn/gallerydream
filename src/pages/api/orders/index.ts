@@ -33,6 +33,7 @@ export default async function handler(
     {
       filters: {
         user: user.id,
+        type: 'artwork',
       },
       populate: ['*', 'artworks', 'artworks.image'],
       pagination: {

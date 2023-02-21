@@ -40,7 +40,7 @@ const success = () => {
               </h1>
               <p className="py-6">
                 Vos crédits ont étés crédité sur votre compte. Vous pouvez dès à
-                présent générez vos oeuvres !
+                présent créé des posters uniques et originaux !
               </p>
               <Link href="/imagine">
                 <button type="button" className="btn btn-primary">
