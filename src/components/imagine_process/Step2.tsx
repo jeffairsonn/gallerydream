@@ -59,8 +59,8 @@ const Step2 = ({
                   <FaCheck color="white" />
                 </div>
               </div>
-              <div className="w-full aspect-square">
-                <img src={image} className=" " alt="" />
+              <div className="w-full aspect-square flex items-center justify-center">
+                <img src={image} className="w-full" alt="" />
               </div>
             </div>
             <p className="font-bold mt-2 text-start truncate">{name}</p>

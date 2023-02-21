@@ -44,6 +44,24 @@ const Home = () => {
     {
       url: 'https://gallerydream.ams3.digitaloceanspaces.com/924e1780d92f150b759a35f14fb9d9b4.jpeg',
     },
+    {
+      url: 'https://gallerydream.ams3.digitaloceanspaces.com/601a69013397119a901a5f7f1d5a08cc.jpeg',
+    },
+    {
+      url: 'https://gallerydream.ams3.digitaloceanspaces.com/3a5b85ca74796627730ed54848217e1d.jpeg',
+    },
+    {
+      url: 'https://gallerydream.ams3.digitaloceanspaces.com/3c3773eb5673e325389ab9cfed080454.jpeg',
+    },
+    {
+      url: 'https://gallerydream.ams3.digitaloceanspaces.com/bf715402fd4d5517377c0ba606794579.jpeg',
+    },
+    {
+      url: 'https://gallerydream.ams3.digitaloceanspaces.com/06e4c47f33d05c4157d3ba6f84de98f3.jpeg',
+    },
+    {
+      url: 'https://gallerydream.ams3.digitaloceanspaces.com/598d75ce4d968fb090da97af9d0e9dd6.jpeg',
+    },
   ];
 
   const getSwipperSlides = () => {
