@@ -37,8 +37,6 @@ module.exports = {
           '--tab-radius': '0.5rem', // border radius of tabs
         },
       },
-      'dark',
-      'cupcake',
     ],
   },
   plugins: [require('daisyui'), require('@tailwindcss/line-clamp')],

@@ -109,7 +109,7 @@ const Form = ({
         }).then(({ ok }) => {
           setLoading(false);
           if (ok) {
-            router.push('/create');
+            router.push('/imagine');
           } else {
             setErrorMessage("L'adresse email ou le mot de passe est incorrect");
             setTimeout(async () => {
