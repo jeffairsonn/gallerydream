@@ -43,8 +43,6 @@ const create = () => {
           },
         })
         .then((res) => {
-          console.log(res.data.attributes.artworks.data);
-
           setArtworks(res.data.attributes.artworks.data);
           setGeneration(res.data);
           setLoadGeneration(false);

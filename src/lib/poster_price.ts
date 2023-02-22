@@ -2,7 +2,7 @@ const posters = [
   {
     name: 'Poster 30x30cm',
     price: 19.99,
-    live_price_id: 'price_1MdcfxGTAYNLvctQlUrGzBon',
+    live_price_id: 'price_1MdcfxGTAYNLvctQEAz7yWDZ',
     price_id: 'price_1Maho3GTAYNLvctQ2FYqZrMC',
   },
   {

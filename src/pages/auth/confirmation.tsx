@@ -6,7 +6,6 @@ const confirmation = () => {
   const router = useRouter();
   useEffect(() => {
     if (router.isReady) {
-      console.log(router?.query?.loginToken);
       if (router.query.loginToken) {
         signIn('credentials', {
           redirect: false,

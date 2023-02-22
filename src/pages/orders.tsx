@@ -54,7 +54,6 @@ const Orders = () => {
           },
         })
         .then((res) => {
-          console.log(res.data);
           setPaginationMeta(res.data.meta.pagination);
           setOrders(res.data.data);
           setCreationLoading(false);

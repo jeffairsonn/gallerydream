@@ -59,8 +59,6 @@ const explore = () => {
   }, [pagination, pageSize, search]);
 
   const handleSearch = (value: any) => {
-    console.log(value);
-
     setSearch(value.search);
   };
 

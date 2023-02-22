@@ -20,6 +20,7 @@ const Artwork = () => {
       ? posters[0].price_id
       : posters[0].live_price_id
   );
+
   const [quantity, setQuantity] = useState<number>(1);
   const [displayImage, setDisplayImage] = useState<number>(1);
   const [reload, setReload] = useState<number>(0);
