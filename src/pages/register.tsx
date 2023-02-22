@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { signIn, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { FaGoogle } from 'react-icons/fa';
 import Link from 'next/link';
 import Head from 'next/head';
 import Form from '../auth/Form';
@@ -10,10 +9,6 @@ const Login = () => {
   const { status } = useSession();
   const router = useRouter();
   const [emailSend, setEmailSend] = useState<boolean>(false);
-
-  const connectWithGoolge = () => {
-    signIn('google');
-  };
 
   useEffect(() => {
     if (status === 'authenticated') {
@@ -24,8 +19,8 @@ const Login = () => {
   return (
     <>
       <Head>
-        <title>Inscription</title>
-        <meta name="description" content="Inscrivez vous sur GalleryDream !" />
+        <title>Se connecter</title>
+        <meta name="description" content="Connectez-vous à votre compte" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -33,36 +28,25 @@ const Login = () => {
         <div className="flex flex-col items-center justify-center">
           {!emailSend && (
             <Link href="/login">
-              Pas encore de compte ?{' '}
-              <span className=" btn btn-primary btn-xs"> Se connecter</span>
+              Vous possédez déja un compte ?{' '}
+              <span className=" btn btn-primary btn-xs">Se connecter</span>
             </Link>
           )}
           {!emailSend && (
-            <div className="z-10 w-full max-w-2xl overflow-hidden p-4">
-              <div className="flex flex-col items-center px-4 py-6">
-                <Link href="/" className="max-w-[100px]">
+            <div className="z-10 w-full overflow-hidden p-4 max-w-sm flex justify-center flex-col items-center">
+              <div className="flex flex-col items-center px-4 py-2">
+                <Link href="/" className="max-w-[80px]">
                   <img src="/assets/logo_gallery_dream.png" alt="" />
                 </Link>
-
-                <h3 className="text-5xl font-extrabold font-title mt-4">
-                  Inscription
+                <h3 className="text-3xl font-extrabold font-title mt-4">
+                  Bienvenue !
                 </h3>
-                <p className="text-gray-500 max-w-lg text-lg text-center">
-                  Inscription sans mot de passe, renseignez seulement un nom
-                  d&apos;utilisateur et un e-mail
+                <p className="text-center text-sm">
+                  Veuillez notez que vous devez vérifier votre e-mail avant de
+                  pouvoir commencer à créer des posters
                 </p>
               </div>
               <Form type="register" setEmailSend={setEmailSend} />
-              <hr className="w-full mb-8 border-black" />
-              <button
-                className="btn btn-secondary w-full lg:btn-lg"
-                type="button"
-                onClick={() => {
-                  connectWithGoolge();
-                }}
-              >
-                <FaGoogle className="mr-4" /> S&apos;inscrire avec Google
-              </button>
             </div>
           )}
           {emailSend && (
@@ -73,7 +57,7 @@ const Login = () => {
                 </Link>
 
                 <h3 className="text-5xl font-extrabold font-title mt-4 text-center">
-                  Merci ! Vérifiez votre boite mail.
+                  Vérifiez votre boite mail !
                 </h3>
                 <p className="text-gray-500 max-w-lg text-lg text-center mt-2">
                   Vous avez recu votre lien de connexion par mail

@@ -1,5 +1,8 @@
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { FaGoogle } from 'react-icons/fa';
 import LoadingDots from './loading-dots';
 
 const Form = ({
@@ -9,8 +12,13 @@ const Form = ({
   type: 'login' | 'register';
   setEmailSend: any;
 }) => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+
+  const connectWithGoogle = () => {
+    signIn('google');
+  };
 
   // const handleSubmit = async (e: any) => {
   //   e.preventDefault();
@@ -63,30 +71,54 @@ const Form = ({
     e.preventDefault();
     setLoading(true);
 
-    fetch('/api/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: e.currentTarget.email.value,
-        username: e.currentTarget.username && e.currentTarget.username.value,
-      }),
-    }).then(async (res) => {
-      if (res.status === 200) {
-        toast.success('Account created! Redirecting to login...');
-        setTimeout(() => {
-          setEmailSend(true);
+    if (type === 'register') {
+      fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: e.currentTarget.email.value,
+          username: e.currentTarget.username && e.currentTarget.username.value,
+          password: e.currentTarget.password && e.currentTarget.password.value,
+        }),
+      }).then(async (res) => {
+        if (res.status === 200) {
+          toast.success('Account created! Redirecting to login...');
+          setTimeout(() => {
+            setEmailSend(true);
+            setLoading(false);
+          }, 2000);
+        } else {
+          setErrorMessage(await res.text());
           setLoading(false);
-        }, 2000);
-      } else {
-        setErrorMessage(await res.text());
-        setLoading(false);
-        setTimeout(async () => {
-          setErrorMessage('');
-        }, 4000);
+          setTimeout(async () => {
+            setErrorMessage('');
+          }, 4000);
+        }
+      });
+    } else {
+      e.preventDefault();
+      setLoading(true);
+      if (type === 'login') {
+        signIn('credentials', {
+          redirect: false,
+          email: e.currentTarget.email.value,
+          password: e.currentTarget.password.value,
+          // @ts-ignore
+        }).then(({ ok }) => {
+          setLoading(false);
+          if (ok) {
+            router.push('/create');
+          } else {
+            setErrorMessage("L'adresse email ou le mot de passe est incorrect");
+            setTimeout(async () => {
+              setErrorMessage('');
+            }, 4000);
+          }
+        });
       }
-    });
+    }
   };
 
   useEffect(() => {}, [loading]);
@@ -94,18 +126,15 @@ const Form = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col space-y-4 py-8 sm:px-4"
+      className="flex flex-col items-center justify-center space-y-4 sm:px-4 max-w-xs"
     >
       {type === 'register' && (
         <div className="form-control w-full">
-          <label htmlFor="username" className="label font-bold">
-            Nom d&apos;utilisateur
-          </label>
           <input
             id="username"
             name="username"
             type="text"
-            placeholder="jeanmarc"
+            placeholder="nom d'utilisateur"
             autoComplete="username"
             required
             className="input md:input-lg input-bordered w-full"
@@ -113,34 +142,29 @@ const Form = ({
         </div>
       )}
       <div className="form-control w-full">
-        <label htmlFor="email" className="label font-bold">
-          Email Address
-        </label>
         <input
           id="email"
           name="email"
           type="email"
-          placeholder="panic@thedis.co"
+          placeholder="E-mail"
           autoComplete="email"
           required
           className="input md:input-lg input-bordered w-full"
         />
       </div>
-      {/* <div className="form-control w-full">
-        <label htmlFor="password" className="label font-bold">
-          Password
-        </label>
+      <div className="form-control w-full">
         <input
           id="password"
           name="password"
           type="password"
+          placeholder="Mot de passe"
           required
           className="input lg:input-lg input-bordered w-full"
         />
-      </div> */}
+      </div>
       <div className="flex space-x-2">
         <input id="cgu" type="checkbox" className="checkbox" />
-        <label htmlFor="cgu" className="cursor-pointer p-0 w-fit">
+        <label htmlFor="cgu" className="cursor-pointer p-0 w-fit text-sm">
           <span>
             J&apos;accepte les{' '}
             <span className="underline">
@@ -174,13 +198,23 @@ const Form = ({
         disabled={loading}
         className={`${
           loading ? 'cursor-not-allowed border-gray-200 bg-gray-100' : ''
-        } btn lg:btn-lg btn-primary`}
+        } btn btn-primary w-full`}
       >
         {loading ? (
           <LoadingDots color="#808080" />
         ) : (
           <p>{type === 'login' ? 'Se connecter' : "S'inscrire"}</p>
         )}
+      </button>
+      <hr className="w-full mb-8 border-black" />
+      <button
+        className="btn btn-secondary w-full"
+        type="button"
+        onClick={() => {
+          connectWithGoogle();
+        }}
+      >
+        <FaGoogle className="mr-4" /> Se connecter avec Google
       </button>
     </form>
   );

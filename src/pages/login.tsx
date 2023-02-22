@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { signIn, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { FaGoogle } from 'react-icons/fa';
 import Link from 'next/link';
 import Head from 'next/head';
 import Form from '../auth/Form';
@@ -10,10 +9,6 @@ const Login = () => {
   const { status } = useSession();
   const router = useRouter();
   const [emailSend, setEmailSend] = useState<boolean>(false);
-
-  const connectWithGoogle = () => {
-    signIn('google');
-  };
 
   useEffect(() => {
     if (status === 'authenticated') {
@@ -38,30 +33,16 @@ const Login = () => {
             </Link>
           )}
           {!emailSend && (
-            <div className="z-10 w-full max-w-2xl overflow-hidden p-4">
-              <div className="flex flex-col items-center px-4 py-6">
-                <Link href="/" className="max-w-[100px]">
+            <div className="z-10 w-full overflow-hidden p-4 max-w-sm">
+              <div className="flex flex-col items-center px-4 py-2">
+                <Link href="/" className="max-w-[80px]">
                   <img src="/assets/logo_gallery_dream.png" alt="" />
                 </Link>
-                <h3 className="text-5xl font-extrabold font-title mt-4">
-                  Se connecter
+                <h3 className="text-3xl font-extrabold font-title mt-4">
+                  Welcome back
                 </h3>
-                <p className="text-gray-500 max-w-lg text-lg text-center">
-                  Connexion sans mot de passe, renseignez seulement un nom
-                  d&apos;utilisateur et un e-mail
-                </p>
               </div>
               <Form type="login" setEmailSend={setEmailSend} />
-              <hr className="w-full mb-8 border-black" />
-              <button
-                className="btn btn-secondary w-full lg:btn-lg"
-                type="button"
-                onClick={() => {
-                  connectWithGoogle();
-                }}
-              >
-                <FaGoogle className="mr-4" /> Se connecter avec Google
-              </button>
             </div>
           )}
           {emailSend && (

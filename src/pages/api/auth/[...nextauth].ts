@@ -15,17 +15,17 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: 'Sign in with Email',
       credentials: {
-        tokenFromEmail: { label: 'tokenFromEmail', type: 'text' },
-        // email: { label: 'Email', type: 'text' },
-        // password: { label: 'Password', type: 'password' },
+        // tokenFromEmail: { label: 'tokenFromEmail', type: 'text' },
+        email: { label: 'Email', type: 'text' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         if (credentials == null) return null;
         try {
           const data: any = {
-            tokenFromEmail: credentials.tokenFromEmail,
-            // email: credentials.email,
-            // password: credentials.password,
+            // tokenFromEmail: credentials.tokenFromEmail,
+            email: credentials.email,
+            password: credentials.password,
           };
           // const { user, jwt } = await signIn(data);
           const { user, jwt } = await signIn(data);
