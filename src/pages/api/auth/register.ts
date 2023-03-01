@@ -33,7 +33,6 @@ export default async function handler(
         email,
         password,
         role: 'Authenticated',
-        credits: 5,
       },
       {
         headers: {
