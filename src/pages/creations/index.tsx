@@ -7,7 +7,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Transition } from '@headlessui/react';
 import Navbar from '../../components/Navbar';
 import Container from '../../components/Container';
-import FooterNavigation from '@/components/FooterNavigation';
+import FooterNavigation from '../../components/FooterNavigation';
 
 const Creations = () => {
   const router = useRouter();
