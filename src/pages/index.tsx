@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { useTheme } from 'next-themes';
+import { Transition } from '@headlessui/react';
 import Home from '../components/Home';
 
 export default function index() {

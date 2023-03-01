@@ -7,15 +7,14 @@ import { useForm } from 'react-hook-form';
 import Head from 'next/head';
 import useWindowSize from '../hooks/useWindowSize';
 import Artwork from '../components/Artwork';
-import Container from '../components/Container';
-import Navbar from '../components/Navbar';
+import Header from '@/components/Header';
+import FooterNavigation from '@/components/FooterNavigation';
 
 const explore = () => {
   const { status, data }: any = useSession();
   const [user, setUser] = useState<{ credits: number }>();
   const [artworks, setArtworks] = useState([]);
   const [reload] = useState(0);
-  const { width } = useWindowSize();
   const [artworkLoading, setArtworkLoading] = useState<boolean>(true);
 
   const [pagination, setPagination] = useState(1);
@@ -23,7 +22,7 @@ const explore = () => {
   const [pageSize, setPageSize] = useState(20);
   const [search, setSearch] = useState('');
 
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit } = useForm();
 
   useEffect(() => {
     if (data) {
@@ -74,89 +73,33 @@ const explore = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div id="top" />
-      <Navbar user={user} status={status} />
-      <div
-        className="flex justify-center items-center py-20 px-4"
-        style={
-          width > 768
-            ? {
-                backgroundImage: 'url(/assets/patternTop.svg)',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center',
-                backgroundSize: 'cover',
-              }
-            : { backgroundImage: 'none' }
-        }
-      >
-        <div className="max-w-xl">
-          <h1 className="text-3xl md:text-4xl md:text-center font-bold font-title mb-8 text-black">
-            Trouvez de l&apos;inspiration ou imprimez les oeuvres créées par la
-            communauté
-          </h1>
-          <form
-            onSubmit={handleSubmit(handleSearch)}
-            className="form-control w-full max-w-xl"
-          >
-            <div className="input-group">
-              <input
-                type="text"
-                {...register('search')}
-                placeholder="Search…"
-                className="input input-bordered w-full"
-              />
-              <button type="submit" className="btn btn-square btn-primary">
-                <FaSearch />
-              </button>
-            </div>
-          </form>
-          <div className="mt-2 flex flex-wrap">
-            <p className="mr-2 font-medium text-black">Tendance :</p>
-            <div className="flex space-x-2 flex-wrap">
-              <button
-                type="button"
-                className="btn btn-xs btn-outline btn-primary"
-                onClick={() => {
-                  setSearch('homme');
-                  setValue('search', 'homme');
-                }}
-              >
-                homme
-              </button>
-              <button
-                type="button"
-                className="btn btn-xs btn-outline btn-primary"
-                onClick={() => {
-                  setSearch('lapin');
-                  setValue('search', 'lapin');
-                }}
-              >
-                Lapin
-              </button>
-              <button
-                type="button"
-                className="btn btn-xs btn-outline btn-primary"
-                onClick={() => {
-                  setSearch('love');
-                  setValue('search', 'love');
-                }}
-              >
-                love
-              </button>
-              <button
-                type="button"
-                className="btn btn-xs btn-outline btn-primary"
-                onClick={() => {
-                  setSearch('panda');
-                  setValue('search', 'panda');
-                }}
-              >
-                panda
-              </button>
-            </div>
-          </div>
-        </div>
+      <Header />
+      <div className="px-4 mb-4 mt-4">
+        <h1 className="font-montserrat text-2xl font-bold">
+          Trouvez de l&apos;inspiration ou imprimez les oeuvres créées par la
+          communauté
+        </h1>
       </div>
-      <Container className="min-h-full">
+      <div className="pb-4 sticky top-20 px-4 shadow-sm bg-base-100 z-50">
+        <form
+          onSubmit={handleSubmit(handleSearch)}
+          className="form-control w-full max-w-xl"
+        >
+          <div className="input-group">
+            <input
+              type="text"
+              {...register('search')}
+              placeholder='Ex : "panda", "montagne", "voiture"'
+              className="input input-bordered w-full"
+            />
+            <button type="submit" className="btn btn-square btn-primary">
+              <FaSearch />
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div className="px-4 pt-4 pb-24">
         {artworkLoading && (
           <div className="w-full justify-center flex">
             <div className="flex space-x-2 animate-pulse">
@@ -176,17 +119,9 @@ const explore = () => {
             leave="transition-opacity duration-150"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
-            className="mb-8 flex items-center justify-between"
+            className="mb-4 flex justify-center"
           >
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold">
-                Les derniers posters
-              </h1>
-              <p>({paginationMeta?.total} résultats )</p>
-            </div>
-            {/* <button type="button" className="btn ">
-              Filtrer
-            </button> */}
+            <p className="text-center">({paginationMeta?.total} résultats )</p>
           </Transition>
         )}
         <Transition
@@ -309,7 +244,8 @@ const explore = () => {
             </div>
           </Transition>
         )}
-      </Container>
+      </div>
+      <FooterNavigation />
     </div>
   );
 };
