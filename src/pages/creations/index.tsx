@@ -7,6 +7,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Transition } from '@headlessui/react';
 import Navbar from '../../components/Navbar';
 import Container from '../../components/Container';
+import FooterNavigation from '@/components/FooterNavigation';
 
 const Creations = () => {
   const router = useRouter();
@@ -76,7 +77,7 @@ const Creations = () => {
       <Navbar user={user} status={status} />
       <Container>
         <div className="w-full flex flex-col justify-center items-center">
-          <h1 className="text-4xl md:text-5xl font-bold font-title mb-16">
+          <h1 className="text-4xl md:text-5xl font-bold font-montserrat mb-16">
             Mes créations
           </h1>
           <div>
@@ -273,6 +274,7 @@ const Creations = () => {
           </Transition>
         </div>
       </Container>
+      <FooterNavigation />
     </div>
   );
 };

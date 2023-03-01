@@ -30,8 +30,8 @@ const Step1 = ({ chaneStep, step, setPrompt, prompt }: any) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="text-5xl md:text-6xl font-title font-black max-w-5xl mb-12 w-full text-center">
-        Que souhaitez vous créer ?
+      <h2 className="text-5xl md:text-6xl font-montserrat font-black max-w-5xl mb-12 w-full text-center">
+        Décrivez votre œuvre{' '}
       </h2>
       <div className="w-full flex justify-center flex-col items-center">
         <div className="w-full max-w-4xl">
@@ -63,7 +63,7 @@ const Step1 = ({ chaneStep, step, setPrompt, prompt }: any) => {
         </button>
       </div>
       <div className="max-w-4xl mt-24">
-        <h2 className="font-title text-3xl mb-4 font-medium">
+        <h2 className="font-montserrat text-3xl mb-4 font-medium">
           Comment ça marche ?
         </h2>
         <p>

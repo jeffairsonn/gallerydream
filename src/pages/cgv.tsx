@@ -38,7 +38,7 @@ const cgv = () => {
       <Navbar user={user} status={status} />
       <Container>
         <div className="w-full flex justify-center flex-col items-center">
-          <h1 className="text-4xl font-title font-bold">
+          <h1 className="text-4xl font-montserrat font-bold">
             Conditions générales de vente
           </h1>
           <div className="mt-12 text-justify space-y-8">

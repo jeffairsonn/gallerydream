@@ -100,7 +100,7 @@ const create = () => {
                 : 'Inconnu'}
             </button>
             {generation?.attributes?.prompt && (
-              <h1 className="text-3xl font-title font-extrabold text-center">
+              <h1 className="text-3xl font-montserrat font-extrabold text-center">
                 &rdquo; {generation?.attributes?.prompt} &rdquo;
               </h1>
             )}

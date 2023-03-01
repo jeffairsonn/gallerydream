@@ -13,6 +13,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import Footer from './Footer';
+import FooterNavigation from '../FooterNavigation';
 
 const Home = () => {
   const router = useRouter();
@@ -102,17 +103,15 @@ const Home = () => {
         }}
       >
         <div className="mt-20 md:mt-28 lg:flex lg:flex-col lg:justify-center lg:items-center">
-          <h1 className="font-title font-extrabold text-4xl md:text-7xl lg:text-5xl text-black lg:text-center lg:max-w-5xl">
-            Vos posters personnalisés avec l&apos;aide de{' '}
-            <span className="text-primary">
-              l&apos;intelligence artificielle{' '}
-            </span>
-            pour une décoration unique et originale.
+          <h1 className="font-montserrat font-extrabold text-4xl md:text-6xl lg:text-6xl text-black lg:text-center lg:max-w-4xl">
+            Créez une décoration unique pour votre maison avec GalleryDream.
           </h1>
-          <p className="text-lg md:text-xl mt-4 text-slate-600 leading-6 lg:text-center lg:max-w-2xl">
-            Donnez vie à votre imagination et personnalisez votre intérieur avec
-            des affiches uniques créées par{' '}
-            <span className="text-primary">GalleryDream</span>
+          <p className="text-lg md:text-xl mt-4 text-slate-600 leading-6 lg:text-center lg:max-w-xl">
+            Créez votre première œuvre d&apos;art aujourd&apos;hui à l&apos;aide
+            de{' '}
+            <span className="text-primary">
+              l&apos;intelligence artificielle
+            </span>
           </p>
           <button
             onClick={() =>
@@ -141,17 +140,17 @@ const Home = () => {
         </div>
       </div>
       <div className="px-4 mt-16 lg:mt-28 md:px-16 lg:flex lg:flex-col lg:justify-center lg:items-center mb-8">
-        <h2 className="font-title font-extrabold text-4xl md:text-7xl lg:text-6xl text-black lg:text-center lg:max-w-4xl">
+        <h2 className="font-montserrat font-extrabold text-4xl md:text-7xl lg:text-5xl text-black lg:text-center lg:max-w-4xl">
           Donnez vie à votre imagination en créant des affiches uniques avec
           GalleryDream
         </h2>
         <div className="mt-16 space-y-16 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8 max-w-7xl">
           <div className="flex">
-            <div className="btn btn-square btn-primary mr-4 text-2xl font-title">
+            <div className="btn btn-square btn-primary mr-4 text-2xl font-montserrat">
               1
             </div>
             <div>
-              <p className="text-3xl lg:text-2xl font-bold font-title">
+              <p className="text-3xl lg:text-2xl font-bold font-montserrat">
                 Exprimez votre idée créative
               </p>
               <p className="mt-4 text-lg">
@@ -162,11 +161,11 @@ const Home = () => {
             </div>
           </div>
           <div className="flex">
-            <div className="btn btn-square btn-primary mr-4 text-2xl font-title">
+            <div className="btn btn-square btn-primary mr-4 text-2xl font-montserrat">
               2
             </div>
             <div>
-              <p className="text-3xl lg:text-2xl font-bold font-title">
+              <p className="text-3xl lg:text-2xl font-bold font-montserrat">
                 Choisissez un style
               </p>
               <p className="mt-4 text-lg">
@@ -177,11 +176,11 @@ const Home = () => {
             </div>
           </div>
           <div className="flex">
-            <div className="btn btn-square btn-primary mr-4 text-2xl font-title">
+            <div className="btn btn-square btn-primary mr-4 text-2xl font-montserrat">
               3
             </div>
             <div>
-              <p className="text-3xl lg:text-2xl font-bold font-title">
+              <p className="text-3xl lg:text-2xl font-bold font-montserrat">
                 Imprimez votre poster
               </p>
               <p className="mt-4 text-lg">
@@ -207,6 +206,7 @@ const Home = () => {
         </div>
       </div>
       <Footer />
+      <FooterNavigation />
 
       {/* <Gallery /> */}
       {/* <Step /> */}

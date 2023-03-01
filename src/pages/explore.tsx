@@ -6,9 +6,10 @@ import { FaChevronLeft, FaChevronRight, FaSearch } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import Head from 'next/head';
 import useWindowSize from '../hooks/useWindowSize';
-import Artwork from '../components/Artwork';
 import Container from '../components/Container';
 import Navbar from '../components/Navbar';
+import FooterNavigation from '../components/FooterNavigation';
+import FramedArtwork from '../components/FramedArtworks';
 
 const explore = () => {
   const { status, data }: any = useSession();
@@ -89,7 +90,7 @@ const explore = () => {
         }
       >
         <div className="max-w-xl">
-          <h1 className="text-3xl md:text-4xl md:text-center font-bold font-title mb-8 text-black">
+          <h1 className="text-3xl md:text-4xl md:text-center font-bold font-montserrat mb-8 text-black">
             Trouvez de l&apos;inspiration ou imprimez les oeuvres créées par la
             communauté
           </h1>
@@ -198,7 +199,7 @@ const explore = () => {
           leave="transition-opacity duration-150"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
-          className=" text-xl grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2"
+          className=" text-xl grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4"
         >
           {!artworkLoading &&
             artworks &&
@@ -214,12 +215,20 @@ const explore = () => {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Artwork
+                  {/* <Artwork
                     key={id}
                     url={`${
                       image.data ? image?.data?.attributes?.url : stand_by_url
                     }`}
                     prompt={prompt}
+                    id={id}
+                  /> */}
+                  <FramedArtwork
+                    key={id}
+                    prompt={prompt}
+                    url={`${
+                      image.data ? image?.data?.attributes?.url : stand_by_url
+                    }`}
                     id={id}
                   />
                 </Transition>
@@ -310,6 +319,7 @@ const explore = () => {
           </Transition>
         )}
       </Container>
+      <FooterNavigation />
     </div>
   );
 };

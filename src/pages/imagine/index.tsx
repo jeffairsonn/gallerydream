@@ -10,6 +10,7 @@ import Step2 from '../../components/imagine_process/Step2';
 import Step3 from '../../components/imagine_process/Step3';
 import Container from '../../components/Container';
 import Step4 from '../../components/imagine_process/Step4';
+import FooterNavigation from '../../components/FooterNavigation';
 
 const create = () => {
   const { status, data }: any = useSession();
@@ -213,6 +214,8 @@ const create = () => {
           )}
         </div>
       </Container>
+      <FooterNavigation />
+
       {/* {createGeneratedImage && (
         <div className="bg-black bg-opacity-50 h-full w-full absolute top-0 z-50 flex items-center justify-center">
           <div className="card w-96 bg-base-100 shadow-xl">

@@ -17,7 +17,7 @@ const Step2 = ({
 
   return (
     <div>
-      <h2 className="text-6xl font-black font-title max-w-4xl text-center mb-12 w-full">
+      <h2 className="text-6xl font-black font-montserrat max-w-4xl text-center mb-12 w-full">
         Choisissez un style
       </h2>
       <div className="w-full grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 max-w-4xl gap-4">

@@ -24,7 +24,7 @@ const Step3 = ({
 
   return (
     <div>
-      <h2 className="text-6xl font-black font-title max-w-4xl text-center mb-4 w-full">
+      <h2 className="text-6xl font-black font-montserrat max-w-4xl text-center mb-4 w-full">
         Combien de design souhaitez vous créer ?
       </h2>
       <div className="w-full ">

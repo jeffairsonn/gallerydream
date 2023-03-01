@@ -296,7 +296,7 @@ const Artwork = () => {
           <div className="">
             <div className="mb-4">
               <div className="mb-4">
-                <h1 className="font-bold text-xl md:text-2xl font-title">
+                <h1 className="font-bold text-xl md:text-2xl font-montserrat">
                   {artwork?.attributes?.title || artwork?.attributes?.prompt}
                 </h1>
                 {!artwork?.attributes?.mask_prompt && (
@@ -442,7 +442,9 @@ const Artwork = () => {
               <hr className="my-16 border-1 border-black" />
               <div className="rounded-md border border-black p-4 grid grid-cols-1 md:grid-cols-2 gap-2">
                 <div>
-                  <h3 className="font-bold text-xl font-title">Paramètres</h3>
+                  <h3 className="font-bold text-xl font-montserrat">
+                    Paramètres
+                  </h3>
                   <p>
                     Changer le titre, la disponibilité et le statut de votre
                     oeuvre

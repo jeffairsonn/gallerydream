@@ -38,7 +38,7 @@ const Login = () => {
                 <Link href="/" className="max-w-[80px]">
                   <img src="/assets/logo_gallery_dream.png" alt="" />
                 </Link>
-                <h3 className="text-3xl font-extrabold font-title mt-4">
+                <h3 className="text-3xl font-extrabold font-montserrat mt-4">
                   Bienvenue !
                 </h3>
                 <p className="text-center text-sm">
@@ -56,7 +56,7 @@ const Login = () => {
                   <img src="/assets/logo_gallery_dream.png" alt="" />
                 </Link>
 
-                <h3 className="text-5xl font-extrabold font-title mt-4 text-center">
+                <h3 className="text-5xl font-extrabold font-montserrat mt-4 text-center">
                   Vérifiez votre boite mail !
                 </h3>
                 <p className="text-gray-500 max-w-lg text-lg text-center mt-2">

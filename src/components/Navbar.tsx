@@ -39,10 +39,10 @@ const Navbar = ({ user, status }: any) => {
   useOutsideAlerter(wrapperRef, setIsOpenMenu);
 
   return (
-    <div className="px-4 md:px-8 py-4 gap-4 space-y-20 border-b border-black sticky top-0 bg-base-100 z-50">
+    <div className="px-4 md:px-8 py-4 gap-4 space-y-20 border-b border-black bg-base-100 z-50">
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-8">
-          <Link href="/" className="max-w-[80px]">
+          <Link href="/" className="max-w-[70px] md:max-w-[80px]">
             <img src="/assets/logo_gallery_dream.png" alt="" />
           </Link>
           <nav className="hidden md:block">
@@ -129,7 +129,7 @@ const Navbar = ({ user, status }: any) => {
           className=" flex space-x-4 items-center"
         >
           {status === 'authenticated' && user?.credits && (
-            <Link href="/credits" className="hidden md:block">
+            <Link href="/credits">
               <Transition
                 show
                 appear
@@ -139,18 +139,17 @@ const Navbar = ({ user, status }: any) => {
                 leave="transition-opacity duration-150"
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
+                className="flex items-center space-x-2"
               >
-                <div className="flex items-center space-x-2">
-                  <FaCoins /> <p className="font-bold">{user?.credits}</p>
-                </div>
+                <FaCoins /> <p className="font-bold">{user?.credits}</p>
               </Transition>
             </Link>
           )}
-          <Link href="/imagine">
+          {/* <Link href="/imagine">
             <button type="button" className="md:hidden btn btn-primary btn-sm">
               <FaStar className="mr-2" /> Créer
             </button>
-          </Link>
+          </Link> */}
           {/* {status === 'authenticated' && (
             <Link href="/cart">
               <div className="flex items-center relative">
@@ -169,7 +168,7 @@ const Navbar = ({ user, status }: any) => {
                 className="avatar"
               >
                 <div className="border border-black rounded-full p-1">
-                  <div className="w-12 mask mask-circle">
+                  <div className="w-10 mask mask-circle">
                     <img
                       alt="profile"
                       src="https://placeimg.com/80/80/people"

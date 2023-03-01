@@ -8,6 +8,7 @@ module.exports = {
     fontFamily: {
       sans: ['Inter', 'system-ui'],
       title: ['Playfair Display', 'serif'],
+      montserrat: ['MontSerrat', 'sans-serif'],
     },
     extend: {
       dropShadow: {
