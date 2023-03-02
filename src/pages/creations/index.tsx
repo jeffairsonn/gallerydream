@@ -65,12 +65,28 @@ const Creations = () => {
     }
   }, [user, pagination, pageSize]);
 
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/');
-    }
-  }, [status]);
-
+  if (status === 'unauthenticated') {
+    return (
+      <div className="flex h-screen justify-center items-center p-4">
+        <div className="p-4 shadow-lg flex flex-col items-center space-y-4 max-w-md">
+          <Link href="/" className="max-w-[80px]">
+            <img src="/assets/logo_gallery_dream.png" alt="" />
+          </Link>
+          <h1 className="text-2xl font-bold text-center">
+            Connectez-vous pour pouvoir créer des œuvres avec GalleryDream
+          </h1>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => router.push('/login')}
+          >
+            Connexion
+          </button>
+        </div>
+        <FooterNavigation />
+      </div>
+    );
+  }
   return (
     <div>
       <div id="top" />
