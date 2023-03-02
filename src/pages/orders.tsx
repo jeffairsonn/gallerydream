@@ -10,6 +10,7 @@ import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import Container from '../components/Container';
 import posters from '../lib/poster_price';
+import FooterNavigation from '../components/FooterNavigation';
 
 const Orders = () => {
   const router = useRouter();
@@ -108,7 +109,7 @@ const Orders = () => {
                 type="button"
                 className="btn btn-primary "
               >
-                Créer un poster
+                Créer une œuvre
               </button>
             </div>
           )}
@@ -315,6 +316,7 @@ const Orders = () => {
           )}
         </div>
       </Container>
+      <FooterNavigation />
     </div>
   );
 };

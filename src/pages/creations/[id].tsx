@@ -8,6 +8,7 @@ import { Transition } from '@headlessui/react';
 import Navbar from '../../components/Navbar';
 import Container from '../../components/Container';
 import Artwork from '../../components/Artwork';
+import FooterNavigation from '@/components/FooterNavigation';
 
 const create = () => {
   const router = useRouter();
@@ -163,6 +164,7 @@ const create = () => {
             </div>
           </div>
         </Container>
+        <FooterNavigation />
       </Transition>
     </>
   );

@@ -141,8 +141,8 @@ const Home = () => {
       </div>
       <div className="px-4 mt-16 lg:mt-28 md:px-16 lg:flex lg:flex-col lg:justify-center lg:items-center mb-8">
         <h2 className="font-montserrat font-extrabold text-4xl md:text-7xl lg:text-5xl text-black lg:text-center lg:max-w-4xl">
-          Donnez vie à votre imagination en créant des affiches uniques avec
-          GalleryDream
+          Donnez vie à votre imagination en créant des œuvres d&apos;art uniques
+          avec GalleryDream
         </h2>
         <div className="mt-16 space-y-16 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-8 max-w-7xl">
           <div className="flex">
@@ -181,12 +181,11 @@ const Home = () => {
             </div>
             <div>
               <p className="text-3xl lg:text-2xl font-bold font-montserrat">
-                Imprimez votre poster
+                Imprimez votre œuvre
               </p>
               <p className="mt-4 text-lg">
-                Imprimez-le sur un poster de haute qualité. Obtenez ainsi une
-                œuvre d&apos;art unique, pièce maîtresse de votre décoration
-                intérieure.
+                Imprimez de haute qualité. Obtenez ainsi une œuvre d&apos;art
+                unique, pièce maîtresse de votre décoration intérieure.
               </p>
             </div>
           </div>

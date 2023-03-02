@@ -9,6 +9,8 @@ import Navbar from '../../components/Navbar';
 import Container from '../../components/Container';
 import posters from '../../lib/poster_price';
 import '../../hooks/useImageRightClick';
+import LonelyFramedArtwork from '../../components/LonelyFramedArtwork';
+import FooterNavigation from '../../components/FooterNavigation';
 
 const Artwork = () => {
   const router = useRouter();
@@ -147,11 +149,8 @@ const Artwork = () => {
                   leaveTo="opacity-0"
                   className="aspect-square absolute w-[35%] top-[15%] right-[20%] shadow-xs"
                 >
-                  <img
-                    draggable="false"
-                    className="aspect-square w-full shadow-xs"
-                    src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
-                    alt=""
+                  <LonelyFramedArtwork
+                    url={`${artwork?.attributes?.image?.data?.attributes?.url}`}
                   />
                 </Transition>
                 <img
@@ -178,11 +177,8 @@ const Artwork = () => {
                   leaveTo="opacity-0"
                   className="aspect-square absolute w-[35%] top-[15%] right-[45%] shadow-xs"
                 >
-                  <img
-                    draggable="false"
-                    className="aspect-square w-full shadow-xs"
-                    src={`${artwork?.attributes?.image?.data?.attributes?.url}`}
-                    alt=""
+                  <LonelyFramedArtwork
+                    url={`${artwork?.attributes?.image?.data?.attributes?.url}`}
                   />
                 </Transition>
                 <img
@@ -390,8 +386,8 @@ const Artwork = () => {
                   image unique qui correspond à votre idée. Avec un choix de
                   styles différents, notre affiche d&apos;art sera la pièce
                   maîtresse de votre décoration intérieure. Une fois que vous
-                  avez choisi votre design préféré, imprimez-le sur un poster de
-                  haute qualité pour une finition professionnelle.
+                  avez choisi votre design préféré, imprimez-le sur papier
+                  d&apos;art de qualité musée pour une finition professionnelle.
                 </p>
               </div>
               <div className="space-y-4 mb-4">
@@ -401,8 +397,8 @@ const Artwork = () => {
                   <li>Choisissez parmi une variété de prompts créatifs</li>
                   <li>Large sélection de styles différents</li>
                   <li>
-                    Impression sur poster de haute qualité pour une finition
-                    professionnelle
+                    Impression sur papier musée de haute qualité pour une
+                    finition professionnelle
                   </li>
                   <li>
                     Parfait pour ajouter une touche d&apos;originalité à votre
@@ -501,6 +497,7 @@ const Artwork = () => {
             </>
           )}
       </Container>
+      <FooterNavigation />
     </div>
   );
 };

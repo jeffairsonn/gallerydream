@@ -6,6 +6,7 @@ import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import credits from '../lib/credits_price';
 import Container from '../components/Container';
+import FooterNavigation from '../components/FooterNavigation';
 
 const Credits = () => {
   const router = useRouter();
@@ -102,6 +103,7 @@ const Credits = () => {
           </div>
         </div>
       </Container>
+      <FooterNavigation />
     </div>
   );
 };

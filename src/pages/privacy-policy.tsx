@@ -62,11 +62,11 @@ const cgu = () => {
                 consentement explicite. Collecte d&apos;informations : Nous
                 collectons des informations sur votre activité sur
                 l&apos;application GalleryDream, notamment vos créations
-                d&apos;affiches, votre utilisation des fonctionnalités et vos
-                interactions avec d&apos;autres utilisateurs. Nous collectons
-                également des informations telles que votre adresse e-mail et
-                votre nom d&apos;utilisateur si vous choisissez de vous
-                inscrire.
+                d&apos;œuvre d&apos;art, votre utilisation des fonctionnalités
+                et vos interactions avec d&apos;autres utilisateurs. Nous
+                collectons également des informations telles que votre adresse
+                e-mail et votre nom d&apos;utilisateur si vous choisissez de
+                vous inscrire.
               </p>
             </div>
             <div className="max-w-2xl space-y-4 mt-8">
@@ -113,18 +113,19 @@ const cgu = () => {
                 Nous vous remercions de votre confiance et de votre utilisation
                 de l&apos;application GalleryDream. <br />
                 <br />
-                En ce qui concerne la création d&apos;affiches personnalisées
-                avec GalleryDream, l&apos;application permet aux utilisateurs de
-                donner vie à leur imagination en créant des designs uniques.
-                L&apos;utilisateur peut décrire son idée de manière libre et
-                choisir un style artistique parmi une sélection proposée.
+                En ce qui concerne la création d&apos;œuvres d&apos;art
+                personnalisées avec GalleryDream, l&apos;application permet aux
+                utilisateurs de donner vie à leur imagination en créant des
+                designs uniques. L&apos;utilisateur peut décrire son idée de
+                manière libre et choisir un style artistique parmi une sélection
+                proposée.
                 <br />
                 <br />
                 GalleryDream ne collecte pas les idées créatives ou les
-                descriptions de l&apos;utilisateur, mais seulement les affiches
-                finales créées par l&apos;utilisateur. Les affiches peuvent être
-                partagées publiquement sur l&apos;application si
-                l&apos;utilisateur le souhaite.
+                descriptions de l&apos;utilisateur, mais seulement les œuvres
+                d&apos;art finales créées par l&apos;utilisateur. Les œuvres
+                d&apos;art peuvent être partagées publiquement sur
+                l&apos;application si l&apos;utilisateur le souhaite.
                 <br />
                 <br />
                 GalleryDream ne revendique aucun droit de propriété
