@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Head from 'next/head';
 import Form from '../auth/Form';
+import FooterNavigation from '../components/FooterNavigation';
 
 const Login = () => {
   const { status } = useSession();
@@ -67,6 +68,7 @@ const Login = () => {
           )}
         </div>
       </div>
+      <FooterNavigation />
     </>
   );
 };
